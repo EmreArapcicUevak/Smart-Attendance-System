@@ -161,6 +161,72 @@
       \end{itemize}
 
     \newpage
+  \section{Detailed Explanation}
+
     \subsection{Extended Entity Relation Diagram} \label{sec: EER}
+      An Entity Relation (\emph{ER}) a graphical representation of entities and their relationships to each other within a database. \newline
+
+      An Extended Entity Relation Diagram (\emph{EER}) is an advanced version of the \emph{ER} diagram that includes additional 
+      concepts such as subclasses, specialization, generalization, and categories. It provides a more detailed and comprehensive 
+      representation of the data model, capturing more complex relationships and constraints within the system. \newline
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=.85\linewidth]{EER_Diagram.jpg}
+        \caption{EER Diagram}
+
+        \label{fig:eer-diagram}
+      \end{figure}
+
+      \newpage
+
+      \noindent In the figure~\ref{fig:eer-diagram} we can see the EER diagram for our database that we will use as a guide to help us make it.
+
+      \subsubsection{Entities}
+        \noindent This section will talk about the entities that can be found in the EER diagram and what they represent
+        \vspace{1mm}
+        \begin{description}
+          \item[Organization] This entity represents the organization, in this case the university, itself which will host all of the users
+          \item[User] The User is a \emph{weak entity} of the Organization meaning that's linked to that organization and if that organization ever decides to dissapear all of it's users will not be saved 
+          \item[Staff] Staff is a subtype of User which is generally just divided into two more subtypes
+          \item[Student] The student in the organization
+          \item[Assistant] Staff working in the organization whos job is to hold tutorials
+          \item[Teaching Staff] Staff working in the organization whos job is to hold (teach) Course Lectures
+          \item[Instructor / Professor] Specializations of the \emph{Teaching Staff} entity
+          \item[Course] This entity is the course itself, it is a weak entity of the Teaching Staff entity that created it.
+          \item[Course Component] This is a \emph{weak entity} that is used to divide the course into sections for lectures and also \emph{Labs} and \emph{Tutorials}
+          \item[Time Frame] This entity tells us more about the course component such as where is it held and during what time.
+          \item[Section] This entity represents a section of the course lecture and can be held by other teaching staff
+          \item[Session] This is just another subdivison of the course components, it allows for the existence of the \emph{Tutorial} and \emph{Lab} entities that the Assistant needs to teach
+          \item [Tutorial / Lab] Specifications of the \emph{Session} entity
+        \end{description}
       
+      \newpage
+      \subsubsection{Relations}
+        \noindent This section will talk about the relations that can be found in the EER diagram and what they represent
+        \vspace{1mm}
+
+        \begin{description}
+          \item[User $\rightarrow$ Organization] belongs to\\
+            This is a weak entity saying that an User belongs to only one organization and that an organization can have 0 to many users
+          \item[Student $\rightarrow$ Course Component] takes\\
+            This relation tells us that a student is partaking in a course component, more generally that a student is currently in "this and that" section of the course
+            lecture, tutorial, or lab
+          \item[Student $\rightarrow$ Course Component] attends\\
+            This relaiton is used to take attendance, and it has its attribute that tells us when the student attended a certain course component
+          \item[Asistant $\rightarrow$ Session] holds\\
+            This relation tells us which Session (Lab or Tutorial) is held by which Assistant
+          \item[Teaching Staff $\rightarrow$ Section] teaches\\
+            This relation tells us which Instructor or Professor teaches what section of the course (lecture)
+          \item[Course $\rightarrow$ Teaching Staff] created by\\
+            This realtion tells us which Instructor or Professor created the course
+        \end{description}
+
+        \begin{tcolorbox}[title=Note]
+          Please note that we did not include relations for disjoint connections in this list because it does not belong in the scope for the EER.
+        \end{tcolorbox}
+
+        \newpage
+
+    \subsection{Use Case Diagram}
 \end{document}
