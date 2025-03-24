@@ -51,7 +51,7 @@
 	\lfoot{
     \href{https://github.com/EmreArapcicUevak/Smart-Attendance-System}{\faGithub \ GitHub} \hspace{0.5cm}
   } \cfoot{\thepage} \rfoot{
-    \href{https://trello.com/invite/b/67d55d04d8b354319f1b1db9/ATTI66010e9dfa09b0a174c6bbc4d1da915388F90333/smart-attendance-ius}{Trello \includegraphics[height=10pt]{../GlobalImages/trello-logo.pdf}}
+    \href{https://trello.com/invite/b/67d55d04d8b354319f1b1db9/ATTI06ed93867f846f425d572d2018e2bb8804A6E2FF/smart-attendance-ius}{Trello \includegraphics[height=10pt]{../GlobalImages/trello-logo.pdf}}
   }
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{1pt}
@@ -133,6 +133,8 @@
 
   \pagebreak
   \tableofcontents
+
+  \listoffigures
   \pagebreak
 
   \section{Introduction}
@@ -229,4 +231,187 @@
         \newpage
 
     \subsection{Use Case Diagram}
+      A \emph{Use Case Diagram} is a type of behavioral diagram in the Unified Modeling Language (UML) that 
+      represents the functional requirements of a system from the user's perspective. 
+      It illustrates the interactions between external actors (users or other systems) and the system itself, 
+      capturing the system's intended functions and the goals users want to achieve.\\
+
+      \noindent Use Case Diagrams provide a high-level overview of the system's behavior and scope, of which the main components include:
+      
+      \begin{itemize}
+        \item \textbf{Actors} - external entities that interact with the system (e.g., students, staff, admins).
+        \item \textbf{Use Cases} - specific actions or services the system performs in response to an actor's input (e.g., “Mark Attendance”, Check Weekly Schedule”).
+        \item \textbf{System Boundary} - defines the scope of the system being modeled.
+        \item \textbf{Relationships} - such as associations between actors and use cases, or dependencies like \emph{include} and \emph{extend} relationships between use cases.
+      \end{itemize}
+      
+      In the context of the Smart Attendance System, the Use Case Diagram (Figure~\ref{fig: use_case_diagram}) visualizes how different types of users interact with the core features of the system, ensuring that both user needs and system functions are clearly defined.
+      \newpage
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth, trim={0 80 0 120}, clip]{use_case_diagram.pdf}
+
+        \caption{Use Case Diagram}
+        \label{fig: use_case_diagram}
+      \end{figure}
+
+      \newpage
+
+  \subsection{Technology Stack}
+      \noindent This section will cover the \emph{Technology Stack} that will be used in this project
+      \vspace{2mm}
+
+      \begin{description}
+        \item[Frontend] Next.js
+        \item[Backend] Kotlin + Spring boot
+        \item[iOS] Swift + SwiftUI
+        \item[Android] Kotlin + Android SDK
+        \item[Database] PostgreSQL
+      \end{description}
+
+      \noindent With all of this said we can now construct a simple \emph{System Architecture}. \\ 
+      The \emph{System Architecture Diagram} is used for visualizing the overall structure and interactions 
+      within the system. It provides a high-level view of the system's components and their relationships, 
+      helping to understand how data flows and how different parts of the system interact with each other.
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{SystemArchitecture.png}
+        \caption{System Architecture Diagram}
+        \label{fig:system-architecture-diagram}
+      \end{figure}
+
+      \newpage
+
+    \subsection{Development Methodology}
+
+      The development of the Smart Attendance System is organized and managed using the \textbf{Scrum} framework, a widely adopted Agile methodology that emphasizes iterative progress, team collaboration, and continuous feedback. \\
+
+      Scrum helps the team break the project down into smaller, manageable tasks and deliver incremental improvements in short development cycles called \emph{sprints}. Each sprint is typically one to two weeks long and consists of: 
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=.7\textwidth]{Scrum_Workflow.png}
+        \caption{Scrum Workflow}
+        \label{fig: scrum_workflow}
+      \end{figure}
+
+      \begin{itemize}
+        \item \textbf{Sprint Planning} - Selecting and prioritizing tasks from the product backlog.
+        \item \textbf{Daily Standups} - Short daily meetings to sync progress and address blockers.
+        \item \textbf{Sprint Review} - Demonstrating completed work at the end of the sprint.
+        \item \textbf{Sprint Retrospective} - Reflecting on what went well and what could be improved.
+      \end{itemize}
+
+      All Scrum-related activities, including task tracking and backlog management, are maintained in the Trello board, which serves as a visual representation of the team's workflow and current progress. \\
+
+      After every increment the project manager, product owner, will go around asking the stakeholders, or testers for our case, about their opinion
+      and what changes they would like to see and change the project backlog accordingly.
+    \newpage
+
+    \subsection{More Details}
+      \noindent For people that want more technical detail please feel free to scan the following QR codes to take a look at the
+      \textbf{Trello Board} and or the \textbf{GitHub Repository}.
+      If you are viewing this document on paper; If you are viewing this document via mobile or computer 
+      please use the links placed on the bottom of the page (bottom far left and bottom far right)
+
+      \begin{figure}[h]
+        \centering
+        \begin{minipage}[t]{0.45\textwidth}
+          \centering
+          \includegraphics[width=0.8\linewidth]{../../GlobalImages/github-QR-code.png}
+          \caption{GitHub Repository}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.45\textwidth}
+          \centering
+          \includegraphics[width=0.8\linewidth]{../../GlobalImages/trello-QR-code.png}
+          \caption{Trello Board}
+        \end{minipage}
+      \end{figure}
+
+        \begin{minipage}[t]{0.45\textwidth}
+        \subsubsection{GitHub Repository}
+
+          The GitHub repository serves as the central location for all source code related to the Smart Attendance System. 
+          It includes the complete implementation of all major components of the project:
+
+          \begin{itemize}
+            \item \textbf{iOS Application} - Built natively using Swift and SwiftUI
+            \item \textbf{Android Application} - Developed using the Android SDK with Kotlin
+            \item \textbf{Frontend Web Application} - Built using Next.js
+            \item \textbf{Backend Server} - Contains the APIs, database models, and core logic powering the system
+          \end{itemize}
+
+          The repository is structured to ensure modularity, collaboration, and version control, allowing team members to work concurrently on different aspects of the system.
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.45\textwidth}
+        \subsubsection{Trello Board}
+
+          The Trello board is used to manage the Scrum workflow and track the progress of the project. It includes all relevant artifacts and activities related to agile development:
+
+          \begin{itemize}
+            \item \textbf{Product Backlog} - A prioritized list of all features, tasks, and bugs.
+            \item \textbf{Sprint Backlogs} - Tasks selected for current sprints, broken down into manageable cards.
+            \item \textbf{Kanban Board} - Columns for \emph{To Do}, \emph{In Progress}, \emph{Review}, and \emph{Done} help visualize progress.
+            \item \textbf{Scrum Artifacts} - Contains notes from sprint planning, daily standups, sprint reviews, and retrospectives.
+          \end{itemize}
+
+          This board enables effective team coordination, transparency, and iterative delivery throughout the development lifecycle.
+        \end{minipage}
+        \newpage
+  
+  \section{Information For Testers}
+    To test the Smart Attendance System, testers will primarily use their mobile phones. Native applications are provided for both iOS and Android platforms. However, some core functionality—such as attendance tracking, calendar view, and user dashboards—is also accessible through the web-based platform. \\
+
+    Before testing begins, each tester is required to fill out a short onboarding form which collects their name, email address, and preferred platform (iOS or Android). This information is used to distribute app access instructions and collect feedback.
+
+  \subsection{Testing on iOS (Apple Devices)}
+
+    iOS testers will use \textbf{TestFlight}, Apple’s official platform for beta testing apps. The process is as follows:
+
+    \begin{enumerate}
+      \item Download the \textbf{TestFlight} app from the App Store.
+      \item You will receive an email invitation containing either a unique code or a direct link to install the Smart Attendance app.
+      \item Open the link in TestFlight and proceed with the installation.
+      \item Once installed, the app can be used like a regular application.
+    \end{enumerate}
+
+    TestFlight supports in-app feedback, which testers are encouraged to use to report issues or suggestions during testing.
+
+  \subsection{Testing on Android Devices}
+
+    Android testers have two options for accessing the app:
+
+    \begin{enumerate}
+      \item \textbf{GitHub Releases} – The Android \texttt{.apk} file will be uploaded to the \emph{Releases} section of the project's GitHub repository. Each version will include a detailed changelog written in Markdown, describing new features, fixes, and known issues.
+      \item \textbf{Google Play Console (Internal Testing Track)} – Alternatively, the app may be distributed through the Google Play Console's internal testing feature. Selected testers will receive an email invite allowing them to install the app directly from the Play Store.
+    \end{enumerate}
+
+    For manual APK installation, testers must enable the \textit{Install Unknown Apps} option in their phone’s settings.
+
+    \newpage
+    \subsection{Testing Iterations and Feedback Loop}
+
+    At the end of each development iteration (sprint), testers will receive an email containing:
+
+    \begin{itemize}
+      \item A link to the latest \textbf{GitHub Release}, including the new APK for Android users.
+      \item A Markdown-based \textbf{changelog} describing what has changed in the new version.
+      \item A \textbf{feedback form} to gather impressions, bug reports, suggestions, and general usability notes.
+    \end{itemize}
+
+    Providing timely and detailed feedback helps guide future development and ensures the system evolves based on real user experience. All testers are encouraged to participate actively in this feedback loop.
+
+  \subsection*{Tester Sign-In Form}
+
+    Before joining the testing program, all participants must complete a sign-in form. This form collects basic information such as name, contact email, device type, and preferred platform.
+
+    \begin{figure}[h]
+      \centering
+      \href{https://forms.gle/9WeMwiAdU6G2rrWs5}{\includegraphics[width=0.35\linewidth]{tester_application_form.png}}
+      \caption{QR code for the tester application form}
+    \end{figure}
 \end{document}
