@@ -1,5 +1,6 @@
 package com.example.smartattendancesystemandroid.ui.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,22 +16,49 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.smartattendancesystemandroid.auth.AuthResult
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
 @Composable
 fun LoginScreen(
-    loginViewModel: LoginScreenViewModel = viewModel<LoginScreenViewModel>()
+    navigateToStaffHomePage: () -> Unit,
+    loginViewModel: LoginScreenViewModel = hiltViewModel()
 ) {
+
+
+    val context = LocalContext.current
+    LaunchedEffect(loginViewModel, context) {
+        loginViewModel.authResult.collect { result ->
+            when (result) {
+                is AuthResult.Authorized -> {
+                    navigateToStaffHomePage()
+                }
+                is AuthResult.Unauthorized -> {
+                    Toast.makeText(context, "Not Authorized", Toast.LENGTH_LONG).show()
+                }
+                is AuthResult.UnknownError -> {
+                    Toast.makeText(context, "Unknown error occurred", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+
+
+
 
     val loginUiState by loginViewModel.uiState.collectAsState()
 
@@ -61,7 +89,7 @@ fun LoginScreen(
             )
 
             Button(onClick = {
-                loginViewModel.login()
+                loginViewModel.loginBtnPressed()
             }) {
                 Text(text = "Login")
             }
@@ -101,6 +129,6 @@ fun ForgotPasswordDialog(loginViewModel: LoginScreenViewModel) {
 @Composable
 fun LoginScreenPreview() {
     SmartAttendanceSystemAndroidTheme {
-        LoginScreen()
+        LoginScreen(navigateToStaffHomePage = {})
     }
 }
