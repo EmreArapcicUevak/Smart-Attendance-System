@@ -1,4 +1,4 @@
-package com.example.smartattendancesystemandroid.ui.login
+package com.example.smartattendancesystemandroid.ui.screens.login
 
 import android.widget.Toast
 import androidx.compose.foundation.background

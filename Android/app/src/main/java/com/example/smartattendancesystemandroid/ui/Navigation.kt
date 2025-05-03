@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.smartattendancesystemandroid.ui.login.LoginScreen
-import com.example.smartattendancesystemandroid.ui.staffhomescreen.StaffHomeScreen
+import com.example.smartattendancesystemandroid.ui.screens.login.LoginScreen
+import com.example.smartattendancesystemandroid.ui.screens.staffhomescreen.StaffHomeScreen
 import kotlinx.serialization.Serializable
 
 @Composable

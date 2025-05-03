@@ -1,4 +1,4 @@
-package com.example.smartattendancesystemandroid.ui.login
+package com.example.smartattendancesystemandroid.ui.screens.login
 
 data class LoginUiState(
     val emailFieldValue: String = "",
