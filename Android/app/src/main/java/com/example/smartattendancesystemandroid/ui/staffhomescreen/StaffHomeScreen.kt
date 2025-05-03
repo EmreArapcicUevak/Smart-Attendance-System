@@ -1,4 +1,4 @@
-package com.example.smartattendancesystemandroid.ui.staffhomepage
+package com.example.smartattendancesystemandroid.ui.staffhomescreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun StaffHomePage() {
+fun StaffHomeScreen() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

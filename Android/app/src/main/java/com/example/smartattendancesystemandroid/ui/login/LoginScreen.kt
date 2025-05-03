@@ -2,12 +2,14 @@ package com.example.smartattendancesystemandroid.ui.login
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,13 +24,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.smartattendancesystemandroid.auth.AuthResult
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
@@ -46,9 +47,11 @@ fun LoginScreen(
                 is AuthResult.Authorized -> {
                     navigateToStaffHomePage()
                 }
+
                 is AuthResult.Unauthorized -> {
                     Toast.makeText(context, "Not Authorized", Toast.LENGTH_LONG).show()
                 }
+
                 is AuthResult.UnknownError -> {
                     Toast.makeText(context, "Unknown error occurred", Toast.LENGTH_LONG).show()
                 }
@@ -57,45 +60,87 @@ fun LoginScreen(
     }
 
 
-
-
-
     val loginUiState by loginViewModel.uiState.collectAsState()
 
+    LoginScreenContent(
+        loginUiState = loginUiState,
+        onValueChangeEmailField = { it ->
+            loginViewModel.onEmailFieldValueChange(it)
+        },
+        onValueChangePasswordField = { it ->
+            loginViewModel.onPasswordFieldValueChange(it)
+        },
+        loginBtnPressed = { loginViewModel.loginBtnPressed() },
+        openDialog = { loginViewModel.openDialog() },
+        closeDialog = { loginViewModel.openDialog(false) }
+    )
+}
+
+@Composable
+private fun LoginScreenContent(
+    loginUiState: LoginUiState,
+    onValueChangeEmailField: (String) -> Unit,
+    onValueChangePasswordField: (String) -> Unit,
+    loginBtnPressed: () -> Unit,
+    openDialog: () -> Unit,
+    closeDialog: () -> Unit,
+) {
     Scaffold { innerPadding ->
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .padding(innerPadding).padding(8.dp)
+                .padding(innerPadding)
+                .padding(8.dp)
                 .fillMaxSize()
         ) {
+
+            Text(
+                text = "Login",
+                style = MaterialTheme.typography.displaySmall,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(4.dp)
+            )
+            
             OutlinedTextField(
                 value = loginUiState.emailFieldValue,
-                onValueChange = {it -> loginViewModel.onEmailFieldValueChange(it)},
+                onValueChange = onValueChangeEmailField,
                 label = { Text(text = "Email") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 maxLines = 1,
+                modifier = Modifier.fillMaxWidth().padding(4.dp)
             )
             OutlinedTextField(
                 value = loginUiState.passwordFieldValue,
-                onValueChange = {it -> loginViewModel.onPasswordFieldValueChange(it)},
+                onValueChange = onValueChangePasswordField,
                 label = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation(),
                 maxLines = 1,
-            )
-            ClickableText(text = AnnotatedString(text = "Forgot password", spanStyle = SpanStyle(color = MaterialTheme.colorScheme.onSurfaceVariant)),
-                onClick = {
-                    loginViewModel.openDialog()
-                }
+                modifier = Modifier.fillMaxWidth().padding(4.dp)
             )
 
-            Button(onClick = {
-                loginViewModel.loginBtnPressed()
-            }) {
-                Text(text = "Login")
+            Text(
+                text = "Forgot password",
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(4.dp).clickable(onClick = openDialog)
+            )
+
+            Button(
+                onClick = {
+                    loginBtnPressed()
+                },
+                enabled = loginUiState.emailFieldValue.length > 0 && loginUiState.passwordFieldValue.length > 0,
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth().padding(4.dp)
+            ) {
+                Text(
+                    text = "Login",
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
 
-            if(loginUiState.dialogOpen) {
-                ForgotPasswordDialog(loginViewModel)
+            if (loginUiState.dialogOpen) {
+                ForgotPasswordDialog(closeDialog)
             }
         }
 
@@ -104,8 +149,8 @@ fun LoginScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotPasswordDialog(loginViewModel: LoginScreenViewModel) {
-    BasicAlertDialog(onDismissRequest = {loginViewModel.openDialog(false)}) {
+fun ForgotPasswordDialog(closeDialog: () -> Unit) {
+    BasicAlertDialog(onDismissRequest = closeDialog) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -115,9 +160,14 @@ fun ForgotPasswordDialog(loginViewModel: LoginScreenViewModel) {
                 )
                 .padding(horizontal = 10.dp, vertical = 20.dp)
         ) {
-            Text(text = "Contact your administrator for help",
-                modifier = Modifier.padding(bottom = 30.dp))
-            Button(onClick = {loginViewModel.openDialog(false)}) {
+            Text(
+                text = "Contact your administrator for help",
+                modifier = Modifier.padding(bottom = 30.dp)
+            )
+            Button(
+                onClick = closeDialog,
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Text(text = "Ok")
             }
         }
@@ -129,6 +179,21 @@ fun ForgotPasswordDialog(loginViewModel: LoginScreenViewModel) {
 @Composable
 fun LoginScreenPreview() {
     SmartAttendanceSystemAndroidTheme {
-        LoginScreen(navigateToStaffHomePage = {})
+        LoginScreenContent(
+            loginUiState = LoginUiState(),
+            onValueChangeEmailField = {},
+            onValueChangePasswordField = {},
+            loginBtnPressed = {},
+            openDialog = {},
+            closeDialog = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ForgotPasswordDialogPreview() {
+    SmartAttendanceSystemAndroidTheme {
+        ForgotPasswordDialog(closeDialog = {})
     }
 }

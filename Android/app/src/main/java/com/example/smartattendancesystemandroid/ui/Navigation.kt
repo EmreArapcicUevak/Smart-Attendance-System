@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartattendancesystemandroid.ui.login.LoginScreen
-import com.example.smartattendancesystemandroid.ui.staffhomepage.StaffHomePage
+import com.example.smartattendancesystemandroid.ui.staffhomescreen.StaffHomeScreen
 import kotlinx.serialization.Serializable
 
 @Composable
@@ -17,15 +17,15 @@ fun Navigation() {
     ) {
         composable<LoginScreen> {
             LoginScreen(navigateToStaffHomePage = {
-                navController.navigate(StaffHomePage) {
-                    popUpTo(StaffHomePage) {
+                navController.navigate(StaffHomeScreen) {
+                    popUpTo(LoginScreen) {
                         inclusive = true
                     }
                 }
             })
         }
-        composable<StaffHomePage> {
-            StaffHomePage()
+        composable<StaffHomeScreen> {
+            StaffHomeScreen()
         }
     }
 }
@@ -34,7 +34,7 @@ fun Navigation() {
 object LoginScreen
 
 @Serializable
-object StaffHomePage
+object StaffHomeScreen
 
 /*
 @Serializable
