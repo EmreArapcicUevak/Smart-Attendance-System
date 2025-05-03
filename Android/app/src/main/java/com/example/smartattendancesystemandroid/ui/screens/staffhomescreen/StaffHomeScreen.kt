@@ -1,14 +1,14 @@
 package com.example.smartattendancesystemandroid.ui.screens.staffhomescreen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.smartattendancesystemandroid.ui.StaffHomeScreen
+import androidx.compose.ui.unit.dp
 import com.example.smartattendancesystemandroid.ui.components.Skeleton
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
@@ -19,7 +19,12 @@ fun StaffHomeScreen() {
     StaffHomeScreenContent(
         settingsPressed = {},
         logoutPressed = {},
-        canNavigateBack = false
+        canNavigateBack = false,
+        navigateBackPressed = {},
+        courseSettingsPressed = {},
+        courseCardPressed = {},
+        addCourseBtnPressed = {},
+        staffCourses = listOf()
     )
 }
 
@@ -27,17 +32,38 @@ fun StaffHomeScreen() {
 private fun StaffHomeScreenContent(
     settingsPressed: () -> Unit,
     logoutPressed: () -> Unit,
+    courseSettingsPressed: (String) -> Unit,
+    courseCardPressed: (String) -> Unit,
+    addCourseBtnPressed: () -> Unit,
+    staffCourses: List<CourseCardData>,
     canNavigateBack: Boolean,
+    navigateBackPressed: () -> Unit,
 ) {
     Skeleton(
         settingsPressed = settingsPressed,
         logoutPressed = logoutPressed,
         canNavigateBack = canNavigateBack,
         topAppBarTitle = "Dashboard",
+        navigateBackPressed = navigateBackPressed,
+        additionalActions = {
+            IconButton(
+                onClick = addCourseBtnPressed
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Add,
+                    contentDescription = null,
+                    modifier = Modifier.size(35.dp)
+                )
+            }
+        }
 
     ) {
 
-
+        StaffCourseList(
+            settingsBtnPressed = courseSettingsPressed,
+            cardPressed = courseCardPressed,
+            staffCourses = staffCourses
+        )
 
     }
 }
@@ -47,10 +73,50 @@ private fun StaffHomeScreenContent(
 @Composable
 fun StaffHomeScreenContentPreview() {
     SmartAttendanceSystemAndroidTheme {
+
+        val courses = listOf(
+            CourseCardData(
+                id = "1",
+                courseName = "Introduction to Computer Science",
+                courseCode = "CS101",
+                courseFaculty = "FENS"
+            ),
+            CourseCardData(
+                id = "2",
+                courseName = "Psychology 101",
+                courseCode = "PSY101",
+                courseFaculty = "FASS"
+            ),
+            CourseCardData(
+                id = "3",
+                courseName = "Business Management",
+                courseCode = "BUS201",
+                courseFaculty = "FAP"
+            ),
+            CourseCardData(
+                id = "4",
+                courseName = "Academic Writing",
+                courseCode = "ENG102",
+                courseFaculty = "ELS"
+            ),
+            CourseCardData(
+                id = "5",
+                courseName = "Data Structures",
+                courseCode = "CS202",
+                courseFaculty = "FENS"
+            )
+        )
+
+
         StaffHomeScreenContent(
             settingsPressed = {},
             logoutPressed = {},
-            canNavigateBack = false
+            canNavigateBack = false,
+            navigateBackPressed = {},
+            courseSettingsPressed = {},
+            courseCardPressed = {},
+            addCourseBtnPressed = {},
+            staffCourses = courses
         )
     }
 }

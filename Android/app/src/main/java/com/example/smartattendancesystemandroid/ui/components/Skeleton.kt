@@ -35,6 +35,7 @@ fun Skeleton(
     settingsPressed: () -> Unit,
     logoutPressed: () -> Unit,
     canNavigateBack: Boolean = false,
+    navigateBackPressed: () -> Unit,
     additionalActions: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
@@ -50,7 +51,7 @@ fun Skeleton(
                 },
                 navigationIcon = {
                     if (canNavigateBack) {
-                        IconButton(onClick = {  }) {
+                        IconButton(onClick = navigateBackPressed) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Go back"
@@ -111,7 +112,8 @@ fun SkeletonPreview() {
     Skeleton(
         topAppBarTitle = "Hello World",
         settingsPressed = {},
-        logoutPressed = {}
+        logoutPressed = {},
+        navigateBackPressed = {}
     ) {
         Text(text = "test")
     }
