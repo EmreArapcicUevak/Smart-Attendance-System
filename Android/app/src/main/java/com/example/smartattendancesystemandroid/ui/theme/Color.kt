@@ -73,3 +73,7 @@ val surfaceContainerLowDark = Color(0xFF181C20)
 val surfaceContainerDark = Color(0xFF1D2024)
 val surfaceContainerHighDark = Color(0xFF272A2F)
 val surfaceContainerHighestDark = Color(0xFF32353A)
+
+
+val suggestionChipSuccessColor = Color(0xFF43A047)
+val suggestionChipFailureColor = Color(0xFFE53935)
