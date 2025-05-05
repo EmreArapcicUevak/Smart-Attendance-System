@@ -29,7 +29,7 @@ struct NotificationPopUpView: View {
                     headingLabelText: "Notification",
                     headingLabelSystemImage: "info.circle.fill",
                     containerColor: Color.tertiaryContainer,
-                    onContainerColor: Color.onSurfaceVariant,
+                    onContainerColor: Color.onTertiaryContainer,
                     textColor: Color.tertiary
                 )
             )

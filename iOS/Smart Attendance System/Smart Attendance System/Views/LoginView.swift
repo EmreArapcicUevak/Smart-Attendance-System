@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     @State private var userModel: UserModel = .init()
+    @State private var notificationVisible = false
+    
     var body: some View {
         ZStack {
             Color
@@ -35,7 +37,7 @@ struct LoginView: View {
                 )
 
                 Button("Forgot Password") {
-                    
+                    notificationVisible = true
                 }
                 .padding(.top)
                 .foregroundStyle(Color.secondary)
@@ -56,6 +58,11 @@ struct LoginView: View {
             .background(Color.surfContainer)
             .clipShape(.rect(cornerRadius: 5))
             .frame(maxWidth: 370)
+            
+            NotificationPopUpView(
+                notificationMessage: "Please contact your organization administrator if you forgot your password",
+                viewShown: $notificationVisible
+            )
         }
     }
 }
