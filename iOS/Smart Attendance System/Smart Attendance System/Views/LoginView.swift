@@ -29,7 +29,10 @@ struct LoginView: View {
                 )
                     .padding(.bottom)
 
-                LoginTextField(fieldText: "Password", text_field: $userModel.password)
+                LoginSecureField(
+                    fieldText: "Password",
+                    text_field: $userModel.password
+                )
 
                 Button("Forgot Password") {
                     
