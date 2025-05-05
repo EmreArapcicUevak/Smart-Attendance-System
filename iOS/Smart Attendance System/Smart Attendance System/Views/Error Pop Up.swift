@@ -25,47 +25,18 @@ struct ErrorPopUp: View {
     
     
     var body: some View {
-        if errorShown {
-            ZStack {
-                Color
-                    .surfaceBright
-                    .ignoresSafeArea()
-                    .blur(radius: 10)
-                    .opacity(0.4)
-                
-                VStack {
-                    HStack {
-                        Label(
-                            "Error",
-                            systemImage: "exclamationmark.triangle.fill"
-                        )
-                        .font(.callout)
-                        .foregroundStyle(Color.onErrorContainer)
-                        .fontWeight(.bold)
-                        
-                        Spacer()
-                    }
-                    
-                    Text(errorMessage)
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.error)
-                        .padding()
-                    
-                    ErrorButtonView(
-                        errorButtonText: errorButtonText,
-                        errorShown: $errorShown
-                    )
-                }
-                .padding()
-                .background(
-                    RoundedRectangleWithOutlineView(fillColor: Color.errorContainer)
+        PopUpView(viewShown: $errorShown)
+            .environment(
+                PopUpViewModel(
+                    displayMessage: errorMessage,
+                    buttonText: errorButtonText,
+                    headingLabelText: "Error",
+                    headingLabelSystemImage: "exclamationmark.triangle",
+                    containerColor: Color.errorContainer,
+                    onContainerColor: Color.onErrorContainer,
+                    textColor: Color.error
                 )
-                .frame(maxWidth: 360, maxHeight: 260, alignment: .center)
-                
-                   
-            }
-        }
+            )
     }
 }
 
@@ -79,25 +50,5 @@ struct ErrorPopUp: View {
             errorMessage: "Something went wrong!",
             errorShown: .constant(true)
         )
-    }
-}
-
-struct ErrorButtonView: View {
-    let errorButtonText: String;
-    @Binding var errorShown: Bool
-    
-    var body: some View {
-        ConfirmationButtonView(
-            buttonText: errorButtonText,
-            viewOpen: $errorShown
-        )
-        .padding()
-        .foregroundStyle(Color.errorContainer)
-        .frame(minWidth: 200)
-        .background(
-            RoundedRectangleWithOutlineView(fillColor: Color.onErrorContainer)
-        )
-        .padding(.top)
-        
     }
 }
