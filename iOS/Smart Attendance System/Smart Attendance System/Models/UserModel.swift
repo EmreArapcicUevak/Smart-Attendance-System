@@ -8,13 +8,19 @@
 import Foundation
 
 @Observable
-class UserModel {
-    var isLoggedIn: Bool = false
+class UserModel : Hashable {
+    static func == (lhs: UserModel, rhs: UserModel) -> Bool {
+        return lhs.email == rhs.email
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(email)
+    }
+    
     var email: String
     var password: String
     
-    init(isLoggedIn: Bool = false, email: String = "", password: String = "") {
-        self.isLoggedIn = isLoggedIn
+    init(email: String = "", password: String = "") {
         self.email = email
         self.password = password
     }

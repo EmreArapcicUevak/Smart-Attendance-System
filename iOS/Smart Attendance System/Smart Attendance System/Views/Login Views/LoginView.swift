@@ -10,9 +10,10 @@ import SwiftUI
 struct LoginView: View {
     @State private var userModel: UserModel = .init()
     @State private var notificationVisible = false
+    @State private var path = NavigationPath()
     
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             ZStack {
                 Color
                     .surface
@@ -44,9 +45,7 @@ struct LoginView: View {
                     .padding(.top)
                     .foregroundStyle(Color.secondary)
                     
-                    NavigationLink {
-                        StaffDashboard()
-                    } label: {
+                    NavigationLink(value: userModel) {
                         Text("Login")
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -57,7 +56,6 @@ struct LoginView: View {
                             )
                             .padding(.top)
                     }
-                    
                 }
                 .padding()
                 .background(Color.surfContainer)
@@ -69,7 +67,11 @@ struct LoginView: View {
                     viewShown: $notificationVisible
                 )
             }
+            .navigationDestination(for: UserModel.self) { userModel in
+                StaffDashboard(path: $path)
+            }
         }
+        
     }
 }
 
