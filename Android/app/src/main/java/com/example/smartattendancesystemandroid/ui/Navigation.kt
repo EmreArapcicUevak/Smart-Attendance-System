@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.CheckStudentCourseAttendanceScreen
 import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.CourseDetailsScreen
 import com.example.smartattendancesystemandroid.ui.screens.login.LoginScreen
 import com.example.smartattendancesystemandroid.ui.screens.staffhomescreen.StaffHomeScreen
@@ -14,7 +15,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = CourseDetailsScreen
+        startDestination = CheckStudentCourseAttendanceScreen
     ) {
         composable<LoginScreen> {
             LoginScreen(navigateToStaffHomePage = {
@@ -37,6 +38,9 @@ fun Navigation() {
                 cardPressed = {}
             )
         }
+        composable<CheckStudentCourseAttendanceScreen> {
+            CheckStudentCourseAttendanceScreen()
+        }
     }
 }
 
@@ -48,6 +52,9 @@ object StaffHomeScreen
 
 @Serializable
 object CourseDetailsScreen
+
+@Serializable
+object CheckStudentCourseAttendanceScreen
 
 /*
 @Serializable

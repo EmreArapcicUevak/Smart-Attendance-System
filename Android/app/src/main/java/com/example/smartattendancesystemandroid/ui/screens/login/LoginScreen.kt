@@ -155,7 +155,7 @@ fun ForgotPasswordDialog(closeDialog: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .background(
-                    color = MaterialTheme.colorScheme.surface,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(horizontal = 10.dp, vertical = 20.dp)

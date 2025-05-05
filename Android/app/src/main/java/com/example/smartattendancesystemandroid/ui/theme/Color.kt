@@ -77,3 +77,4 @@ val surfaceContainerHighestDark = Color(0xFF32353A)
 
 val suggestionChipSuccessColor = Color(0xFF43A047)
 val suggestionChipFailureColor = Color(0xFFE53935)
+val suggestionColorChipNeutral = Color(0xFF596064)
