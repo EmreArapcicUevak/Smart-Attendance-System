@@ -12,57 +12,63 @@ struct LoginView: View {
     @State private var notificationVisible = false
     
     var body: some View {
-        ZStack {
-            Color
-                .surface
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading) {
-                Text("Login")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.onSurface)
+        NavigationView {
+            ZStack {
+                Color
+                    .surface
+                    .ignoresSafeArea()
                 
-                Divider()
-
-                LoginTextField(
-                    fieldText: "Email",
-                    text_field: $userModel.email
-                )
+                VStack(alignment: .leading) {
+                    Text("Login")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.onSurface)
+                    
+                    Divider()
+                    
+                    LoginTextField(
+                        fieldText: "Email",
+                        text_field: $userModel.email
+                    )
                     .padding(.bottom)
-
-                LoginSecureField(
-                    fieldText: "Password",
-                    text_field: $userModel.password
-                )
-
-                Button("Forgot Password") {
-                    notificationVisible = true
-                }
-                .padding(.top)
-                .foregroundStyle(Color.secondary)
-                
-                Button("Login") {
+                    
+                    LoginSecureField(
+                        fieldText: "Password",
+                        text_field: $userModel.password
+                    )
+                    
+                    
+                    Button("Forgot Password") {
+                        notificationVisible = true
+                    }
+                    .padding(.top)
+                    .foregroundStyle(Color.secondary)
+                    
+                    NavigationLink {
+                        LoginView()
+                    } label: {
+                        Text("Login")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .foregroundStyle(Color.primary)
+                            .background(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color.primaryContainer)
+                            )
+                            .padding(.top)
+                    }
                     
                 }
-                .frame(maxWidth: .infinity)
                 .padding()
-                .foregroundStyle(Color.primary)
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.primaryContainer)
+                .background(Color.surfContainer)
+                .clipShape(.rect(cornerRadius: 5))
+                .frame(maxWidth: 370)
+                
+                NotificationPopUpView(
+                    notificationMessage: "Please contact your organization administrator if you forgot your password",
+                    viewShown: $notificationVisible
                 )
-                .padding(.top)
             }
-            .padding()
-            .background(Color.surfContainer)
-            .clipShape(.rect(cornerRadius: 5))
-            .frame(maxWidth: 370)
-            
-            NotificationPopUpView(
-                notificationMessage: "Please contact your organization administrator if you forgot your password",
-                viewShown: $notificationVisible
-            )
         }
     }
 }

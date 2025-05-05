@@ -16,11 +16,10 @@ struct PopUpView: View {
         if viewShown {
             ZStack {
                 // Blur
-                Color
-                    .surfaceBright
+                Rectangle()
+                    .fill(.ultraThinMaterial)
                     .ignoresSafeArea()
-                    .blur(radius: 10)
-                    .opacity(0.4)
+                    .opacity(0.95)
                 
                 VStack {
                     HStack {
@@ -61,18 +60,20 @@ struct PopUpButtonView : View {
     @Binding var viewShown: Bool
     
     var body: some View {
-        Button(popUpViewModel.buttonText, action: {
+        Button {
             withAnimation {
                 viewShown = false
             }
-        })
-        .padding()
-        .foregroundStyle(popUpViewModel.containerColor)
-        .frame(minWidth: 200)
-        .background(
-            RoundedRectangleWithOutlineView(fillColor: popUpViewModel.onContainerColor)
-        )
-        .padding(.top)
+        } label: {
+            Text(popUpViewModel.buttonText)
+                .padding()
+                .foregroundStyle(popUpViewModel.containerColor)
+                .frame(minWidth: 200)
+                .background(
+                    RoundedRectangleWithOutlineView(fillColor: popUpViewModel.onContainerColor)
+                )
+                .padding(.top)
+        }
         
     }
 }
