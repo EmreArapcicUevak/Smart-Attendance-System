@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Course : Identifiable {
+struct CourseModel : Identifiable, Hashable {
     let courseName: String
     let courseFaculty: String
     let courseCode: String
