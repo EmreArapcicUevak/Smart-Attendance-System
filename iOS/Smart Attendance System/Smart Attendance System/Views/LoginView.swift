@@ -45,7 +45,7 @@ struct LoginView: View {
                     .foregroundStyle(Color.secondary)
                     
                     NavigationLink {
-                        LoginView()
+                        StaffDashboard()
                     } label: {
                         Text("Login")
                             .frame(maxWidth: .infinity)
