@@ -43,28 +43,32 @@ struct StaffDashboard: View {
                 .surface
                 .ignoresSafeArea()
             
-            
-            Text("Staff Dashboard")
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundStyle(Color.mySecondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity,alignment: .topLeading)
-                .padding(.leading)
-            
-            StaffDashboardToolBarView(path: $path)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                .padding()
-                .offset(y: -9)
-                .padding(.trailing)
-            
-            ScrollView() {
-                ForEach(courses) { course in
-                    NavigationLink(value: course) {
-                        CourseCardView(courseModel: course)
-                            .padding()
+            VStack {
+                HStack {
+                    Text("Staff Dashboard")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.mySecondary)
+                        .padding(.leading)
+                    
+                    Spacer()
+                    
+                    StaffDashboardToolBarView(path: $path)
+                        .padding()
+                        .padding(.trailing)
+                }
+                .background(Color.surfaceBright)
+                
+                ScrollView() {
+                    ForEach(courses) { course in
+                        NavigationLink(value: course) {
+                            CourseCardView(courseModel: course)
+                                .padding()
+                        }
                     }
                 }
-            }.offset(y: 50)
+            }
+            
         }
         .navigationBarBackButtonHidden(true)
     }
