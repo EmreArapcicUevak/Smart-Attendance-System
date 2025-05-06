@@ -26,10 +26,10 @@ struct RoundedRectangleWithOutlineView: View {
     }
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5)
+            RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(fillColor)
             
-            RoundedRectangle(cornerRadius: 5)
+            RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(outlineColor, lineWidth: lineWidth)
         }
     }
