@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.CheckStudentCourseAttendanceScreen
 import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.CourseDetailsScreen
 import com.example.smartattendancesystemandroid.ui.screens.login.LoginScreen
+import com.example.smartattendancesystemandroid.ui.screens.markattendancescreen.MarkAttendanceScreen
 import com.example.smartattendancesystemandroid.ui.screens.staffhomescreen.StaffHomeScreen
 import kotlinx.serialization.Serializable
 
@@ -15,7 +16,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = CheckStudentCourseAttendanceScreen
+        startDestination = MarkAttendanceScreen
     ) {
         composable<LoginScreen> {
             LoginScreen(navigateToStaffHomePage = {
@@ -41,6 +42,9 @@ fun Navigation() {
         composable<CheckStudentCourseAttendanceScreen> {
             CheckStudentCourseAttendanceScreen()
         }
+        composable<MarkAttendanceScreen> {
+            MarkAttendanceScreen()
+        }
     }
 }
 
@@ -55,6 +59,9 @@ object CourseDetailsScreen
 
 @Serializable
 object CheckStudentCourseAttendanceScreen
+
+@Serializable
+object MarkAttendanceScreen
 
 /*
 @Serializable
