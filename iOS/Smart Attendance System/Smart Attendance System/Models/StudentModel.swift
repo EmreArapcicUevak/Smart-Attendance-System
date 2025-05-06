@@ -15,4 +15,5 @@ struct StudentModel : Hashable, Identifiable {
     var student_id: String
     
     var id: String { student_id }
+    var name: String { "\(firstName) \(secondName)" }
 }
