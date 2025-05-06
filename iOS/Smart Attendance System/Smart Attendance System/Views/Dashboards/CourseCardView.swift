@@ -10,45 +10,47 @@ import SwiftUI
 struct CourseCardView: View {
     let courseModel: CourseModel
     var body: some View {
-        VStack() {
-            HStack() {
-                Text(courseModel.courseName)
-                    .foregroundStyle(Color.onSurface)
-                    .font(.headline)
-                    .fontWeight(.semibold)
+        NavigationLink(value: courseModel) {
+            VStack() {
+                HStack() {
+                    Text(courseModel.courseName)
+                        .foregroundStyle(Color.onSurface)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    
+                    Spacer()
+                    
+                    NavigationLink(value: UserModel()) {
+                        Image(systemName: "gearshape.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                            .foregroundStyle(.myPrimary)
+                    }
+                }.padding()
                 
-                
-                Spacer()
-                
-                NavigationLink(value: UserModel()) {
-                    Image(systemName: "gearshape.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
-                        .foregroundStyle(.myPrimary)
+                HStack {
+                    Text(courseModel.courseCode)
+                        .foregroundStyle(Color.onSurfaceVariant)
+                        .font(.system(size: 14, weight: .regular))
+                    
+                    Spacer()
+                    
+                    Text(courseModel.courseFaculty)
+                        .foregroundStyle(Color.onSurfaceVariant)
+                        .font(.system(size: 14, weight: .regular))
                 }
-            }.padding()
-            
-            HStack {
-                Text(courseModel.courseCode)
-                    .foregroundStyle(Color.onSurfaceVariant)
-                    .font(.system(size: 14, weight: .regular))
-                
-                Spacer()
-                
-                Text(courseModel.courseFaculty)
-                    .foregroundStyle(Color.onSurfaceVariant)
-                    .font(.system(size: 14, weight: .regular))
+                .padding()
             }
-            .padding()
-        }
-        .background(
-            RoundedRectangleWithOutlineView(
-                fillColor : Color.surfContainer,
-                lineWidth: 0.5
+            .background(
+                RoundedRectangleWithOutlineView(
+                    fillColor : Color.surfContainer,
+                    lineWidth: 0.5
+                )
             )
-        )
-        .shadow(radius: 5)
+            .shadow(radius: 5)
+        }
     }
 }
 

@@ -44,20 +44,6 @@ struct StaffDashboard: View {
                 .ignoresSafeArea()
             
             VStack {
-                HStack {
-                    Text("Staff Dashboard")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.mySecondary)
-                        .padding(.leading)
-                    
-                    Spacer()
-                    
-                    StaffDashboardToolBarView(path: $path)
-                        .padding()
-                        .padding(.trailing)
-                }
-                .background(Color.surfaceBright)
                 
                 ScrollView() {
                     ForEach(courses) { course in
@@ -67,15 +53,42 @@ struct StaffDashboard: View {
                         }
                     }
                 }
+                .scenePadding(.bottom)
             }
             
         }
+        .navigationDestination(for: CourseModel.self, destination: { courseModel in
+            DetailedCourseView(path: $path, course: courseModel)
+        })
         .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                AddButtonView(
+                    path: $path,
+                    triggerFunction: addCreateCourseView
+                )
+                
+                UserSettingsIcon(path: $path)
+            }
+            
+            ToolbarItem(placement: .principal) {
+                Text("Staff Dashboard")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.mySecondary)
+            }
+        }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(Color.surfaceBright, for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
     }
     
 }
 
 #Preview {
     @Previewable @State var path = NavigationPath()
-    StaffDashboard(path: $path)
+    NavigationStack(path: $path) {
+        StaffDashboard(path: $path)
+    }
 }
