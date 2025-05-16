@@ -21,7 +21,7 @@ class CustomUserDetailsService(
             ?: throw UsernameNotFoundException("User not found with email: $username")
 
     private fun ApplicationUser.mapToUserDetails(): UserDetails {
-        val authorities = listOf(SimpleGrantedAuthority( + this.role.name))
+        val authorities = listOf(SimpleGrantedAuthority( this.role.name))
         return User.builder()
             .username(this.email)
             .password(this.password)

@@ -1,7 +1,5 @@
 package main.kotlin.com.smartattendance.dto
 
-class OrganizationDto {
-
     data class OrganizationRequest(
         val name: String,
         val description: String?,
@@ -13,4 +11,3 @@ class OrganizationDto {
         val name: String,
         val description: String?
     )
-}
