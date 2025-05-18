@@ -7,7 +7,7 @@ interface Student {
   name: string;
 }
 
-interface ClassComponent {
+interface CourseComponent {
   id: number;
   name: string;
   instructor: string;
@@ -16,89 +16,65 @@ interface ClassComponent {
   sessionSettings: string;
 }
 
-const mockClass: ClassComponent = {
-  id: 1,
-  name: 'Advanced Mathematics',
-  instructor: 'Mr. John Smith',
-  schedule: 'Monday 10:00 - 11:30',
-  students: [
-    { id: 1, name: 'Alice Johnson' },
-    { id: 2, name: 'Bob Smith' },
-    { id: 3, name: 'Charlie Brown' },
-  ],
-  sessionSettings: 'Weekly - Room 101',
-};
+interface ClassSettingsProps {
+  course: CourseComponent;
+  onDelete: () => void;
+  onSave: (updatedCourse: CourseComponent) => void;
+}
 
-export default function ClassSettings() {
+const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave }) => {
   const [currentView, setCurrentView] = useState<'details' | 'edit' | 'students'>('details');
-  const [classInfo, setClassInfo] = useState<ClassComponent>(mockClass);
+  const [editedName, setEditedName] = useState(course.name);
+  const [editedInstructor, setEditedInstructor] = useState(course.instructor);
+  const [editedSchedule, setEditedSchedule] = useState(course.schedule);
   const [newStudentName, setNewStudentName] = useState('');
-  const [editedName, setEditedName] = useState(classInfo.name);
-  const [editedInstructor, setEditedInstructor] = useState(classInfo.instructor);
-  const [editedSchedule, setEditedSchedule] = useState(classInfo.schedule);
+  const [students, setStudents] = useState<Student[]>(course.students);
 
-  // Switch views
-  const handleViewChange = (view: 'details' | 'edit' | 'students') => {
-    setCurrentView(view);
-  };
-
-  // Save changes to class info
+  // Save the changes made to the course
   const handleSaveChanges = () => {
-    setClassInfo((prev) => ({
-      ...prev,
+    const updatedCourse: CourseComponent = {
+      ...course,
       name: editedName,
       instructor: editedInstructor,
       schedule: editedSchedule,
-    }));
+      students: students,
+    };
+    onSave(updatedCourse);
     setCurrentView('details');
   };
 
-  // Add a student
+  // Add a new student to the list
   const handleAddStudent = () => {
     if (newStudentName.trim()) {
-      const newStudent: Student = {
-        id: classInfo.students.length + 1,
-        name: newStudentName,
-      };
-      setClassInfo((prev) => ({
-        ...prev,
-        students: [...prev.students, newStudent],
-      }));
+      const newStudent = { id: students.length + 1, name: newStudentName };
+      setStudents([...students, newStudent]);
       setNewStudentName('');
     }
   };
 
-  // Remove a student
+  // Remove a student from the list
   const handleRemoveStudent = (id: number) => {
-    setClassInfo((prev) => ({
-      ...prev,
-      students: prev.students.filter((student) => student.id !== id),
-    }));
-  };
-
-  // Delete the section
-  const handleDeleteSection = () => {
-    alert('Section deleted!');
-    setClassInfo({ ...mockClass, students: [] });
+    setStudents(students.filter((student) => student.id !== id));
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md w-full max-w-3xl mx-auto">
+    <div className="p-6 bg-white rounded-lg shadow-md w-full">
+      {/* Navigation for different views */}
       <div className="flex gap-4 mb-6">
         <button
-          onClick={() => handleViewChange('details')}
+          onClick={() => setCurrentView('details')}
           className={`px-4 py-2 rounded ${currentView === 'details' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
         >
           Details
         </button>
         <button
-          onClick={() => handleViewChange('edit')}
+          onClick={() => setCurrentView('edit')}
           className={`px-4 py-2 rounded ${currentView === 'edit' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
         >
           Edit
         </button>
         <button
-          onClick={() => handleViewChange('students')}
+          onClick={() => setCurrentView('students')}
           className={`px-4 py-2 rounded ${currentView === 'students' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
         >
           Students
@@ -108,13 +84,13 @@ export default function ClassSettings() {
       {/* Details View */}
       {currentView === 'details' && (
         <div>
-          <h2 className="text-2xl font-semibold text-[#3553B5]">Class Details</h2>
-          <p>Name: {classInfo.name}</p>
-          <p>Instructor: {classInfo.instructor}</p>
-          <p>Schedule: {classInfo.schedule}</p>
-          <p>Session Settings: {classInfo.sessionSettings}</p>
+          <h3 className="text-xl font-semibold">Class Details</h3>
+          <p><strong>Name:</strong> {course.name}</p>
+          <p><strong>Instructor:</strong> {course.instructor}</p>
+          <p><strong>Schedule:</strong> {course.schedule}</p>
+          <p><strong>Session:</strong> {course.sessionSettings}</p>
           <button
-            onClick={handleDeleteSection}
+            onClick={onDelete}
             className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
           >
             Delete Section
@@ -125,7 +101,7 @@ export default function ClassSettings() {
       {/* Edit View */}
       {currentView === 'edit' && (
         <div>
-          <h2 className="text-2xl font-semibold text-[#3553B5]">Edit Class Details</h2>
+          <h3 className="text-xl font-semibold">Edit Class</h3>
           <input
             className="w-full p-2 border rounded my-2"
             value={editedName}
@@ -156,7 +132,7 @@ export default function ClassSettings() {
       {/* Students View */}
       {currentView === 'students' && (
         <div>
-          <h2 className="text-2xl font-semibold text-[#3553B5]">Enrolled Students</h2>
+          <h3 className="text-xl font-semibold">Enrolled Students</h3>
           <input
             className="w-full p-2 border rounded my-2"
             value={newStudentName}
@@ -165,17 +141,17 @@ export default function ClassSettings() {
           />
           <button
             onClick={handleAddStudent}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mb-4"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Add Student
           </button>
-          <ul>
-            {classInfo.students.map((student) => (
-              <li key={student.id} className="flex justify-between items-center p-2 border-b">
+          <ul className="mt-4 space-y-2">
+            {students.map((student) => (
+              <li key={student.id} className="flex justify-between items-center">
                 {student.name}
                 <button
                   onClick={() => handleRemoveStudent(student.id)}
-                  className="text-sm bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                  className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                 >
                   Remove
                 </button>
@@ -186,4 +162,6 @@ export default function ClassSettings() {
       )}
     </div>
   );
-}
+};
+
+export default ClassSettings;

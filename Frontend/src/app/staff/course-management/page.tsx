@@ -35,7 +35,7 @@ const ITEMS_PER_PAGE = 5;
 export default function CourseManagement() {
   const [currentPage, setCurrentPage] = useState(1);
   const [courses, setCourses] = useState<CourseComponent[]>(mockCourses);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<CourseComponent | null>(null);
 
   // Pagination logic
@@ -44,14 +44,22 @@ export default function CourseManagement() {
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentCourses = courses.slice(startIndex, endIndex);
 
-  // Open Class Settings Modal
-  const handleViewSettings = (course: CourseComponent) => {
+  // Open Settings Modal
+  const handleOpenSettings = (course: CourseComponent) => {
     setSelectedCourse(course);
-    setIsEditModalOpen(true);
+    setIsSettingsOpen(true);
+  };
+
+  // Save Updated Course
+  const handleSaveCourse = (updatedCourse: CourseComponent) => {
+    setCourses((prev) =>
+      prev.map((course) => (course.id === updatedCourse.id ? updatedCourse : course))
+    );
+    setIsSettingsOpen(false);
   };
 
   // Delete Course
-  const handleDelete = (id: number) => {
+  const handleDeleteCourse = (id: number) => {
     setCourses(courses.filter((course) => course.id !== id));
   };
 
@@ -76,20 +84,26 @@ export default function CourseManagement() {
                 <td className="px-4 py-3 border-b">{course.name}</td>
                 <td className="px-4 py-3 border-b">{course.instructor}</td>
                 <td className="px-4 py-3 border-b">{course.schedule}</td>
-                <td className="px-4 py-3 border-b space-x-2">
-                  <button
-                    onClick={() => handleViewSettings(course)}
-                    className="px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                  >
-                    Settings
-                  </button>
-                  <button
-                    onClick={() => handleDelete(course.id)}
-                    className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </td>
+                <td className="px-4 py-3 border-b">
+                  
+  <div className="flex gap-4">
+    <button
+      onClick={() => handleOpenSettings(course)}
+      className="px-2 py-1 bg-blue-500 text-gray rounded-md hover:bg-blue-600"
+    >
+      Settings
+    </button>
+
+    <button
+      onClick={() => handleDeleteCourse(course.id)}
+      className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+    >
+      Delete
+    </button>
+  </div>
+  
+</td>
+
               </tr>
             ))}
           </tbody>
@@ -116,32 +130,18 @@ export default function CourseManagement() {
       </div>
 
       {/* Class Settings Modal */}
-      {isEditModalOpen && selectedCourse && (
+      {isSettingsOpen && selectedCourse && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-md w-96">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-3xl">
             <h3 className="text-xl font-semibold mb-4">Class Settings: {selectedCourse.name}</h3>
-            <p>Instructor: {selectedCourse.instructor}</p>
-            <p>Schedule: {selectedCourse.schedule}</p>
-            <p>Session: {selectedCourse.sessionSettings}</p>
-
-            <h4 className="mt-4 font-semibold">Enrolled Students</h4>
-            <ul className="space-y-1">
-              {selectedCourse.students.map((student) => (
-                <li key={student.id} className="flex justify-between items-center">
-                  {student.name}
-                  <button
-                    onClick={() => handleDelete(student.id)}
-                    className="text-sm bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                  >
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
-
+            <ClassSettings
+              course={selectedCourse}
+              onDelete={() => handleDeleteCourse(selectedCourse.id)}
+              onSave={handleSaveCourse}
+            />
             <div className="flex justify-end gap-2 mt-4">
               <button
-                onClick={() => setIsEditModalOpen(false)}
+                onClick={() => setIsSettingsOpen(false)}
                 className="px-4 py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400"
               >
                 Close
