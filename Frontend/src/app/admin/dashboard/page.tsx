@@ -76,9 +76,7 @@ export default function AdminDashboard() {
           <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/accounts')}>
             Accounts
           </button>
-          <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/settings')}>
-  Settings
-</button>
+          
 
         </nav>
         <div className="mt-auto">
