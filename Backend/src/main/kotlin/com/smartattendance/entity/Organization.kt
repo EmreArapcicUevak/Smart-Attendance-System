@@ -1,5 +1,6 @@
 package main.kotlin.com.smartattendance.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity
@@ -12,9 +13,10 @@ data class Organization(
     @Column(nullable = false, unique = true)
     val name: String,
 
-    val description: String? = null,
+    @Column(nullable = false)
+    val adminEmail: String = "",
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
-    val createdBy: User
+    @Column(nullable = false)
+    @JsonIgnore
+    val adminPassword: String = "",
 )
