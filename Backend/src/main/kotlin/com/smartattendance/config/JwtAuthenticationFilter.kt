@@ -14,8 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
 class JwtAuthenticationFilter(
-    private val userDetailsService: UserDetailsService,
-    private val tokenService: TokenService,
+    private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -23,40 +22,22 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val authHeader: String? = request.getHeader("Authorization")
+        val authHeader = request.getHeader("Authorization")
+        val token = authHeader?.takeIf { it.startsWith("Bearer ") }?.substring(7)
 
-        if (authHeader.doesNotContainBearerToken()) {
-            filterChain.doFilter(request, response)
-            return
-        }
+        if (token != null && TokenService.validateToken(token)) {
+            val email = TokenService.extractEmail(token)
+            val userDetails = userDetailsService.loadUserByUsername(email)
 
-        val jtoken = authHeader!!.substringAfter("Bearer ").trim()
-        val email = tokenService.extractEmail(jtoken)
-
-        if (email != null && SecurityContextHolder.getContext().authentication == null) {
-            val foundUser = userDetailsService.loadUserByUsername(email)
-            if (tokenService.isValid(jtoken, foundUser)) {
-                updateContext(foundUser, request)
+            val authentication = UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.authorities
+            ).apply {
+                details = WebAuthenticationDetailsSource().buildDetails(request)
             }
 
-            filterChain.doFilter(request, response)
+            SecurityContextHolder.getContext().authentication = authentication
         }
-    }
 
-    private fun updateContext(
-        foundUser: UserDetails,
-        request: HttpServletRequest
-    ) {
-        val authToken = UsernamePasswordAuthenticationToken(
-            foundUser,
-            null,
-            foundUser.authorities
-        )
-        authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
-        SecurityContextHolder.getContext().authentication = authToken
-    }
-
-    private fun String?.doesNotContainBearerToken(): Boolean {
-        return this == null || !this.startsWith("Bearer ")
+        filterChain.doFilter(request, response)
     }
 }

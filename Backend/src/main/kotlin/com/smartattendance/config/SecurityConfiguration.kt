@@ -3,37 +3,42 @@ package main.kotlin.com.smartattendance.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.web.DefaultSecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
+import main.kotlin.com.smartattendance.service.CustomUserDetailsService
+import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
-@EnableWebSecurity
 open class SecurityConfiguration(
-    private val authenticationProvider: AuthenticationProvider
+    private val userDetailsService: CustomUserDetailsService
 ) {
 
     @Bean
-    open fun securityFilterChain(
-        http: HttpSecurity,
-        jwtAuthenticationFilter: JwtAuthenticationFilter
-    ): DefaultSecurityFilterChain =
-        http
-            .csrf{ it.disable() }
+    open fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+
+    @Bean
+    open fun authenticationProvider(): AuthenticationProvider {
+        val provider = DaoAuthenticationProvider()
+        provider.setUserDetailsService(userDetailsService)
+        provider.setPasswordEncoder(passwordEncoder())
+        return provider
+    }
+
+    @Bean
+    open fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        return http
+            .csrf { it.disable() }
             .authorizeHttpRequests {
-                it
-                    .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/user/**").hasAuthority("ADMIN")
-                    .anyRequest().fullyAuthenticated()
+                it.requestMatchers("/auth/**").permitAll()
+                    .anyRequest().authenticated()
             }
-            .sessionManagement {
-                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            }
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(JwtAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter::class.java)
             .build()
+    }
 }

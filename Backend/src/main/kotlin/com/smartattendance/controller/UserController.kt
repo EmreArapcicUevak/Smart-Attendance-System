@@ -14,7 +14,7 @@ class UserController(
     private val userService: UserService
 ) {
     @PostMapping("/register")
-    fun reegisterUser(@RequestBody userRequest: UserRequest): UserResponse? =
+    fun registerUser(@RequestBody userRequest: UserRequest): UserResponse? =
         userService.createUser(
             user = userRequest.toModel()
         )
@@ -40,6 +40,7 @@ class UserController(
             organizationId = this.organizationId,
             email = this.email,
             password = this.password,
+            fullName = this.fullName,
             role = Role.STUDENT,
         )
     }

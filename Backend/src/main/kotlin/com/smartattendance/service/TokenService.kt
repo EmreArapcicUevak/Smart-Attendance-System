@@ -1,54 +1,41 @@
 package main.kotlin.com.smartattendance.service
 
-import io.jsonwebtoken.Claims
-import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.*
 import io.jsonwebtoken.security.Keys
-import main.kotlin.com.smartattendance.config.JwtProperties
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.stereotype.Service
-import java.util.Date
+import java.util.*
+import javax.crypto.SecretKey
 
-@Service
-class TokenService(
-    private val jwtProperties: JwtProperties,
-) {
+object TokenService {
+    private val SECRET: String = System.getenv("JWT_KEY")
+    private val key: SecretKey = Keys.hmacShaKeyFor(SECRET.toByteArray())
 
-    private val secretKey = Keys.hmacShaKeyFor(jwtProperties.key.toByteArray())
-
-    fun generate(
-        userDetails: UserDetails,
-        expirationDate: Date,
-        additionalClaims: Map<String, Any> = emptyMap()
-    ): String =
-        Jwts.builder()
-            .claims()
-            .subject(userDetails.username)
-            .issuedAt(Date(System.currentTimeMillis()))
-            .expiration(expirationDate)
-            .add(additionalClaims)
-            .and()
-            .signWith(secretKey)
+    fun generateToken(email: String, fullName: String): String {
+        return Jwts.builder()
+            .setSubject(email)
+            .claim("fullName", fullName)
+            .setIssuedAt(Date())
+            .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
+            .signWith(key, SignatureAlgorithm.HS256)
             .compact()
-
-    fun extractEmail(token: String): String =
-        getAllClaims(token).subject
-
-
-    fun isExpired(token: String): Boolean =
-        getAllClaims(token).expiration.before(Date(System.currentTimeMillis()))
-
-
-    fun isValid(token: String, userDetails: UserDetails): Boolean {
-        val email = extractEmail(token)
-
-        return userDetails.username == email && !isExpired(token)
     }
 
-    private fun getAllClaims(token: String): Claims {
-        val parser = Jwts.parser()
-            .verifyWith(secretKey)
-            .build()
+    fun validateToken(token: String): Boolean {
+        return try {
+            val claims = extractAllClaims(token)
+            !claims.expiration.before(Date())
+        } catch (e: Exception) {
+            false
+        }
+    }
 
-        return parser.parseSignedClaims(token).payload
+    fun extractEmail(token: String): String = extractAllClaims(token).subject
+    fun extractFullName(token: String): String = extractAllClaims(token)["fullName"] as String
+
+    fun extractAllClaims(token: String): Claims {
+        return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .body
     }
 }

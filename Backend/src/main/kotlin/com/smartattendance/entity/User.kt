@@ -16,6 +16,8 @@ data class User(
     @Column(nullable = false)
     @JsonIgnore
     var password: String = "",
+    @Column(nullable = false)
+    val fullName: String = "",
     @Column(nullable = true)
     val role: Role = Role.STUDENT,
 )

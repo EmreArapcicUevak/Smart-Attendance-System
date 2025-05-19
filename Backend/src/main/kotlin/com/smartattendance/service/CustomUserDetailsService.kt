@@ -12,20 +12,13 @@ typealias ApplicationUser = main.kotlin.com.smartattendance.entity.User
 
 @Service
 class CustomUserDetailsService(
-    private val userRepository: UserRepository,
+    private val userRepository: UserRepository
 ) : UserDetailsService {
 
-    override fun loadUserByUsername(username: String): UserDetails =
-        userRepository.findByEmail(username)
-            ?.mapToUserDetails()
-            ?: throw UsernameNotFoundException("User not found with email: $username")
+    override fun loadUserByUsername(email: String): UserDetails {
+        val user = userRepository.findByEmail(email)
+            ?: throw UsernameNotFoundException("User with email $email not found")
 
-    private fun ApplicationUser.mapToUserDetails(): UserDetails {
-        val authorities = listOf(SimpleGrantedAuthority( this.role.name))
-        return User.builder()
-            .username(this.email)
-            .password(this.password)
-            .authorities(authorities)
-            .build()
+        return User(user.email, user.password, listOf())
     }
 }
