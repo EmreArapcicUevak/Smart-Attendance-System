@@ -41,7 +41,7 @@ export default function StaffDashboard() {
   Add Time Intervals
 </button>
 
-    <button className="text-left hover:text-gray-200">Settings</button>
+    
   </nav>
   <div className="mt-auto">
     <button
