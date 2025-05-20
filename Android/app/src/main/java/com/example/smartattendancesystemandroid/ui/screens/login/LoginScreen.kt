@@ -129,7 +129,7 @@ private fun LoginScreenContent(
                 onClick = {
                     loginBtnPressed()
                 },
-                enabled = loginUiState.emailFieldValue.length > 0 && loginUiState.passwordFieldValue.length > 0,
+                enabled = loginUiState.emailFieldValue.isNotEmpty() && loginUiState.passwordFieldValue.isNotEmpty(),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth().padding(4.dp)
             ) {

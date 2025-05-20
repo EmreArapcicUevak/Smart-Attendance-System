@@ -110,7 +110,7 @@ fun Skeleton(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SkeletonPreview() {
+private fun SkeletonPreview() {
     Skeleton(
         topAppBarTitle = "Hello World",
         settingsPressed = {},
