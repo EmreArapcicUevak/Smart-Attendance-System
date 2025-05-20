@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.smartattendancesystemandroid.data.model.WeekAttendedState
+import com.example.smartattendancesystemandroid.data.model.getWeekAttendedStateExamples
 import com.example.smartattendancesystemandroid.ui.components.CourseComponentAttendanceCard
 import com.example.smartattendancesystemandroid.ui.components.Skeleton
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme

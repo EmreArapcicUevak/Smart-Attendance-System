@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.WeekAttendedState
-import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.getWeekAttendedStateExamples
+import com.example.smartattendancesystemandroid.data.model.WeekAttendedState
+import com.example.smartattendancesystemandroid.data.model.getWeekAttendedStateExamples
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 import com.example.smartattendancesystemandroid.ui.theme.suggestionChipFailureColor
 import com.example.smartattendancesystemandroid.ui.theme.suggestionChipSuccessColor

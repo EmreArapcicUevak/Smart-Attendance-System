@@ -1,4 +1,4 @@
-package com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen
+package com.example.smartattendancesystemandroid.data.model
 
 enum class WeekAttendedState {
     ATTENDED,
