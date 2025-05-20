@@ -29,7 +29,6 @@ export default function ClassManagementPage() {
           <button className="text-left hover:text-gray-200" onClick={() => router.push('/staff/dashboard')}>
             Back to Dashboard
           </button>
-          <button className="text-left hover:text-gray-200">Settings</button>
         </nav>
         <div className="mt-auto">
           <button
@@ -63,13 +62,6 @@ export default function ClassManagementPage() {
   <p className="text-sm text-[#AAA6A6]">Organize lab and tutorial sessions.</p>
 </div>
 
-
-          <div className="bg-[#D9D9D9] rounded-xl p-6">
-            <h2 className="text-xl font-semibold mb-2">Manage Personal</h2>
-            <p className="text-sm text-[#AAA6A6]">Add or edit students, assistants, professors.</p>
-          </div>
-        </div>
-
         <div
   className="bg-[#D9D9D9] rounded-xl p-6 cursor-pointer hover:bg-[#c6c6c6]"
   onClick={() => router.push('/staff/class-management/course_components_page')}
@@ -77,8 +69,7 @@ export default function ClassManagementPage() {
   <h2 className="text-xl font-semibold mb-2">Course Components</h2>
   <p className="text-sm text-[#AAA6A6]">View, filter, and manage course sections.</p>
 </div>
-
-
+        </div>
         {/* Sections Table */}
         <div className="mb-10">
           <h2 className="text-2xl font-bold mb-4">Sections</h2>

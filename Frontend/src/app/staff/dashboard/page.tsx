@@ -10,12 +10,11 @@ export default function StaffDashboard() {
  
   const upcomingClasses = [
     { subject: 'Math', date: '2025-04-06', time: '10:00 AM' },
-    { subject: 'English', date: '2025-04-07', time: '11:00 AM' },
   ];
 
   const pastClasses = [
     { subject: 'Science', date: '2025-04-03', time: '9:00 AM' },
-    { subject: 'History', date: '2025-04-02', time: '8:00 AM' },
+
   ];
 
   return (
