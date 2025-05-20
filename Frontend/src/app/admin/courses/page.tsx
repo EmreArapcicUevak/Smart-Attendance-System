@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { useRouter } from 'next/navigation'; 
 interface Course {
   code: string;
   name: string;
@@ -9,6 +9,7 @@ interface Course {
 }
 
 export default function ViewCoursesPage() {
+   const router = useRouter();
   const [courses, setCourses] = useState<Course[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -28,8 +29,16 @@ export default function ViewCoursesPage() {
 
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
+      
       <h1 className="text-4xl font-bold text-[#3553B5] mb-6">📘 Course List</h1>
-
+    <div className="flex justify-end mb-6">
+      <button
+          onClick={() => router.push('/admin/dashboard')}
+          className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
       {/* Search Filter */}
       <div className="mb-6">
         <label htmlFor="search" className="block mb-2 font-medium text-gray-700">

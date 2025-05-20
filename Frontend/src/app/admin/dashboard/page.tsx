@@ -80,8 +80,11 @@ export default function AdminDashboard() {
         </nav>
         <div className="mt-auto">
           <button
-            onClick={() => router.push('/')}
-            className="text-sm text-white underline hover:text-gray-200"
+            onClick={() => {
+              localStorage.removeItem('authToken');
+              router.push('/login');
+            }}
+            className="text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
           >
             Logout
           </button>

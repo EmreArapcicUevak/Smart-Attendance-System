@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { useRouter } from 'next/navigation'; 
 interface Account {
   name: string;
   email: string;
@@ -10,6 +10,7 @@ interface Account {
 }
 
 export default function AdminAccountsPage() {
+     const router = useRouter();
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
@@ -38,8 +39,16 @@ export default function AdminAccountsPage() {
 
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
+      
       <h1 className="text-4xl font-bold text-[#3553B5] mb-6">Accounts</h1>
-
+      <div className="flex justify-end mb-6">
+      <button
+          onClick={() => router.push('/admin/dashboard')}
+          className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
       {/* Search and Filter Controls */}
       <div className="mb-6 flex flex-col md:flex-row md:items-center gap-4">
         <input

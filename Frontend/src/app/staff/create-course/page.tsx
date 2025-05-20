@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function CreateCoursePage() {
+   const router = useRouter();
   const [courseName, setCourseName] = useState('');
   const [courseCode, setCourseCode] = useState('');
   const [faculty, setFaculty] = useState('');
@@ -36,8 +38,16 @@ export default function CreateCoursePage() {
     <div className="min-h-screen flex bg-white text-black font-sans">
       {/* Main content */}
       <main className="mx-auto mt-20 w-full max-w-xl px-6">
+        
         <h1 className="text-3xl font-bold text-[#3553B5] mb-8">Create New Course</h1>
-
+        <div>
+        <button
+          onClick={() => router.push('/staff/dashboard')}
+          className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
+        >
+          ← Back to Dashboard
+        </button>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Course Name */}
           <div>

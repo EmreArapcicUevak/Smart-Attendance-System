@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { useRouter } from 'next/navigation'; 
 interface Course {
   code: string;
   name: string;
@@ -9,6 +9,7 @@ interface Course {
 }
 
 export default function OrganizationSettings() {
+  const router = useRouter();
   const [courses, setCourses] = useState<Course[]>([]);
   const [search, setSearch] = useState('');
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -46,11 +47,21 @@ export default function OrganizationSettings() {
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-6 md:p-10 text-black font-sans">
       <div className="max-w-7xl mx-auto">
+    <div className="flex justify-end mb-6">
+      <button
+          onClick={() => router.push('/admin/dashboard')}
+          className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
   <div className="flex flex-col items-center text-center mb-8">
     <h1 className="text-4xl font-bold text-[#3553B5] mb-2">Organization Settings</h1>
+    
     <p className="text-sm text-gray-600 mb-4">
       View and manage all courses in the organization.
     </p>
+    
     <input
       type="text"
       placeholder="Search courses..."
@@ -58,6 +69,7 @@ export default function OrganizationSettings() {
       onChange={(e) => setSearch(e.target.value)}
       className="w-full md:w-1/2 border px-4 py-2 rounded shadow-sm bg-white"
     />
+    
   </div>
 
 
