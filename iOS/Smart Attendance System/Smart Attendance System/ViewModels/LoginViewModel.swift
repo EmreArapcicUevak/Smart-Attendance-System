@@ -42,4 +42,10 @@ class LoginViewModel {
         
         return true
     }
+    
+    func login(email: String, password: String) {
+        guard checkValidEmail(email) else {
+            return
+        }
+    }
 }
