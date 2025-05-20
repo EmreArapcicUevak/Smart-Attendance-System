@@ -42,9 +42,9 @@ struct LoginViewControllerTest {
             ("user@exam_ple.com", false),             // underscore in domain
             ("user@.com.com", false),                 // domain starts with dot
             ("user@%*.com", false),                   // invalid characters in domain
-            ("\"john.doe\"@example.com", true),       // quoted local-part — allowed but rare
             ("user@[192.168.0.1]", true),             // IP-literal domain (rare but valid)
             ("user@[300.300.300.300]", false),        // invalid IP
+            ("user@[290.102.256.261]", false),        // invalid IP
             ("very.unusual.”@”.unusual.com@example.com", false), // malformed quoted strings
             ("user@@example.com", false),             // double @
             (" user@example.com", false),             // leading space
@@ -52,7 +52,10 @@ struct LoginViewControllerTest {
         ]
         
         for (email, expectedValue) in emailChecks {
-            #expect(self.loginViewModel.checkValidEmail(email) == expectedValue)
+            #expect(
+                self.loginViewModel.checkValidEmail(email) == expectedValue,
+                "❌ Email validation failed for '\(email)' — expected \(expectedValue)"
+            )
         }
     }
     

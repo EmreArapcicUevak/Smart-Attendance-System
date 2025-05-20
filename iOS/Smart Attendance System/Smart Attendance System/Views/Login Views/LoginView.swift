@@ -45,7 +45,9 @@ struct LoginView: View {
                     .padding(.top)
                     .foregroundStyle(Color.secondary)
                     
-                    NavigationLink(value: userModel) {
+                    Button {
+                        print(LoginViewModel().checkValidEmail(userModel.email))
+                    } label: {
                         Text("Login")
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -56,6 +58,7 @@ struct LoginView: View {
                             )
                             .padding(.top)
                     }
+
                 }
                 .padding()
                 .background(Color.surfContainer)
