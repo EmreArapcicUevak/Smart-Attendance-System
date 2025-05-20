@@ -14,4 +14,7 @@ data class Course(
 
     @Column(name = "course_code", nullable = false)
     val courseCode: String = "",
+
+    @Column(name = "created_by", nullable = false)
+    val createdBy: String = "",
 )
