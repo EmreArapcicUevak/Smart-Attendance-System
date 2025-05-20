@@ -23,9 +23,7 @@ const mockCourses: CourseComponent[] = Array.from({ length: 10 }, (_, i) => ({
   instructor: `Instructor ${i + 1}`,
   schedule: `Day ${((i % 7) + 1)} - ${(8 + (i % 5))}:00 - ${(9 + (i % 5))}:00`,
   students: [
-    { id: 1, name: 'Alice Johnson' },
-    { id: 2, name: 'Bob Smith' },
-    { id: 3, name: 'Charlie Brown' },
+   
   ],
   sessionSettings: 'Weekly - Room 101',
 }));
