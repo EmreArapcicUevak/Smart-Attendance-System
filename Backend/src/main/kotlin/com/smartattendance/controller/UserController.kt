@@ -29,6 +29,11 @@ class UserController(
     fun getUserById(@PathVariable id: Long): UserResponse? =
         userService.findById(id)?.toResponse()
 
+    @GetMapping("/students")
+    fun getAllStudents(): List<UserResponse> =
+        userService.findAllStudents()
+            .map { it.toResponse() }
+
     @DeleteMapping("/{id}")
     fun deleteUserById(@PathVariable id: Long): ResponseEntity<Void> {
         userService.deleteById(id)
@@ -48,7 +53,8 @@ class UserController(
     private fun User.toResponse(): UserResponse {
         return UserResponse(
             id = this.id,
-            email = this.email
+            email = this.email,
+            fullName = this.fullName,
         )
     }
 }

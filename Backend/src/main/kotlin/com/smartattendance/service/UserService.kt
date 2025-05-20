@@ -2,6 +2,7 @@ package main.kotlin.com.smartattendance.service
 
 
 import main.kotlin.com.smartattendance.entity.User
+import main.kotlin.com.smartattendance.entity.Role
 import org.springframework.security.crypto.password.PasswordEncoder
 import main.kotlin.com.smartattendance.repository.UserRepository
 import org.mindrot.jbcrypt.BCrypt
@@ -29,6 +30,10 @@ class UserService(
 
     fun findAll(): List<User> {
         return userRepository.findAll()
+    }
+
+    fun findAllStudents(): List<User> {
+        return userRepository.findAll().filter { it.role == Role.STUDENT }
     }
 
     fun deleteById(id: Long) {

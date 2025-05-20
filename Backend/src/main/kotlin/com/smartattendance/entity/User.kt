@@ -18,10 +18,13 @@ data class User(
     var password: String = "",
     @Column(nullable = false)
     val fullName: String = "",
-    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     val role: Role = Role.STUDENT,
+    @Column(nullable = true)
+    val studentId: String = "",
 )
 
 enum class Role {
-    STUDENT, TEACHER, ADMIN
+    STUDENT, ASSISTANT, TEACHER, ADMIN
 }
