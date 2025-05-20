@@ -7,14 +7,7 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		1BB4C9572DC82C4000082348 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1BB4C9412DC82C3E00082348 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1BB4C9482DC82C3E00082348;
-			remoteInfo = "Smart Attendance System";
-		};
-		1BB4C9612DC82C4000082348 /* PBXContainerItemProxy */ = {
+		1BBD14762DDCE3CB00785585 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1BB4C9412DC82C3E00082348 /* Project object */;
 			proxyType = 1;
@@ -25,8 +18,7 @@
 
 /* Begin PBXFileReference section */
 		1BB4C9492DC82C3E00082348 /* Smart Attendance System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Smart Attendance System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1BB4C9562DC82C4000082348 /* Smart Attendance SystemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Smart Attendance SystemTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1BB4C9602DC82C4000082348 /* Smart Attendance SystemUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Smart Attendance SystemUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BBD14722DDCE3CB00785585 /* Login View Controller Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Login View Controller Test.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,14 +27,9 @@
 			path = "Smart Attendance System";
 			sourceTree = "<group>";
 		};
-		1BB4C9592DC82C4000082348 /* Smart Attendance SystemTests */ = {
+		1BBD14732DDCE3CB00785585 /* Login View Controller Test */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Smart Attendance SystemTests";
-			sourceTree = "<group>";
-		};
-		1BB4C9632DC82C4000082348 /* Smart Attendance SystemUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Smart Attendance SystemUITests";
+			path = "Login View Controller Test";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -55,14 +42,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1BB4C9532DC82C4000082348 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1BB4C95D2DC82C4000082348 /* Frameworks */ = {
+		1BBD146F2DDCE3CB00785585 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -76,8 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				1BB4C94B2DC82C3E00082348 /* Smart Attendance System */,
-				1BB4C9592DC82C4000082348 /* Smart Attendance SystemTests */,
-				1BB4C9632DC82C4000082348 /* Smart Attendance SystemUITests */,
+				1BBD14732DDCE3CB00785585 /* Login View Controller Test */,
 				1BB4C94A2DC82C3E00082348 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,8 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				1BB4C9492DC82C3E00082348 /* Smart Attendance System.app */,
-				1BB4C9562DC82C4000082348 /* Smart Attendance SystemTests.xctest */,
-				1BB4C9602DC82C4000082348 /* Smart Attendance SystemUITests.xctest */,
+				1BBD14722DDCE3CB00785585 /* Login View Controller Test.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,51 +95,28 @@
 			productReference = 1BB4C9492DC82C3E00082348 /* Smart Attendance System.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1BB4C9552DC82C4000082348 /* Smart Attendance SystemTests */ = {
+		1BBD14712DDCE3CB00785585 /* Login View Controller Test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1BB4C96D2DC82C4000082348 /* Build configuration list for PBXNativeTarget "Smart Attendance SystemTests" */;
+			buildConfigurationList = 1BBD14782DDCE3CB00785585 /* Build configuration list for PBXNativeTarget "Login View Controller Test" */;
 			buildPhases = (
-				1BB4C9522DC82C4000082348 /* Sources */,
-				1BB4C9532DC82C4000082348 /* Frameworks */,
-				1BB4C9542DC82C4000082348 /* Resources */,
+				1BBD146E2DDCE3CB00785585 /* Sources */,
+				1BBD146F2DDCE3CB00785585 /* Frameworks */,
+				1BBD14702DDCE3CB00785585 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1BB4C9582DC82C4000082348 /* PBXTargetDependency */,
+				1BBD14772DDCE3CB00785585 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				1BB4C9592DC82C4000082348 /* Smart Attendance SystemTests */,
+				1BBD14732DDCE3CB00785585 /* Login View Controller Test */,
 			);
-			name = "Smart Attendance SystemTests";
+			name = "Login View Controller Test";
 			packageProductDependencies = (
 			);
-			productName = "Smart Attendance SystemTests";
-			productReference = 1BB4C9562DC82C4000082348 /* Smart Attendance SystemTests.xctest */;
+			productName = "Login View Controller Test";
+			productReference = 1BBD14722DDCE3CB00785585 /* Login View Controller Test.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		1BB4C95F2DC82C4000082348 /* Smart Attendance SystemUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1BB4C9702DC82C4000082348 /* Build configuration list for PBXNativeTarget "Smart Attendance SystemUITests" */;
-			buildPhases = (
-				1BB4C95C2DC82C4000082348 /* Sources */,
-				1BB4C95D2DC82C4000082348 /* Frameworks */,
-				1BB4C95E2DC82C4000082348 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1BB4C9622DC82C4000082348 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				1BB4C9632DC82C4000082348 /* Smart Attendance SystemUITests */,
-			);
-			name = "Smart Attendance SystemUITests";
-			packageProductDependencies = (
-			);
-			productName = "Smart Attendance SystemUITests";
-			productReference = 1BB4C9602DC82C4000082348 /* Smart Attendance SystemUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -176,11 +131,7 @@
 					1BB4C9482DC82C3E00082348 = {
 						CreatedOnToolsVersion = 16.3;
 					};
-					1BB4C9552DC82C4000082348 = {
-						CreatedOnToolsVersion = 16.3;
-						TestTargetID = 1BB4C9482DC82C3E00082348;
-					};
-					1BB4C95F2DC82C4000082348 = {
+					1BBD14712DDCE3CB00785585 = {
 						CreatedOnToolsVersion = 16.3;
 						TestTargetID = 1BB4C9482DC82C3E00082348;
 					};
@@ -201,8 +152,7 @@
 			projectRoot = "";
 			targets = (
 				1BB4C9482DC82C3E00082348 /* Smart Attendance System */,
-				1BB4C9552DC82C4000082348 /* Smart Attendance SystemTests */,
-				1BB4C95F2DC82C4000082348 /* Smart Attendance SystemUITests */,
+				1BBD14712DDCE3CB00785585 /* Login View Controller Test */,
 			);
 		};
 /* End PBXProject section */
@@ -215,14 +165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1BB4C9542DC82C4000082348 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1BB4C95E2DC82C4000082348 /* Resources */ = {
+		1BBD14702DDCE3CB00785585 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -239,14 +182,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1BB4C9522DC82C4000082348 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1BB4C95C2DC82C4000082348 /* Sources */ = {
+		1BBD146E2DDCE3CB00785585 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -256,15 +192,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1BB4C9582DC82C4000082348 /* PBXTargetDependency */ = {
+		1BBD14772DDCE3CB00785585 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1BB4C9482DC82C3E00082348 /* Smart Attendance System */;
-			targetProxy = 1BB4C9572DC82C4000082348 /* PBXContainerItemProxy */;
-		};
-		1BB4C9622DC82C4000082348 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1BB4C9482DC82C3E00082348 /* Smart Attendance System */;
-			targetProxy = 1BB4C9612DC82C4000082348 /* PBXContainerItemProxy */;
+			targetProxy = 1BBD14762DDCE3CB00785585 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -458,7 +389,7 @@
 			};
 			name = Release;
 		};
-		1BB4C96E2DC82C4000082348 /* Debug */ = {
+		1BBD14792DDCE3CB00785585 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -466,9 +397,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YR4UVK8LD7;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.EmreArapcicUevak.Smart-Attendance-SystemTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.EmreArapcicUevak.Login-View-Controller-Test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -477,7 +407,7 @@
 			};
 			name = Debug;
 		};
-		1BB4C96F2DC82C4000082348 /* Release */ = {
+		1BBD147A2DDCE3CB00785585 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -485,48 +415,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YR4UVK8LD7;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.EmreArapcicUevak.Smart-Attendance-SystemTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.EmreArapcicUevak.Login-View-Controller-Test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart Attendance System.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Smart Attendance System";
-			};
-			name = Release;
-		};
-		1BB4C9712DC82C4000082348 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YR4UVK8LD7;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.EmreArapcicUevak.Smart-Attendance-SystemUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Smart Attendance System";
-			};
-			name = Debug;
-		};
-		1BB4C9722DC82C4000082348 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YR4UVK8LD7;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.EmreArapcicUevak.Smart-Attendance-SystemUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Smart Attendance System";
 			};
 			name = Release;
 		};
@@ -551,20 +446,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1BB4C96D2DC82C4000082348 /* Build configuration list for PBXNativeTarget "Smart Attendance SystemTests" */ = {
+		1BBD14782DDCE3CB00785585 /* Build configuration list for PBXNativeTarget "Login View Controller Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1BB4C96E2DC82C4000082348 /* Debug */,
-				1BB4C96F2DC82C4000082348 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1BB4C9702DC82C4000082348 /* Build configuration list for PBXNativeTarget "Smart Attendance SystemUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1BB4C9712DC82C4000082348 /* Debug */,
-				1BB4C9722DC82C4000082348 /* Release */,
+				1BBD14792DDCE3CB00785585 /* Debug */,
+				1BBD147A2DDCE3CB00785585 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
