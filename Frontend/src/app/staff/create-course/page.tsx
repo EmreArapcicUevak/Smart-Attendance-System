@@ -8,13 +8,7 @@ export default function CreateCoursePage() {
 
   const [courseName, setCourseName] = useState('');
   const [courseCode, setCourseCode] = useState('');
-  const [faculty, setFaculty] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [courseDate, setCourseDate] = useState('');
   const [dayOfWeek, setDayOfWeek] = useState('');
-  const [numStudents, setNumStudents] = useState('');
-  const [semester, setSemester] = useState('');
-  const [instructor, setInstructor] = useState('');
   const [errors, setErrors] = useState<{ name?: string; code?: string }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,13 +24,7 @@ export default function CreateCoursePage() {
       const courseDetails = {
         courseName,
         courseCode,
-        faculty,
-        endTime,
-        courseDate,
         dayOfWeek,
-        numStudents,
-        semester,
-        instructor,
       };
 
       console.log('Course Created:', courseDetails);
@@ -45,13 +33,7 @@ export default function CreateCoursePage() {
       // Reset fields
       setCourseName('');
       setCourseCode('');
-      setFaculty('');
-      setEndTime('');
-      setCourseDate('');
       setDayOfWeek('');
-      setNumStudents('');
-      setSemester('');
-      setInstructor('');
     }
   };
 
@@ -95,22 +77,6 @@ export default function CreateCoursePage() {
             {errors.code && <p className="text-red-500 text-sm mt-1">{errors.code}</p>}
           </div>
 
-          {/* Faculty */}
-          <div>
-            <label className="block text-lg font-medium mb-1">Faculty</label>
-            <select
-              value={faculty}
-              onChange={(e) => setFaculty(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md"
-            >
-              <option value="">Select Faculty</option>
-              <option value="Engineering">Engineering</option>
-              <option value="Science">Science</option>
-              <option value="Business">Business</option>
-              <option value="Arts">Arts</option>
-            </select>
-          </div>
-
           {/* New Fields Below */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -124,39 +90,7 @@ export default function CreateCoursePage() {
                 placeholder="e.g., Monday"
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Number of Students</label>
-              <input
-                type="number"
-                value={numStudents}
-                onChange={(e) => setNumStudents(e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-                placeholder="e.g., 25"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Semester</label>
-              <input
-                type="text"
-                value={semester}
-                onChange={(e) => setSemester(e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-                placeholder="e.g., Spring 2025"
-              />
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1">Instructor</label>
-              <input
-                type="text"
-                value={instructor}
-                onChange={(e) => setInstructor(e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-                placeholder="e.g., Dr. Smith"
-              />
-            </div>
+     
           </div>
 
           {/* Submit */}

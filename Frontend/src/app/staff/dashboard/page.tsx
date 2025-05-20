@@ -48,7 +48,7 @@ export default function StaffDashboard() {
 </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-10 bg-white">
+      <main className="flex flex-col w-full p-10 bg-white">
         {/* Header */}
 <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 bg-[#EFF1FA] p-6 rounded-lg shadow-sm">
   <div>
