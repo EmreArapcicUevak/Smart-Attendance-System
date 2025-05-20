@@ -1,9 +1,7 @@
 package main.kotlin.com.smartattendance.controller
 
 import main.kotlin.com.smartattendance.entity.User
-import main.kotlin.com.smartattendance.entity.Role
 import main.kotlin.com.smartattendance.repository.UserRepository
-import main.kotlin.com.smartattendance.controller.AuthenticationRequest
 import main.kotlin.com.smartattendance.dto.UserRequest
 import main.kotlin.com.smartattendance.service.TokenService
 import org.springframework.http.HttpStatus
@@ -48,6 +46,17 @@ class AuthController(
 
         val token = TokenService.generateToken(user.email, user.fullName)
         return ResponseEntity.ok(mapOf("token" to token))
+    }
+
+    @PostMapping("/validate-token")
+    fun validateToken(@RequestBody token: Map<String, String>): ResponseEntity<Any> {
+        val tokenValue = token["token"] ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token is missing")
+
+        return if (TokenService.validateToken(tokenValue)) {
+            ResponseEntity.ok("Token is valid")
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token is expired or invalid")
+        }
     }
 }
 
