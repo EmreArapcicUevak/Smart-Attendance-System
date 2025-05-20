@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { FaSearch, FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 type StudentStatus = 'Present' | 'Absent' | 'Late';
@@ -20,11 +20,7 @@ const statusColors: Record<StudentStatus, string> = {
 };
 
 const mockStudents: Student[] = [
-  { id: 'S001', name: 'Alice Johnson', major: 'Computer Science', status: 'Present' },
-  { id: 'S002', name: 'Bob Smith', major: 'Software Engineering', status: 'Absent' },
-  { id: 'S003', name: 'Charlie Doe', major: 'Information Systems', status: 'Present' },
-  { id: 'S004', name: 'Dana White', major: 'Computer Science', status: 'Late' },
-  { id: 'S005', name: 'Eliot Black', major: 'IT Management', status: 'Present' },
+
 ];
 
 const pageSize = 4;
@@ -36,7 +32,21 @@ interface StudentListProps {
 }
 
 export default function StudentList({ sectionId, sessionId }: StudentListProps) {
-  const [students, setStudents] = useState<Student[]>(mockStudents);
+  const [students, setStudents] = useState<Student[]>([]);
+
+useEffect(() => {
+  const fetchAttendance = async () => {
+    try {
+      const response = await fetch('/api/attendance'); // your backend API endpoint
+      const data = await response.json();
+      setStudents(data);
+    } catch (err) {
+      console.error('Failed to fetch attendance:', err);
+    }
+  };
+  fetchAttendance();
+}, []);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'All' | StudentStatus>('All');
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,48 +98,41 @@ export default function StudentList({ sectionId, sessionId }: StudentListProps) 
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow-md">
+    <div className="min-h-screen bg-white p-6 rounded shadow-md text-black">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
-        <h2 className="text-2xl font-semibold">
-          {sectionId && `Students in ${sectionId}`}
-          {sessionId && `Students in ${sessionId}`}
-          {!sectionId && !sessionId && 'Student List'}
-        </h2>
+        <h2 className="text-2xl font-bold text-[#3553B5]">
+  {sectionId && `Students in ${sectionId}`}
+  {sessionId && `Students in ${sessionId}`}
+  {!sectionId && !sessionId && 'Student List'}
+</h2>
+
 
         <div className="flex gap-2 items-center">
           <input
             type="text"
-            placeholder="Search by name or ID"
-            className="border px-2 py-1 rounded text-sm"
+            placeholder="Search by ID"
+            className="border border-gray-300 px-3 py-2 rounded-md text-sm bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="border px-2 py-1 rounded text-sm"
+            className="border border-gray-300 px-3 py-2 rounded-md text-sm bg-white text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
           >
             <option value="All">All Statuses</option>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
             <option value="Late">Late</option>
           </select>
-          <button
-            className="bg-blue-600 text-white px-3 py-1 rounded text-sm flex items-center gap-1"
-            onClick={() => {
-              setNewStudent({ id: '', name: '', major: '', status: 'Present', note: '' });
-              setShowAddModal(true);
-            }}
-          >
-            <FaPlus />
-            Add Student
-          </button>
+          
         </div>
       </div>
 
       <table className="min-w-full bg-white border border-gray-200 text-sm">
         <thead>
-          <tr className="bg-gray-100">
+  <tr className="bg-[#EFF1FA] text-[#3553B5] font-semibold">
+
             <th className="py-2 px-4 border">Name</th>
             <th className="py-2 px-4 border">Student ID</th>
             <th className="py-2 px-4 border">Major</th>
@@ -152,7 +155,8 @@ export default function StudentList({ sectionId, sessionId }: StudentListProps) 
               <td className="py-2 px-4 border">{student.id}</td>
               <td className="py-2 px-4 border">{student.major}</td>
               <td className="py-2 px-4 border">
-  <span className={`px-2 py-1 rounded ${statusColors[student.status]}`}>
+  <span className={`px-2 py-1 rounded font-semibold ${statusColors[student.status]}`}>
+
     {student.status}
   </span>
 </td>
