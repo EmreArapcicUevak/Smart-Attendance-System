@@ -1,0 +1,2 @@
+package com.example.smartattendancesystemandroid.ui.screens.studentcoursedetailsscreen
+
