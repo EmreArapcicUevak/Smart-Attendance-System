@@ -21,9 +21,7 @@ export default function AdminAccountsPage() {
       .then(setAccounts)
       .catch(() => {
         setAccounts([
-          { name: 'John Doe', type: 'student', email: 'john@example.com', studentId: 'S12345' },
-          { name: 'Jane Smith', type: 'assistant', email: 'jane@example.com' },
-          { name: 'Alice Johnson', type: 'student', email: 'alice@example.com', studentId: 'S67890' },
+          
         ]);
       });
   }, []);
