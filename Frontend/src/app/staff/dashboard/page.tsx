@@ -32,15 +32,7 @@ export default function StaffDashboard() {
     </button>
     <button className="text-left hover:text-gray-200" onClick={() => router.push('/staff/create-course')}>
   Create Course
-</button>
-    <button
-  className="text-left hover:text-gray-200"
-  onClick={() => router.push('/staff/time-intervals')}
->
-  Add Time Intervals
-</button>
-
-    
+</button>  
   </nav>
   <div className="mt-auto">
     <button

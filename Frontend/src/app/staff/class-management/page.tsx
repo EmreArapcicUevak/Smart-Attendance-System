@@ -64,14 +64,6 @@ export default function ClassManagementPage() {
   <h2 className="text-xl font-semibold mb-2">Manage Sessions</h2>
   <p className="text-sm text-[#AAA6A6]">Organize lab and tutorial sessions.</p>
 </div>
-
-        <div
-  className="bg-[#D9D9D9] rounded-xl p-6 cursor-pointer hover:bg-[#c6c6c6]"
-  onClick={() => router.push('/staff/class-management/course_components_page')}
->
-  <h2 className="text-xl font-semibold mb-2">Course Components</h2>
-  <p className="text-sm text-[#AAA6A6]">View, filter, and manage course sections.</p>
-</div>
         </div>
         {/* Sections Table */}
         <div className="mb-10">
