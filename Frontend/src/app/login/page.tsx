@@ -55,15 +55,6 @@ export default function HomePage() {
             className="w-full border border-[#3553B5] text-[#3553B5] py-3 rounded-lg font-semibold hover:bg-[#EFF1FA] transition"
             onClick={() => router.push('/register')}
           >
-            Register
-          </button>
-
-          {/* Create Organization Button */}
-          <button
-            type="button"
-            className="w-full border border-[#AAA6A6] text-[#AAA6A6] py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
-            onClick={() => router.push('/create-organization')}
-          >
             Create Organization
           </button>
         </form>

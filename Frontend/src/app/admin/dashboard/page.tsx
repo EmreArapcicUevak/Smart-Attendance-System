@@ -66,9 +66,6 @@ export default function AdminDashboard() {
       <aside className="w-64 bg-[#3553B5] text-white p-6 flex flex-col gap-6">
         <h2 className="text-2xl font-bold">Admin Panel</h2>
         <nav className="flex flex-col gap-4 text-lg">
-          <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/organizationSettings')}>
-            Organization Settings
-          </button>
           <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/courses')}>
    Courses
 </button>
@@ -76,13 +73,18 @@ export default function AdminDashboard() {
           <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/accounts')}>
             Accounts
           </button>
-          
+          <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/organizationSettings')}>
+            Organization Settings
+          </button>
 
         </nav>
         <div className="mt-auto">
           <button
-            onClick={() => router.push('/')}
-            className="text-sm text-white underline hover:text-gray-200"
+            onClick={() => {
+              localStorage.removeItem('authToken');
+              router.push('/login');
+            }}
+            className="text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
           >
             Logout
           </button>

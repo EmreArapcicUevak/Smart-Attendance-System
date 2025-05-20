@@ -17,20 +17,6 @@ const mockCourses: Course[] = [
     semester: 'Spring 2025',
     studentCount: 25,
   },
-  {
-    id: 2,
-    name: 'Human‑Computer Interaction',
-    schedule: 'Tue & Thu 14:00 – 15:30',
-    semester: 'Spring 2025',
-    studentCount: 32,
-  },
-  {
-    id: 3,
-    name: 'Advanced Algorithms',
-    schedule: 'Fri 08:00 – 10:00',
-    semester: 'Fall 2024',
-    studentCount: 18,
-  },
 ];
 
 /* ---------- Component ---------- */

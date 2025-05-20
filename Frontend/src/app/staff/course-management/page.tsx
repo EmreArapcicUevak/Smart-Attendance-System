@@ -1,5 +1,5 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import ClassSettings from '../../../../components/ClassSettings';
 
@@ -23,9 +23,7 @@ const mockCourses: CourseComponent[] = Array.from({ length: 10 }, (_, i) => ({
   instructor: `Instructor ${i + 1}`,
   schedule: `Day ${((i % 7) + 1)} - ${(8 + (i % 5))}:00 - ${(9 + (i % 5))}:00`,
   students: [
-    { id: 1, name: 'Alice Johnson' },
-    { id: 2, name: 'Bob Smith' },
-    { id: 3, name: 'Charlie Brown' },
+   
   ],
   sessionSettings: 'Weekly - Room 101',
 }));
@@ -37,6 +35,7 @@ export default function CourseManagement() {
   const [courses, setCourses] = useState<CourseComponent[]>(mockCourses);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<CourseComponent | null>(null);
+  const router = useRouter();
 
   // Pagination logic
   const totalPages = Math.ceil(courses.length / ITEMS_PER_PAGE);
@@ -67,6 +66,13 @@ export default function CourseManagement() {
     <div className="min-h-screen p-8 bg-[#EFF1FA] text-black">
       <div className="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-3xl font-semibold text-[#3553B5] mb-6">Course Management</h2>
+
+      <button
+    onClick={() => router.push('/staff/dashboard')}
+    className="mb-4 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
+  >
+    ← Back to Dashboard
+  </button>
 
         {/* Course List */}
         <table className="min-w-full bg-white text-left border border-gray-300">

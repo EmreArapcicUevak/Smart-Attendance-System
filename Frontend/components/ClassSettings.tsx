@@ -108,12 +108,7 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
             onChange={(e) => setEditedName(e.target.value)}
             placeholder="Class Name"
           />
-          <input
-            className="w-full p-2 border rounded my-2"
-            value={editedInstructor}
-            onChange={(e) => setEditedInstructor(e.target.value)}
-            placeholder="Instructor"
-          />
+          
           <input
             className="w-full p-2 border rounded my-2"
             value={editedSchedule}

@@ -10,12 +10,7 @@ interface ClassEntry {
 }
 
 const classesData: ClassEntry[] = [
-  { name: 'Mathematics', instructor: 'Mr. Smith', schedule: '08:00 - 09:00', day: 'Monday' },
-  { name: 'English', instructor: 'Ms. Johnson', schedule: '09:15 - 10:15', day: 'Monday' },
   { name: 'Physics', instructor: 'Dr. Brown', schedule: '10:30 - 11:30', day: 'Tuesday' },
-  { name: 'History', instructor: 'Mr. Lee', schedule: '12:00 - 13:00', day: 'Wednesday' },
-  { name: 'Chemistry', instructor: 'Dr. Green', schedule: '14:00 - 15:00', day: 'Thursday' },
-  { name: 'Biology', instructor: 'Ms. White', schedule: '15:30 - 16:30', day: 'Friday' },
 ];
 
 const getCurrentDay = () => new Date().toLocaleString('en-US', { weekday: 'long' });

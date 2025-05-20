@@ -16,21 +16,9 @@ export default function StudentDashboard() {
         <nav className="flex flex-col gap-4 text-lg">
           <button
             className="text-left hover:text-gray-200"
-            onClick={() => router.push('/student/timetable')}
-          >
-            Timetable
-          </button>
-          <button
-            className="text-left hover:text-gray-200"
             onClick={() => router.push('/student/classes-page')}
           >
-            My Classes
-          </button>
-          <button
-            className="text-left hover:text-gray-200"
-            onClick={() => router.push('/student/settings-page')}
-          >
-            Settings
+            Timetable
           </button>
         </nav>
         <div className="mt-auto">

@@ -10,11 +10,7 @@ interface AttendanceRecord {
 
 const attendanceData: AttendanceRecord[] = [
   { date: '2025-04-01', status: 'Present', subject: 'Mathematics' },
-  { date: '2025-04-02', status: 'Absent', subject: 'English' },
-  { date: '2025-04-03', status: 'Late', subject: 'Physics' },
-  { date: '2025-04-04', status: 'Present', subject: 'History' },
-  { date: '2025-04-05', status: 'Absent', subject: 'Chemistry' },
-  { date: '2025-04-06', status: 'Present', subject: 'Biology' },
+  
 ];
 
 export default function StudentAttendance() {
@@ -72,14 +68,6 @@ export default function StudentAttendance() {
           <option value="Chemistry">Chemistry</option>
           <option value="Biology">Biology</option>
         </select>
-
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="border border-gray-300 rounded-lg px-4 py-2 text-sm w-1/3"
-          placeholder="Start Date"
-        />
 
         <input
           type="date"
