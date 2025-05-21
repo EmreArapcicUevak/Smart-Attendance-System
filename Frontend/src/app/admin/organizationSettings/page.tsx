@@ -2,45 +2,44 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; 
-interface Course {
+interface Organization {
   code: string;
   name: string;
-  faculty: string;
 }
 
 export default function OrganizationSettings() {
   const router = useRouter();
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [Organizations, setOrganizations] = useState<Organization[]>([]);
   const [search, setSearch] = useState('');
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editData, setEditData] = useState<Course>({ code: '', name: '', faculty: '' });
+  const [editData, setEditData] = useState<Organization>({ code: '', name: '' });
 
   useEffect(() => {
-    fetch('/api/courses')
+    fetch('/api/Organizations')
       .then(res => res.json())
-      .then(setCourses)
+      .then(setOrganizations)
       .catch(() => {
-        setCourses([
-          { code: 'CS101', name: 'Intro to CS', faculty: 'Engineering' },
+        setOrganizations([
+          { code: 'ORG01', name: 'International University of Sarajevo', },
         
         ]);
       });
   }, []);
 
-  const filteredCourses = courses.filter(course =>
-    course.name.toLowerCase().includes(search.toLowerCase())
+  const filteredOrganizations = Organizations.filter(Organization =>
+    Organization.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const startEditing = (index: number) => {
     setEditingIndex(index);
-    setEditData(courses[index]);
+    setEditData(Organizations[index]);
   };
 
   const saveEdit = () => {
     if (editingIndex === null) return;
-    const updatedCourses = [...courses];
-    updatedCourses[editingIndex] = editData;
-    setCourses(updatedCourses);
+    const updatedOrganizations = [...Organizations];
+    updatedOrganizations[editingIndex] = editData;
+    setOrganizations(updatedOrganizations);
     setEditingIndex(null);
   };
 
@@ -59,12 +58,12 @@ export default function OrganizationSettings() {
     <h1 className="text-4xl font-bold text-[#3553B5] mb-2">Organization Settings</h1>
     
     <p className="text-sm text-gray-600 mb-4">
-      View and manage all courses in the organization.
+      View and manage all Organizations in the organization.
     </p>
     
     <input
       type="text"
-      placeholder="Search courses..."
+      placeholder="Search Organizations..."
       value={search}
       onChange={(e) => setSearch(e.target.value)}
       className="w-full md:w-1/2 border px-4 py-2 rounded shadow-sm bg-white"
@@ -73,9 +72,9 @@ export default function OrganizationSettings() {
   </div>
 
 
-        {/* Course Grid */}
+        {/* Organization Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.map((course, idx) => (
+          {filteredOrganizations.map((Organization, idx) => (
             <div
               key={idx}
               className="bg-white rounded-xl shadow-md border p-5 transition hover:shadow-lg"
@@ -87,14 +86,14 @@ export default function OrganizationSettings() {
                     value={editData.code}
                     onChange={(e) => setEditData({ ...editData, code: e.target.value })}
                     className="w-full mb-2 border px-3 py-2 rounded text-sm"
-                    placeholder="Course Code"
+                    placeholder="Organization Code"
                   />
                   <input
                     type="text"
                     value={editData.name}
                     onChange={(e) => setEditData({ ...editData, name: e.target.value })}
                     className="w-full mb-2 border px-3 py-2 rounded text-sm"
-                    placeholder="Course Name"
+                    placeholder="Organization  Name"
                   />
                   <button
                     onClick={saveEdit}
@@ -106,10 +105,10 @@ export default function OrganizationSettings() {
               ) : (
                 <>
                   <div className="mb-2">
-                    <h3 className="text-xl font-bold text-[#3553B5]">{course.code}</h3>
-                    <p className="text-md text-gray-800 font-medium">{course.name}</p>
+                    <h3 className="text-xl font-bold text-[#3553B5]">{Organization.code}</h3>
+                    <p className="text-md text-gray-800 font-medium">{Organization.name}</p>
                   </div>
-                  <p className="text-sm text-gray-600 mb-3">Faculty: {course.faculty}</p>
+                
                   <button
                     className="text-sm text-blue-600 hover:text-blue-800 underline"
                     onClick={() => startEditing(idx)}
@@ -122,7 +121,7 @@ export default function OrganizationSettings() {
           ))}
         </div>
 
-        {filteredCourses.length === 0 && (
+        {filteredOrganizations.length === 0 && (
           <div className="text-center text-gray-500 text-sm mt-6">
             No courses match your search.
           </div>

@@ -1,5 +1,4 @@
 'use client';
-
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
@@ -24,7 +23,6 @@ export default function HomePage() {
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
           </div>
-
           {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-[#AAA6A6] mb-1">
@@ -38,7 +36,6 @@ export default function HomePage() {
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
           </div>
-
           {/* Login Button */}
           <button
             type="submit"
@@ -46,9 +43,6 @@ export default function HomePage() {
           >
             Login
           </button>
-
-        
-
           {/* Register Button */}
           <button
             type="button"
