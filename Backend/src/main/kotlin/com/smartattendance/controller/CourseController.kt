@@ -20,6 +20,15 @@ class CourseController(
             ResponseEntity.badRequest().body(null)
         }
 
+    @PostMapping("/{courseId}/enroll")
+    fun enrollStudent(
+        @PathVariable courseId: Long,
+        @RequestParam studentId: Long
+    ): ResponseEntity<String> {
+        courseService.enrollStudent(courseId, studentId)
+        return ResponseEntity.ok("Student enrolled successfully")
+    }
+
     @PutMapping("/{id}")
     fun updateCourse(
         @PathVariable id: Long,

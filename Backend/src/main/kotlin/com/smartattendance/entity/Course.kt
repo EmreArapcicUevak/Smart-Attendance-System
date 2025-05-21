@@ -21,6 +21,15 @@ data class Course(
 
     @Column(name = "created_by", nullable = false)
     val createdBy: String = "",
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+    @JoinTable(
+        name = "course_students",
+        joinColumns = [JoinColumn(name = "course_id")],
+        inverseJoinColumns = [JoinColumn(name = "student_id")]
+    )
+    var students: MutableSet<User> = mutableSetOf()
+
 )
 
 enum class DayOfTheWeek {

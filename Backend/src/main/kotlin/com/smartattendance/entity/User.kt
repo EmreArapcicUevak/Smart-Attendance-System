@@ -22,7 +22,7 @@ data class User(
     @Column(nullable = false)
     val role: Role = Role.STUDENT,
     @Column(nullable = true)
-    val studentId: String = "",
+    val studentId: Long = 0,
 )
 
 enum class Role {

@@ -4,6 +4,7 @@ import main.kotlin.com.smartattendance.dto.CourseRequest
 import main.kotlin.com.smartattendance.dto.CourseResponse
 import main.kotlin.com.smartattendance.entity.Course
 import main.kotlin.com.smartattendance.repository.CourseRepository
+import main.kotlin.com.smartattendance.repository.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CourseService(
     private val courseRepository: CourseRepository,
+    private val userRepository: UserRepository,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(CourseService::class.java)
 
@@ -64,6 +66,16 @@ class CourseService(
             courseCode = course.courseCode,
             dayOfTheWeek = course.dayOfTheWeek,
         )
+    }
+
+    fun enrollStudent(courseId: Long, studentId: Long) {
+        val course = courseRepository.findById(courseId)
+            .orElseThrow { IllegalArgumentException("Course not found") }
+
+        val student = userRepository.findByStudentId(studentId)
+            ?: throw IllegalArgumentException("Student not found")
+        course.students.add(student)
+        courseRepository.save(course)
     }
 
     fun getCourseById(id: Long): CourseResponse {

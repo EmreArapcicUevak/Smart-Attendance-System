@@ -8,4 +8,5 @@ data class UserRequest(
     val email: String,
     val password: String,
     val role: Role,
+    val studentId: Long? = null,
 )

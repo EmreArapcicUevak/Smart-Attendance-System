@@ -29,7 +29,8 @@ class AuthController(
             fullName = request.fullName,
             organizationId = request.organizationId,
             password = passwordEncoder.encode(request.password),
-            role = request.role
+            role = request.role,
+            studentId = request.studentId ?: 0L,
         )
         userRepository.save(user)
         return ResponseEntity.ok("User registered successfully")
