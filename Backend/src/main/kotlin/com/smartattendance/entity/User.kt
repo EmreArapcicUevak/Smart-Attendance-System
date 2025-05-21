@@ -26,5 +26,5 @@ data class User(
 )
 
 enum class Role {
-    STUDENT, ASSISTANT, TEACHER, ADMIN
+    STUDENT, STAFF, ADMIN
 }

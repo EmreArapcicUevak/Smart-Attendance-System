@@ -39,6 +39,7 @@ open class CourseService(
         val course = Course(
             courseName = request.courseName,
             courseCode = request.courseCode,
+            dayOfTheWeek = request.dayOfTheWeek,
             createdBy = fullName
         )
         val saved = courseRepository.save(course)
