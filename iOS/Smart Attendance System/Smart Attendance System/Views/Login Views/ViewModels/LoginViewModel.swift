@@ -11,7 +11,7 @@ import JWTDecode
 
 @Observable
 class LoginViewModel {
-    let apiURL: String = ""
+    let apiURL: String = "http://127.0.0.1:8080"
     var isLoading: Bool = false
     
     var showPopUp: Bool = false
@@ -23,14 +23,20 @@ class LoginViewModel {
     var userModel: UserModel = .init()
     var path = NavigationPath()
     
+    var idenModel : IdentityModel?
+    
     func displayErrorMessage(_ message: String) {
-        self.errorMessage = message
-        self.showError = true
+        DispatchQueue.main.async {
+            self.errorMessage = message
+            self.showError = true
+        }
     }
     
     func displayPopUpMessage(_ message: String) {
-        self.popUpMessage = message
-        self.showPopUp = true
+        DispatchQueue.main.async {
+            self.popUpMessage = message
+            self.showPopUp = true
+        }
     }
     
     func checkValidEmail(_ email: String) -> Bool {
@@ -70,7 +76,10 @@ class LoginViewModel {
     
     func getAuthToken() async throws -> String {
         let endpoint = "\(apiURL)/api/auth"
-        guard let url = URL(string: endpoint) else { throw AuthError.invalidURL }
+        guard let url = URL(string: endpoint) else {
+            self.displayErrorMessage("Invalid URL \"\(endpoint)\"")
+            throw AuthError.invalidURL
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST" // We want to use the POST method
@@ -80,14 +89,12 @@ class LoginViewModel {
         let bodyData = try JSONEncoder().encode(body)
         
         let (data, response) = try await URLSession.shared.upload(for: request, from: bodyData)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 201 else { throw AuthError.invalidResponse }
-        
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode(AuthResponseModel.self, from: data).accessToken
-        } catch {
-            throw AuthError.invalidData
+        guard let response = response as? HTTPURLResponse, response.statusCode == 201 else {
+            self.displayErrorMessage("Invalid response code")
+            throw AuthError.invalidResponse
         }
+        
+        return try JSONDecoder().decode(AuthResponseModel.self, from: data).accessToken
     }
     
     func login() async {
@@ -96,10 +103,31 @@ class LoginViewModel {
             return
         }
         
+        self.isLoading = true
+        
         do {
-           try await getAuthToken()
-        } catch {
+            let accessToken = try await getAuthToken()
+            let jwt = try decode(jwt: accessToken)
             
+            guard let issuesAt = jwt["iat"].integer else { throw jwtError.invalidToken }
+            guard let expiresAt = jwt["exp"].integer else { throw jwtError.invalidToken }
+            guard let role = jwt["role"].string else { throw jwtError.invalidToken }
+            
+            self.idenModel = IdentityModel(
+                JWT: accessToken,
+                expiresAt: expiresAt,
+                issuesAt: issuesAt,
+                role: role
+            )
+            
+            path.append(self.idenModel)
+        } catch jwtError.invalidToken {
+            self.displayErrorMessage("Failed whilst decoding the JWT token")
+        } catch {
+            print("Some other error occurred: \(error.localizedDescription)")
         }
+        
+        self.isLoading = false
+        
     }
 }

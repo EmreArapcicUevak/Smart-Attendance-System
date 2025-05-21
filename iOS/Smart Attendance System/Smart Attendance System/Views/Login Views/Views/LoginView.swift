@@ -73,8 +73,17 @@ struct LoginView: View {
                     errorVisible: $controller.showError
                 )
             }
-            .navigationDestination(for: UserModel.self) { userModel in
-                StaffDashboard(path: $controller.path)
+            .navigationDestination(for: IdentityModel.self) { idenModel in
+                if idenModel.role == "TEACHER" {
+                    StaffDashboard(path: $controller.path)
+                } else {
+                    ErrorPopUp(
+                        errorMessage: 
+                                .constant("There is current no view made for this role (\(idenModel.role))"),
+                        errorShown: 
+                                .constant(true)
+                    )
+                }
             }
         }
         
