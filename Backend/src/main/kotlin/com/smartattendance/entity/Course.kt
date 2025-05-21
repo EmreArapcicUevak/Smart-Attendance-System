@@ -16,12 +16,12 @@ data class Course(
     val courseCode: String = "",
 
     @Column(name = "day_od_the_week", nullable = false)
-    val dayOfTheWeek: WeekDay = WeekDay.MONDAY,
+    val dayOfTheWeek: DayOfTheWeek = DayOfTheWeek.MONDAY,
 
     @Column(name = "created_by", nullable = false)
     val createdBy: String = "",
 )
 
-enum class WeekDay {
+enum class DayOfTheWeek {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
 }
