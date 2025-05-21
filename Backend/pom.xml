@@ -113,6 +113,7 @@
         </dependency>
     </dependencies>
     <build>
+        <sourceDirectory>src/main/kotlin</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -140,7 +141,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>main.kotlin.com.smartattendance.SmartAttendanceBackendApplication</mainClass>
+                    <mainClass>com.smartattendance.SmartAttendanceBackendApplicationKt</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
