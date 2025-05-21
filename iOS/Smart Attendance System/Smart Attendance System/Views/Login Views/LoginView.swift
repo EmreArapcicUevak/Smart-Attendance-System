@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var userModel: UserModel = .init()
-    @State private var notificationVisible = false
-    @State private var path = NavigationPath()
+    @State private var controller = LoginViewModel()
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $controller.path) {
             ZStack {
                 Color
                     .surface
@@ -29,24 +27,26 @@ struct LoginView: View {
                     
                     LoginTextField(
                         fieldText: "Email",
-                        text_field: $userModel.email
+                        text_field: $controller.userModel.email
                     )
                     .padding(.bottom)
                     
                     LoginSecureField(
                         fieldText: "Password",
-                        text_field: $userModel.password
+                        text_field: $controller.userModel.password
                     )
                     
                     
                     Button("Forgot Password") {
-                        notificationVisible = true
+                        controller.displayPopUpMessage("Please contact your organization administrator if you forgot your password")
                     }
                     .padding(.top)
                     .foregroundStyle(Color.secondary)
                     
                     Button {
-                        print(LoginViewModel().checkValidEmail(userModel.email))
+                        Task {
+                            await controller.login()
+                        }
                     } label: {
                         Text("Login")
                             .frame(maxWidth: .infinity)
@@ -65,13 +65,16 @@ struct LoginView: View {
                 .clipShape(.rect(cornerRadius: 5))
                 .frame(maxWidth: 370)
                 
-                NotificationPopUpView(
-                    notificationMessage: "Please contact your organization administrator if you forgot your password",
-                    viewShown: $notificationVisible
+                LoadingView(isLoading: $controller.isLoading)
+                ErrorAndNotificationView(
+                    notificationMessage: $controller.popUpMessage,
+                    errorMessage: $controller.errorMessage,
+                    notificationVisible: $controller.showPopUp,
+                    errorVisible: $controller.showError
                 )
             }
             .navigationDestination(for: UserModel.self) { userModel in
-                StaffDashboard(path: $path)
+                StaffDashboard(path: $controller.path)
             }
         }
         

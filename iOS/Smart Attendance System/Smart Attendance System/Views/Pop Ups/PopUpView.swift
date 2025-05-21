@@ -55,29 +55,6 @@ struct PopUpView: View {
     }
 }
 
-struct PopUpButtonView : View {
-    @Environment(PopUpViewModel.self) var popUpViewModel
-    @Binding var viewShown: Bool
-    
-    var body: some View {
-        Button {
-            withAnimation {
-                viewShown = false
-            }
-        } label: {
-            Text(popUpViewModel.buttonText)
-                .padding()
-                .foregroundStyle(popUpViewModel.containerColor)
-                .frame(minWidth: 200)
-                .background(
-                    RoundedRectangleWithOutlineView(fillColor: popUpViewModel.onContainerColor)
-                )
-                .padding(.top)
-        }
-        
-    }
-}
-
 #Preview {
     PopUpView(viewShown: .constant(true))
         .environment(

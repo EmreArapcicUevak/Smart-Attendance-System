@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct ErrorPopUp: View {
-    let errorMessage: String
-    let errorButtonText: String
+    @Binding var errorMessage: String
+    @Binding var errorButtonText: String
     
     @Binding var errorShown: Bool
 
     init(
-        errorMessage: String,
-        errorButtonText: String = "Okay",
+        errorMessage: Binding<String>,
+        errorButtonText: Binding<String> = .constant("Okay"),
         errorShown: Binding<Bool>
     ) {
-        self.errorMessage = errorMessage
-        self.errorButtonText = errorButtonText
+        self._errorMessage = errorMessage
+        self._errorButtonText = errorButtonText
         self._errorShown = errorShown
     }
     
@@ -47,7 +47,7 @@ struct ErrorPopUp: View {
             .ignoresSafeArea()
         
         ErrorPopUp(
-            errorMessage: "Something went wrong!",
+            errorMessage: .constant("Something went wrong"),
             errorShown: .constant(true)
         )
     }

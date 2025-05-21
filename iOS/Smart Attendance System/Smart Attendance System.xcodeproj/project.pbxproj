@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1BBD14FF2DDD19B600785585 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 1BBD14FE2DDD19B600785585 /* JWTDecode */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		1BBD14762DDCE3CB00785585 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BBD14FF2DDD19B600785585 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +95,7 @@
 			);
 			name = "Smart Attendance System";
 			packageProductDependencies = (
+				1BBD14FE2DDD19B600785585 /* JWTDecode */,
 			);
 			productName = "Smart Attendance System";
 			productReference = 1BB4C9492DC82C3E00082348 /* Smart Attendance System.app */;
@@ -146,6 +152,9 @@
 			);
 			mainGroup = 1BB4C9402DC82C3E00082348;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1BBD14FD2DDD19B600785585 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1BB4C94A2DC82C3E00082348 /* Products */;
 			projectDirPath = "";
@@ -456,6 +465,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1BBD14FD2DDD19B600785585 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1BBD14FE2DDD19B600785585 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1BBD14FD2DDD19B600785585 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1BB4C9412DC82C3E00082348 /* Project object */;
 }
