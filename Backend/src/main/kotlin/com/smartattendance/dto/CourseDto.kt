@@ -9,5 +9,8 @@ data class CourseRequest(
 )
 
 data class CourseResponse(
-    val id: Long
+    val id: Long,
+    val courseName: String,
+    val courseCode: String,
+    val dayOfTheWeek: DayOfTheWeek,
 )

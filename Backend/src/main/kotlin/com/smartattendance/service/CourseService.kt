@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class CourseService(
+class CourseService(
     private val courseRepository: CourseRepository,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(CourseService::class.java)
-    @Transactional
-    open fun createCourse(request: CourseRequest): CourseResponse {
+
+     fun createCourse(request: CourseRequest): CourseResponse {
         if (request.courseName.isBlank() || request.courseCode.isBlank()) {
             throw IllegalArgumentException("Course name and code are required")
         }
@@ -43,6 +43,37 @@ open class CourseService(
             createdBy = fullName
         )
         val saved = courseRepository.save(course)
-        return CourseResponse(id = saved.id)
+        return CourseResponse(
+            id = saved.id,
+            courseName = saved.courseName,
+            courseCode = saved.courseCode,
+            dayOfTheWeek = saved.dayOfTheWeek,
+        )
+    }
+
+    fun updateCourse(id: Long, request: CourseRequest): CourseResponse {
+        val course = courseRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("Course not found") }
+        course.courseName = request.courseName
+        course.courseCode = request.courseCode
+        course.dayOfTheWeek = request.dayOfTheWeek
+        courseRepository.save(course)
+        return CourseResponse(
+            id = course.id,
+            courseName = course.courseName,
+            courseCode = course.courseCode,
+            dayOfTheWeek = course.dayOfTheWeek,
+        )
+    }
+
+    fun getCourseById(id: Long): CourseResponse {
+        val course = courseRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("Course not found") }
+        return CourseResponse(
+            id = course.id,
+            courseName = course.courseName,
+            courseCode = course.courseCode,
+            dayOfTheWeek = course.dayOfTheWeek,
+        )
     }
 }

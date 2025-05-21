@@ -10,13 +10,14 @@ data class Course(
     val id: Long = 0,
 
     @Column(name = "course_name", nullable = false)
-    val courseName: String = "",
+    var courseName: String = "",
 
     @Column(name = "course_code", nullable = false)
-    val courseCode: String = "",
+    var courseCode: String = "",
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "day_od_the_week", nullable = false)
-    val dayOfTheWeek: DayOfTheWeek = DayOfTheWeek.MONDAY,
+    var dayOfTheWeek: DayOfTheWeek = DayOfTheWeek.MONDAY,
 
     @Column(name = "created_by", nullable = false)
     val createdBy: String = "",

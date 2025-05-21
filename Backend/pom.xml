@@ -141,7 +141,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.smartattendance.SmartAttendanceBackendApplicationKt</mainClass>
+                    <mainClass>main.kotlin.com.smartattendance.SmartAttendanceBackendApplicationKt</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
