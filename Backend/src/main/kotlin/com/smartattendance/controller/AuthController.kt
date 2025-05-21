@@ -44,7 +44,7 @@ class AuthController(
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password")
         }
 
-        val token = TokenService.generateToken(user.email, user.fullName)
+        val token = TokenService.generateToken(user.email, user.fullName, user.role)
         return ResponseEntity.ok(mapOf("token" to token))
     }
 
