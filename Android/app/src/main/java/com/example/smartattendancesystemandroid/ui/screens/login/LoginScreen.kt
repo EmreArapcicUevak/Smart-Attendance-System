@@ -107,6 +107,12 @@ private fun LoginScreenContent(
                 label = { Text(text = "Email") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 maxLines = 1,
+                isError = loginUiState.isInvalidEmail,
+                supportingText = {
+                    if (loginUiState.isInvalidEmail) {
+                        Text(text = "Enter a valid email")
+                    }
+                },
                 modifier = Modifier.fillMaxWidth().padding(4.dp)
             )
             OutlinedTextField(

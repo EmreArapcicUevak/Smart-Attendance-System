@@ -1,5 +1,6 @@
 package com.example.smartattendancesystemandroid.ui.screens.login
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartattendancesystemandroid.auth.AuthRepository
@@ -50,7 +51,20 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun loginBtnPressed() {
-        login()
+        val email = uiState.value.emailFieldValue
+        val isValidEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+        if (isValidEmail) {
+            _uiState.update { currentState ->
+                currentState.copy(isInvalidEmail = false)
+            }
+            login()
+        }
+        else {
+            _uiState.update { currentState ->
+                currentState.copy(isInvalidEmail = true)
+            }
+        }
     }
 
     private fun login() {
