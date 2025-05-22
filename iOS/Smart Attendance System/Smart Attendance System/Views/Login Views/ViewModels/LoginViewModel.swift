@@ -14,30 +14,12 @@ class LoginViewModel {
     let apiURL: String = "http://127.0.0.1:8080"
     var isLoading: Bool = false
     
-    var showPopUp: Bool = false
-    var popUpMessage: String = ""
+    var errorAndNotficationController = ErrorAndNotificationSimpleParamModel()
     
-    var showError: Bool = false
-    var errorMessage: String = ""
-
     var userModel: UserModel = .init()
     var path = NavigationPath()
     
     var idenModel : IdentityModel?
-    
-    func displayErrorMessage(_ message: String) {
-        DispatchQueue.main.async {
-            self.errorMessage = message
-            self.showError = true
-        }
-    }
-    
-    func displayPopUpMessage(_ message: String) {
-        DispatchQueue.main.async {
-            self.popUpMessage = message
-            self.showPopUp = true
-        }
-    }
     
     func checkValidEmail(_ email: String) -> Bool {
         let emailRegex = #"^[A-Za-z0-9._%+-]+@(([A-Za-z0-9.-]+\.[A-Za-z]{2,})|(\[[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}\]))$"#
@@ -77,7 +59,7 @@ class LoginViewModel {
     func getAuthToken() async throws -> String {
         let endpoint = "\(apiURL)/api/auth"
         guard let url = URL(string: endpoint) else {
-            self.displayErrorMessage("Invalid URL \"\(endpoint)\"")
+            self.errorAndNotficationController.displayErrorMessage("Invalid URL \"\(endpoint)\"")
             throw AuthError.invalidURL
         }
         
@@ -90,7 +72,7 @@ class LoginViewModel {
         
         let (data, response) = try await URLSession.shared.upload(for: request, from: bodyData)
         guard let response = response as? HTTPURLResponse, response.statusCode == 201 else {
-            self.displayErrorMessage("Invalid response code")
+            self.errorAndNotficationController.displayErrorMessage("Invalid response code")
             throw AuthError.invalidResponse
         }
         
@@ -99,7 +81,7 @@ class LoginViewModel {
     
     func login() async {
         guard checkValidEmail(self.userModel.email) else {
-            self.displayErrorMessage("Invalid Email Format")
+            self.errorAndNotficationController.displayErrorMessage("Invalid Email Format")
             return
         }
         
@@ -122,7 +104,7 @@ class LoginViewModel {
             
             path.append(self.idenModel)
         } catch jwtError.invalidToken {
-            self.displayErrorMessage("Failed whilst decoding the JWT token")
+            self.errorAndNotficationController.displayErrorMessage("Failed whilst decoding the JWT token")
         } catch {
             print("Some other error occurred: \(error.localizedDescription)")
         }

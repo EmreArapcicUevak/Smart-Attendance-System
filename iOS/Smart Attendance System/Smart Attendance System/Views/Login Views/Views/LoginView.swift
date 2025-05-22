@@ -38,7 +38,7 @@ struct LoginView: View {
                     
                     
                     Button("Forgot Password") {
-                        controller.displayPopUpMessage("Please contact your organization administrator if you forgot your password")
+                        controller.errorAndNotficationController.displayPopUpMessage("Please contact your organization administrator if you forgot your password")
                     }
                     .padding(.top)
                     .foregroundStyle(Color.secondary)
@@ -67,10 +67,10 @@ struct LoginView: View {
                 
                 LoadingView(isLoading: $controller.isLoading)
                 ErrorAndNotificationView(
-                    notificationMessage: $controller.popUpMessage,
-                    errorMessage: $controller.errorMessage,
-                    notificationVisible: $controller.showPopUp,
-                    errorVisible: $controller.showError
+                    notificationMessage: $controller.errorAndNotficationController.popUpMessage,
+                    errorMessage: $controller.errorAndNotficationController.errorMessage,
+                    notificationVisible: $controller.errorAndNotficationController.showPopUp,
+                    errorVisible: $controller.errorAndNotficationController.showError
                 )
             }
             .navigationDestination(for: IdentityModel.self) { idenModel in
