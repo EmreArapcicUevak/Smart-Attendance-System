@@ -19,4 +19,32 @@ class CourseController(
         } catch (e: IllegalArgumentException) {
             ResponseEntity.badRequest().body(null)
         }
+
+    @PostMapping("/{courseId}/enroll")
+    fun enrollStudent(
+        @PathVariable courseId: Long,
+        @RequestParam studentId: Long
+    ): ResponseEntity<String> {
+        courseService.enrollStudent(courseId, studentId)
+        return ResponseEntity.ok("Student enrolled successfully")
+    }
+
+    @PutMapping("/{id}")
+    fun updateCourse(
+        @PathVariable id: Long,
+        @RequestBody request: CourseRequest
+    ): ResponseEntity<CourseResponse> =
+        try {
+            ResponseEntity.ok(courseService.updateCourse(id, request))
+        } catch (e: IllegalArgumentException) {
+            ResponseEntity.badRequest().body(null)
+        }
+
+    @GetMapping("/{id}")
+    fun getCourseById(@PathVariable id: Long): ResponseEntity<CourseResponse> =
+        try {
+            ResponseEntity.ok(courseService.getCourseById(id))
+        } catch (e: IllegalArgumentException) {
+            ResponseEntity.notFound().build()
+        }
 }

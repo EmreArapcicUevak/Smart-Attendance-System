@@ -29,7 +29,8 @@ class AuthController(
             fullName = request.fullName,
             organizationId = request.organizationId,
             password = passwordEncoder.encode(request.password),
-            role = request.role
+            role = request.role,
+            studentId = request.studentId ?: 0L,
         )
         userRepository.save(user)
         return ResponseEntity.ok("User registered successfully")
@@ -44,7 +45,7 @@ class AuthController(
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password")
         }
 
-        val token = TokenService.generateToken(user.email, user.fullName)
+        val token = TokenService.generateToken(user.email, user.fullName, user.role)
         return ResponseEntity.ok(mapOf("token" to token))
     }
 

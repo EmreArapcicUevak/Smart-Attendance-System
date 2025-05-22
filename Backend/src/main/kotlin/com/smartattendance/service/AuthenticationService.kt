@@ -33,7 +33,8 @@ class AuthenticationService(
 
         val accessToken = tokenService.generateToken(
             email = user.email,
-            fullName = user.fullName
+            fullName = user.fullName,
+            role = user.role,
         )
 
         return AuthenticationResponse(
