@@ -18,7 +18,7 @@ struct FloatingCameraButtonView: View {
                 .font(.system(size: 20))
                 .background(
                     RoundedRectangleWithOutlineView(
-                        fillColor: Color.surfContainerHighest,
+                        fillColor: Color.surfaceContainerHighest,
                         cornerRadius: 12
                     )
                     .frame(width: 56, height: 56)
