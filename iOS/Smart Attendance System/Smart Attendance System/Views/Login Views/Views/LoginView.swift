@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var userModel: UserModel = .init()
-    @State private var notificationVisible = false
-    @State private var path = NavigationPath()
+    @State private var controller = LoginViewModel()
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $controller.path) {
             ZStack {
                 Color
                     .surface
@@ -29,23 +27,27 @@ struct LoginView: View {
                     
                     LoginTextField(
                         fieldText: "Email",
-                        text_field: $userModel.email
+                        text_field: $controller.userModel.email
                     )
                     .padding(.bottom)
                     
                     LoginSecureField(
                         fieldText: "Password",
-                        text_field: $userModel.password
+                        text_field: $controller.userModel.password
                     )
                     
                     
                     Button("Forgot Password") {
-                        notificationVisible = true
+                        controller.displayPopUpMessage("Please contact your organization administrator if you forgot your password")
                     }
                     .padding(.top)
                     .foregroundStyle(Color.secondary)
                     
-                    NavigationLink(value: userModel) {
+                    Button {
+                        Task {
+                            await controller.login()
+                        }
+                    } label: {
                         Text("Login")
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -56,19 +58,32 @@ struct LoginView: View {
                             )
                             .padding(.top)
                     }
+
                 }
                 .padding()
                 .background(Color.surfContainer)
                 .clipShape(.rect(cornerRadius: 5))
                 .frame(maxWidth: 370)
                 
-                NotificationPopUpView(
-                    notificationMessage: "Please contact your organization administrator if you forgot your password",
-                    viewShown: $notificationVisible
+                LoadingView(isLoading: $controller.isLoading)
+                ErrorAndNotificationView(
+                    notificationMessage: $controller.popUpMessage,
+                    errorMessage: $controller.errorMessage,
+                    notificationVisible: $controller.showPopUp,
+                    errorVisible: $controller.showError
                 )
             }
-            .navigationDestination(for: UserModel.self) { userModel in
-                StaffDashboard(path: $path)
+            .navigationDestination(for: IdentityModel.self) { idenModel in
+                if idenModel.role == "TEACHER" {
+                    StaffDashboard(path: $controller.path)
+                } else {
+                    ErrorPopUp(
+                        errorMessage: 
+                                .constant("There is current no view made for this role (\(idenModel.role))"),
+                        errorShown: 
+                                .constant(true)
+                    )
+                }
             }
         }
         

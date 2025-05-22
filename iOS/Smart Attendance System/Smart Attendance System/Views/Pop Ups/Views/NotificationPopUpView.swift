@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct NotificationPopUpView: View {
-    let notificationMessage: String
-    let buttonText: String
+    @Binding var notificationMessage: String
+    @Binding var buttonText: String
     
     @Binding var viewShown: Bool
 
-    init(notificationMessage: String, buttonText: String = "Okay", viewShown: Binding<Bool>) {
-        self.notificationMessage = notificationMessage
-        self.buttonText = buttonText
+    init(
+        notificationMessage: Binding<String>,
+        buttonText: Binding<String> = .constant("Okay"),
+        viewShown: Binding<Bool>
+    ) {
+        self._notificationMessage = notificationMessage
+        self._buttonText = buttonText
         self._viewShown = viewShown
     }
     
@@ -38,7 +42,7 @@ struct NotificationPopUpView: View {
 
 #Preview {
     NotificationPopUpView(
-        notificationMessage: "Notification Message Goes Here",
+        notificationMessage: .constant("Notification Message Goes Here"),
         viewShown: .constant(true)
     )
 }
