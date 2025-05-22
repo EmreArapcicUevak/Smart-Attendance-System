@@ -1,6 +1,7 @@
 package com.example.smartattendancesystemandroid.auth
 
 import android.content.SharedPreferences
+import android.util.Log
 import retrofit2.HttpException
 import androidx.core.content.edit
 
@@ -20,6 +21,7 @@ class AuthRepositoryImplementation(
             AuthResult.Authorized()
         }
         catch (e: HttpException) {
+            Log.d("APIE", e.toString())
             if (e.code() == 401) {
                 AuthResult.Unauthorized()
             }
@@ -28,6 +30,7 @@ class AuthRepositoryImplementation(
             }
         }
         catch (e: Exception) {
+            Log.d("APIE", e.toString())
             AuthResult.UnknownError()
         }
     }
@@ -39,6 +42,7 @@ class AuthRepositoryImplementation(
             AuthResult.Authorized()
         }
         catch (e: HttpException) {
+            Log.d("APIE", e.toString())
             if (e.code() == 401) {
                 AuthResult.Unauthorized()
             }

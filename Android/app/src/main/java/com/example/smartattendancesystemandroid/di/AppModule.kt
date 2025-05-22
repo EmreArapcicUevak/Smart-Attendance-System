@@ -23,7 +23,7 @@ object AppModule {
     @Singleton
     fun provideAuthApi(): AuthApi {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.1:8080/") // change the to real one
+            .baseUrl("http://127.0.0.1:8080/") // change the to real one
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()
