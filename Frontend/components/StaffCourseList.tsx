@@ -15,7 +15,7 @@ const mockCourses: Course[] = [
     id: 1,
     code: 'CS101',
     name: 'Software Engineering',
-    faculty: 'Dr. Alice Smith',
+    faculty: 'Faculty of Engineering and Natural Sciences',
   }
 ];
 
