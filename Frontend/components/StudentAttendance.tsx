@@ -3,38 +3,43 @@
 import React, { useEffect, useState } from 'react';
 
 interface AttendanceRecord {
-  date: string;
-  status: 'Present' | 'Absent' | 'Late';
+  status: 'Present' | 'Absent';
   subject: string;
+  sessionType: 'Lecture' | 'Lab' | 'Tutorial';
+  week: string;
+  faculty: string;
 }
 
 export default function StudentAttendance() {
   const [attendanceData, setAttendanceData] = useState<AttendanceRecord[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
+  const [sessionType, setSessionType] = useState('');
 
   useEffect(() => {
-    // Fetch from backend API
     fetch('/api/attendance')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setAttendanceData)
       .catch(() => {
         setAttendanceData([
-          { date: '2025-04-01', status: 'Present', subject: 'Mathematics' },
+          {
+            status: 'Present',
+            subject: 'Mathematics',
+            sessionType: 'Lecture',
+            faculty: 'Engineering',
+            week: '1',
+          },
         ]);
       });
   }, []);
 
   const filteredData = attendanceData.filter((record) => {
-  const matchesSubject = record.subject.toLowerCase().includes(searchTerm.toLowerCase());
-  const matchesDate = record.date.toLowerCase().includes(selectedDate.toLowerCase());
-  return matchesSubject && matchesDate;
-});
+    const matchesSubject = record.subject.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = sessionType ? record.sessionType === sessionType : true;
+    return matchesSubject && matchesType;
+  });
 
-
-  const totalPresent = filteredData.filter(r => r.status === 'Present').length;
-  const totalAbsent = filteredData.filter(r => r.status === 'Absent').length;
-  const totalLate = filteredData.filter(r => r.status === 'Late').length;
+  const totalPresent = filteredData.filter((r) => r.status === 'Present').length;
+  const totalAbsent = filteredData.filter((r) => r.status === 'Absent').length;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-5xl mx-auto">
@@ -51,18 +56,21 @@ export default function StudentAttendance() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white"
         />
-        <input
-  type="text"
-  placeholder="Search by date (YYYY-MM-DD)"
-  value={selectedDate}
-  onChange={(e) => setSelectedDate(e.target.value)}
-  className="w-full md:w-1/3 border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white"
-/>
 
+        <select
+          value={sessionType}
+          onChange={(e) => setSessionType(e.target.value)}
+          className="w-full md:w-1/3 border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white"
+        >
+          <option value="">All Sessions</option>
+          <option value="Lecture">Lecture</option>
+          <option value="Lab">Lab</option>
+          <option value="Tutorial">Tutorial</option>
+        </select>
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="bg-green-100 text-green-800 p-4 rounded-md text-center">
           <p className="text-2xl font-bold">{totalPresent}</p>
           <p>Present</p>
@@ -71,10 +79,6 @@ export default function StudentAttendance() {
           <p className="text-2xl font-bold">{totalAbsent}</p>
           <p>Absent</p>
         </div>
-        <div className="bg-yellow-100 text-yellow-800 p-4 rounded-md text-center">
-          <p className="text-2xl font-bold">{totalLate}</p>
-          <p>Late</p>
-        </div>
       </div>
 
       {/* Attendance Table */}
@@ -82,8 +86,10 @@ export default function StudentAttendance() {
         <table className="min-w-full bg-white text-left text-sm border border-gray-200 rounded-lg">
           <thead className="bg-gray-200 text-black">
             <tr>
-              <th className="px-6 py-3">Date</th>
               <th className="px-6 py-3">Course</th>
+              <th className="px-6 py-3">Faculty</th>
+              <th className="px-6 py-3">Session</th>
+              <th className="px-6 py-3">Week</th>
               <th className="px-6 py-3">Status</th>
             </tr>
           </thead>
@@ -92,22 +98,18 @@ export default function StudentAttendance() {
               <tr
                 key={index}
                 className={`hover:bg-gray-100 border-t ${
-                  record.status === 'Present'
-                    ? 'bg-green-50'
-                    : record.status === 'Absent'
-                    ? 'bg-red-50'
-                    : 'bg-yellow-50'
+                  record.status === 'Present' ? 'bg-green-50' : 'bg-red-50'
                 }`}
               >
-                <td className="px-6 py-4">{record.date}</td>
                 <td className="px-6 py-4">{record.subject}</td>
-                <td className={`px-6 py-4 font-semibold ${
-                  record.status === 'Present'
-                    ? 'text-green-600'
-                    : record.status === 'Absent'
-                    ? 'text-red-500'
-                    : 'text-yellow-600'
-                }`}>
+                <td className="px-6 py-4">{record.faculty}</td>
+                <td className="px-6 py-4">{record.sessionType}</td>
+                <td className="px-6 py-4">{record.week}</td>
+                <td
+                  className={`px-6 py-4 font-semibold ${
+                    record.status === 'Present' ? 'text-green-600' : 'text-red-500'
+                  }`}
+                >
                   {record.status}
                 </td>
               </tr>
