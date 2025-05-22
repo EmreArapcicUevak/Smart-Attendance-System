@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.smartattendancesystemandroid.auth.AuthResult
+import com.example.smartattendancesystemandroid.ui.components.LoadingCircleScreen
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
 @Composable
@@ -63,6 +65,11 @@ fun LoginScreen(
 
 
     val loginUiState by loginViewModel.uiState.collectAsState()
+
+    if (loginUiState.isLoading) {
+        LoadingCircleScreen()
+        return
+    }
 
     LoginScreenContent(
         loginUiState = loginUiState,
