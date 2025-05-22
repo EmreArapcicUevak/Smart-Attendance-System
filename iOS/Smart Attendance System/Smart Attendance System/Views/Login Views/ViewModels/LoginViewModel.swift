@@ -11,7 +11,6 @@ import JWTDecode
 
 @Observable
 class LoginViewModel {
-    let apiURL: String = "http://127.0.0.1:8080"
     var isLoading: Bool = false
     
     var errorAndNotficationController = ErrorAndNotificationSimpleParamModel()
@@ -57,7 +56,7 @@ class LoginViewModel {
     }
     
     func getAuthToken() async throws -> String {
-        let endpoint = "\(apiURL)/api/auth"
+        let endpoint = "\(Constants.API_URL)/api/auth"
         guard let url = URL(string: endpoint) else {
             self.errorAndNotficationController.displayErrorMessage("Invalid URL \"\(endpoint)\"")
             throw AuthError.invalidURL
