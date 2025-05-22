@@ -51,7 +51,7 @@ struct LoginView: View {
                         Text("Login")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .foregroundStyle(Color.primary)
+                            .foregroundStyle(Color.myPrimary)
                             .background(
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color.primaryContainer)
@@ -61,7 +61,7 @@ struct LoginView: View {
 
                 }
                 .padding()
-                .background(Color.surfContainer)
+                .background(Color.surfaceContainer)
                 .clipShape(.rect(cornerRadius: 5))
                 .frame(maxWidth: 370)
                 

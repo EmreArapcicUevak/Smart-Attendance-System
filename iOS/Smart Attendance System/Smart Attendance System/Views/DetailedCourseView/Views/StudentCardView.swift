@@ -43,7 +43,7 @@ struct StudentCardView: View {
         }
         .padding()
         .background(
-            RoundedRectangleWithOutlineView(fillColor: Color.surfContainer)
+            RoundedRectangleWithOutlineView(fillColor: Color.surfaceContainer)
         )
     }
 }

@@ -45,7 +45,7 @@ struct CourseCardView: View {
             }
             .background(
                 RoundedRectangleWithOutlineView(
-                    fillColor : Color.surfContainer,
+                    fillColor : Color.surfaceContainer,
                     lineWidth: 0.5
                 )
             )

@@ -19,7 +19,7 @@ struct SearchBarView: View {
         searchBarText: Binding<String>,
         placeholder: String,
         outlineColor: Color = Color.outline,
-        fillColor: Color = Color.surfContainer,
+        fillColor: Color = Color.surfaceContainer,
         cornerRadius: CGFloat = 5,
         lineWidth: CGFloat = 1
     ) {

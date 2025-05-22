@@ -70,8 +70,13 @@ class LoginViewModel {
         let bodyData = try JSONEncoder().encode(body)
         
         let (data, response) = try await URLSession.shared.upload(for: request, from: bodyData)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 201 else {
+        guard let response = response as? HTTPURLResponse else {
             self.errorAndNotficationController.displayErrorMessage("Invalid response code")
+            throw AuthError.invalidResponse
+        }
+        
+        guard response.statusCode == 201 else {
+            self.errorAndNotficationController.displayErrorMessage("Invalid status code: \(response.statusCode)")
             throw AuthError.invalidResponse
         }
         
@@ -83,6 +88,7 @@ class LoginViewModel {
             self.errorAndNotficationController.displayErrorMessage("Invalid Email Format")
             return
         }
+        
         
         self.isLoading = true
         
@@ -105,6 +111,7 @@ class LoginViewModel {
         } catch jwtError.invalidToken {
             self.errorAndNotficationController.displayErrorMessage("Failed whilst decoding the JWT token")
         } catch {
+            self.errorAndNotficationController.displayErrorMessage("Failed to login (\(error.localizedDescription))\nPlease try again later")
             print("Some other error occurred: \(error.localizedDescription)")
         }
         
