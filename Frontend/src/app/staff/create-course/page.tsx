@@ -8,15 +8,16 @@ export default function CreateCoursePage() {
 
   const [courseName, setCourseName] = useState('');
   const [courseCode, setCourseCode] = useState('');
-  const [dayOfWeek, setDayOfWeek] = useState('');
-  const [errors, setErrors] = useState<{ name?: string; code?: string }>({});
+  const [faculty, setFaculty] = useState('');
+  const [errors, setErrors] = useState<{ name?: string; code?: string; faculty?: string }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors: { name?: string; code?: string } = {};
+    const newErrors: { name?: string; code?: string; faculty?: string } = {};
 
     if (!courseName.trim()) newErrors.name = 'Course name is required.';
     if (!courseCode.trim()) newErrors.code = 'Course code is required.';
+    if (!faculty.trim()) newErrors.faculty = 'Faculty is required.';
 
     setErrors(newErrors);
 
@@ -24,7 +25,7 @@ export default function CreateCoursePage() {
       const courseDetails = {
         courseName,
         courseCode,
-        dayOfWeek,
+        faculty,
       };
 
       console.log('Course Created:', courseDetails);
@@ -33,7 +34,7 @@ export default function CreateCoursePage() {
       // Reset fields
       setCourseName('');
       setCourseCode('');
-      setDayOfWeek('');
+      setFaculty('');
     }
   };
 
@@ -77,20 +78,17 @@ export default function CreateCoursePage() {
             {errors.code && <p className="text-red-500 text-sm mt-1">{errors.code}</p>}
           </div>
 
-          {/* New Fields Below */}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Day of the Week</label>
-              <input
-                type="text"
-                value={dayOfWeek}
-                onChange={(e) => setDayOfWeek(e.target.value)}
-                className="w-full px-4 py-2 border rounded-md"
-                placeholder="e.g., Monday"
-              />
-            </div>
-     
+          {/* Faculty */}
+          <div>
+            <label className="block text-lg font-medium mb-1">Faculty</label>
+            <input
+              type="text"
+              value={faculty}
+              onChange={(e) => setFaculty(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md"
+              placeholder="e.g., Faculty of Engineering and Natural Science"
+            />
+            {errors.faculty && <p className="text-red-500 text-sm mt-1">{errors.faculty}</p>}
           </div>
 
           {/* Submit */}
