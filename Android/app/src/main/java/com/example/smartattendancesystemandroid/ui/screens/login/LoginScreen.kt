@@ -1,5 +1,6 @@
 package com.example.smartattendancesystemandroid.ui.screens.login
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,6 +46,7 @@ fun LoginScreen(
         loginViewModel.authResult.collect { result ->
             when (result) {
                 is AuthResult.Authorized -> {
+                    Log.d("APIE", loginViewModel.getJwtPayload().toString())
                     navigateToStaffHomePage()
                 }
 

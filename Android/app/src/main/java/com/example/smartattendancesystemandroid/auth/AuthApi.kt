@@ -1,7 +1,6 @@
 package com.example.smartattendancesystemandroid.auth
 
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -11,8 +10,8 @@ interface AuthApi {
         @Body request: AuthRequest
     ): TokenResponse
 
-    @GET("authenticate")
+    @POST("auth/validate-token")
     suspend fun authenticate(
-        @Header("Authorization") token: String
+        @Body token: String
     )
 }
