@@ -8,8 +8,11 @@ import com.smartattendance.repository.CourseRepository
 import com.smartattendance.repository.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestHeader
 
 @Service
 class CourseService(
@@ -42,7 +45,8 @@ class CourseService(
             courseName = request.courseName,
             courseCode = request.courseCode,
             dayOfTheWeek = request.dayOfTheWeek,
-            createdBy = fullName
+            createdBy = fullName,
+            staffId = TokenService.extractId(token),
         )
         val saved = courseRepository.save(course)
         return CourseResponse(
@@ -100,4 +104,27 @@ class CourseService(
             )
         }
     }
+
+    fun getCoursesByStaffId(): List<CourseResponse> {
+
+        val authentication = SecurityContextHolder.getContext().authentication
+        val token = authentication.credentials as? String
+            ?: throw IllegalArgumentException("User not authenticated")
+
+        val staffId = try {
+            TokenService.extractId(token)
+        } catch (e: Exception) {
+            throw IllegalArgumentException("Unable to extract staffId from token")
+        }
+
+        val courses = courseRepository.findByStaffId(staffId)
+
+        return courses.map { course ->
+            CourseResponse(
+                id = course.id,
+                courseName = course.courseName,
+                courseCode = course.courseCode,
+                dayOfTheWeek = course.dayOfTheWeek,
+            )
+        }    }
 }

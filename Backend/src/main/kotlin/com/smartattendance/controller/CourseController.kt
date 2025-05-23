@@ -48,9 +48,15 @@ class CourseController(
             ResponseEntity.notFound().build()
         }
 
-    @GetMapping("/courses/{courseId}/students")
+    @GetMapping("/{courseId}/students")
     fun getStudentsByCourseId(@PathVariable courseId: Long): ResponseEntity<List<StudentResponse>> {
         val students = courseService.getStudentsByCourseId(courseId)
         return ResponseEntity.ok(students)
+    }
+
+    @GetMapping("/staff")
+    fun getCoursesByStaff(): ResponseEntity<List<CourseResponse>> {
+        val courses = courseService.getCoursesByStaffId()
+        return ResponseEntity.ok(courses)
     }
 }

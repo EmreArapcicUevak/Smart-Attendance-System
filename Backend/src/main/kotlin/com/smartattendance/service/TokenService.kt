@@ -40,8 +40,7 @@ object TokenService {
     fun extractEmail(token: String): String = extractAllClaims(token).subject
     fun extractFullName(token: String): String = extractAllClaims(token)["fullName"] as String
     fun extractRole(token: String): String = extractAllClaims(token)["role"] as String
-    fun extractId(token: String): String = extractAllClaims(token)["id"] as String
-
+    fun extractId(token: String): Long = (extractAllClaims(token)["id"] as Number).toLong()
 
     private fun extractAllClaims(token: String): Claims {
         return Jwts.parserBuilder()
