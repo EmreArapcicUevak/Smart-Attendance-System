@@ -2,6 +2,7 @@ package main.kotlin.com.smartattendance.controller
 
 import main.kotlin.com.smartattendance.dto.CourseRequest
 import main.kotlin.com.smartattendance.dto.CourseResponse
+import com.smartattendance.dto.StudentResponse
 import main.kotlin.com.smartattendance.service.CourseService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -47,4 +48,10 @@ class CourseController(
         } catch (e: IllegalArgumentException) {
             ResponseEntity.notFound().build()
         }
+
+    @GetMapping("/courses/{courseId}/students")
+    fun getStudentsByCourseId(@PathVariable courseId: Long): ResponseEntity<List<StudentResponse>> {
+        val students = courseService.getStudentsByCourseId(courseId)
+        return ResponseEntity.ok(students)
+    }
 }

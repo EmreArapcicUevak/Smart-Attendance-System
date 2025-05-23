@@ -1,5 +1,6 @@
 package main.kotlin.com.smartattendance.service
 
+import com.smartattendance.dto.StudentResponse
 import main.kotlin.com.smartattendance.dto.CourseRequest
 import main.kotlin.com.smartattendance.dto.CourseResponse
 import main.kotlin.com.smartattendance.entity.Course
@@ -9,7 +10,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CourseService(
@@ -18,7 +18,7 @@ class CourseService(
 ) {
     private val logger: Logger = LoggerFactory.getLogger(CourseService::class.java)
 
-     fun createCourse(request: CourseRequest): CourseResponse {
+    fun createCourse(request: CourseRequest): CourseResponse {
         if (request.courseName.isBlank() || request.courseCode.isBlank()) {
             throw IllegalArgumentException("Course name and code are required")
         }
@@ -87,5 +87,17 @@ class CourseService(
             courseCode = course.courseCode,
             dayOfTheWeek = course.dayOfTheWeek,
         )
+    }
+
+    fun getStudentsByCourseId(courseId: Long): List<StudentResponse> {
+        val course = courseRepository.findById(courseId)
+            .orElseThrow { IllegalArgumentException("Course not found") }
+
+        return course.students.map { student ->
+            StudentResponse(
+                studentId = student.studentId,
+                fullName = student.fullName,
+            )
+        }
     }
 }
