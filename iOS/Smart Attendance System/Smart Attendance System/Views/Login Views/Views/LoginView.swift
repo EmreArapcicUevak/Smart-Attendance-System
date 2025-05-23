@@ -25,15 +25,17 @@ struct LoginView: View {
                     
                     Divider()
                     
-                    LoginTextField(
+                    CustomTextField(
                         fieldText: "Email",
-                        text_field: $controller.userModel.email
+                        text_field: $controller.userModel.email,
+                        validationFunction: controller.checkValidEmail
                     )
                     .padding(.bottom)
                     
-                    LoginSecureField(
+                    CustomSecureField(
                         fieldText: "Password",
-                        text_field: $controller.userModel.password
+                        text_field: $controller.userModel.password,
+                        validationFunction: controller.checkValidPassword(_:)
                     )
                     
                     

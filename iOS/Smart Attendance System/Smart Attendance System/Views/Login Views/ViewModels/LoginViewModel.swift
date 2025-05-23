@@ -55,6 +55,10 @@ class LoginViewModel {
         return true
     }
     
+    func checkValidPassword(_ password: String) -> Bool {
+        return password.count >= 8
+    }
+    
     func getAuthToken() async throws -> String {
         let endpoint = "\(Constants.API_URL)/api/auth"
         guard let url = URL(string: endpoint) else {
