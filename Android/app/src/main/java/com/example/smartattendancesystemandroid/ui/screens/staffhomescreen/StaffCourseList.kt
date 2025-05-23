@@ -29,8 +29,8 @@ import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAn
 @Composable
 fun StaffCourseList(
     staffCourses: List<CourseCardData> = listOf(),
-    settingsBtnPressed: (String) -> Unit = {},
-    cardPressed: (String) -> Unit = {},
+    settingsBtnPressed: (Long) -> Unit = {},
+    cardPressed: (Long) -> Unit = {},
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -41,9 +41,7 @@ fun StaffCourseList(
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Column(
-
-        ) {
+        Column {
             for (course in staffCourses) {
                 StaffCourseCard(
                     id = course.id,
@@ -64,9 +62,9 @@ fun StaffCourseCard(
     courseName: String,
     courseCode: String,
     courseFaculty: String,
-    settingsBtnPressed: (String) -> Unit,
-    cardPressed: (String) -> Unit,
-    id: String
+    settingsBtnPressed: (Long) -> Unit,
+    cardPressed: (Long) -> Unit,
+    id: Long
 ) {
     Card(
         modifier = Modifier
@@ -126,7 +124,7 @@ private fun CourseListPreview() {
 private fun CardPreview() {
     SmartAttendanceSystemAndroidTheme {
         StaffCourseCard(
-            id = "",
+            id = 0,
             courseName = "Software Engineering",
             courseCode = "CS308",
             courseFaculty = "FENS",

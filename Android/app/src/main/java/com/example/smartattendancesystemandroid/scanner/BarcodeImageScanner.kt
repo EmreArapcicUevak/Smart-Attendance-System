@@ -1,4 +1,4 @@
-package com.example.smartattendancesystemandroid.utils
+package com.example.smartattendancesystemandroid.scanner
 
 import android.media.Image
 import androidx.annotation.OptIn

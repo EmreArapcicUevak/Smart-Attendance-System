@@ -16,7 +16,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = StaffHomeScreen
+        startDestination = LoginScreen
     ) {
         composable<LoginScreen> {
             LoginScreen(navigateToStaffHomePage = {
