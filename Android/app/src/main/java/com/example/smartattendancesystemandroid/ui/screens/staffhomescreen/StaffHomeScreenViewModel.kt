@@ -27,7 +27,7 @@ class StaffHomeScreenViewModel @Inject constructor(
             _uiState.update { currentState ->
                 currentState.copy(isLoading = true)
             }
-            
+
             // TODO get staff courses
 
             _uiState.update { currentState ->
