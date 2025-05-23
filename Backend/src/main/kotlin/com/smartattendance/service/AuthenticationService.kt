@@ -32,6 +32,7 @@ class AuthenticationService(
             ?: throw IllegalArgumentException("User not found")
 
         val accessToken = tokenService.generateToken(
+            id = user.id,
             email = user.email,
             fullName = user.fullName,
             role = user.role,

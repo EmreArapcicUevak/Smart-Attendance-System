@@ -13,9 +13,10 @@ object TokenService {
         ?: throw IllegalStateException("JWT_KEY environment variable is not set")
     private val key: SecretKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET))
 
-    fun generateToken(email: String, fullName: String, role: Role): String {
+    fun generateToken(email: String, id: Long, fullName: String, role: Role): String {
         return Jwts.builder()
             .setSubject(email)
+            .claim("id", id)
             .claim("fullName", fullName)
             .claim("role", role)
             .setIssuedAt(Date())
@@ -38,6 +39,8 @@ object TokenService {
     fun extractEmail(token: String): String = extractAllClaims(token).subject
     fun extractFullName(token: String): String = extractAllClaims(token)["fullName"] as String
     fun extractRole(token: String): String = extractAllClaims(token)["role"] as String
+    fun extractId(token: String): String = extractAllClaims(token)["id"] as String
+
 
     private fun extractAllClaims(token: String): Claims {
         return Jwts.parserBuilder()
