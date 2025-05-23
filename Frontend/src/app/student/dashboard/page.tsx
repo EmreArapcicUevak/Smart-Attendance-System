@@ -18,7 +18,7 @@ export default function StudentDashboard() {
             className="text-left hover:text-gray-200"
             onClick={() => router.push('/student/classes-page')}
           >
-            Timetable
+            Enrolled Courses
           </button>
         </nav>
         <div className="mt-auto">

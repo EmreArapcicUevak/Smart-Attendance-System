@@ -45,8 +45,6 @@ export default function RegisterPage() {
         <h2 className="text-2xl font-bold text-center text-[#3553B5] mb-2">
           Create Your Organization
         </h2>
-        
-
         {message && (
           <div className="mb-4 p-2 text-sm text-white bg-red-500 rounded">
             {message}

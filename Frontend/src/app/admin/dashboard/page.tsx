@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 interface Account {
   name: string;
   email: string;
-  type: 'student' | 'assistant';
+  type: 'student' | 'Staff';
   studentId?: string;
+  organizationId: string;
 }
 
 interface Course {
@@ -20,12 +21,14 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [accountType, setAccountType] = useState<'student' | 'assistant'>('student');
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', studentId: '' });
-  const [searchAccount, setSearchAccount] = useState('');
-  const [searchCourse, setSearchCourse] = useState('');
-  const [filterAccount, setFilterAccount] = useState('');
-  const [filterCourse, setFilterCourse] = useState('');
+  const [accountType, setAccountType] = useState<'student' | 'staff'>('student');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    studentId: '',
+    organizationId: '',
+  });
 
   useEffect(() => {
     fetch('/api/accounts').then(res => res.json()).then(setAccounts);
@@ -48,17 +51,15 @@ export default function AdminDashboard() {
     const result = await response.json();
     if (response.ok) {
       setAccounts([...accounts, result]);
-      setFormData({ name: '', email: '', password: '', studentId: '' });
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        studentId: '',
+        organizationId: '',
+      });
     }
   };
-
-  const filteredAccounts = accounts
-    .filter(acc => acc.name.toLowerCase().includes(searchAccount.toLowerCase()))
-    .filter(acc => !filterAccount || acc.type === filterAccount);
-
-  const filteredCourses = courses
-    .filter(c => c.name.toLowerCase().includes(searchCourse.toLowerCase()))
-    .filter(c => !filterCourse || c.faculty === filterCourse);
 
   return (
     <div className="min-h-screen flex bg-white text-black font-sans">
@@ -67,16 +68,14 @@ export default function AdminDashboard() {
         <h2 className="text-2xl font-bold">Admin Panel</h2>
         <nav className="flex flex-col gap-4 text-lg">
           <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/courses')}>
-   Courses
-</button>
-
+            Courses
+          </button>
           <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/accounts')}>
             Accounts
           </button>
           <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/organizationSettings')}>
             Organization Settings
           </button>
-
         </nav>
         <div className="mt-auto">
           <button
@@ -109,17 +108,64 @@ export default function AdminDashboard() {
         <div className="bg-white p-6 rounded-lg shadow mb-10 w-full">
           <h2 className="text-2xl font-semibold mb-4">Create Account</h2>
           <form onSubmit={handleCreateAccount} className="space-y-4">
-            <select value={accountType} onChange={(e) => setAccountType(e.target.value as 'student' | 'assistant')}className="w-full border px-4 py-2 rounded">
+            <select
+              value={accountType}
+              onChange={(e) => setAccountType(e.target.value as 'student' | 'staff')}
+              className="w-full border px-4 py-2 rounded"
+            >
               <option value="student">Student</option>
-              <option value="assistant">Assistant</option>
+              <option value="staff">Staff</option>
             </select>
-            <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleFormChange} className="w-full border px-4 py-2 rounded" required />
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleFormChange} className="w-full border px-4 py-2 rounded" required />
-            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleFormChange} className="w-full border px-4 py-2 rounded" required />
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleFormChange}
+              className="w-full border px-4 py-2 rounded"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleFormChange}
+              className="w-full border px-4 py-2 rounded"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleFormChange}
+              className="w-full border px-4 py-2 rounded"
+              required
+            />
+            <input
+              type="text"
+              name="organizationId"
+              placeholder="Organization ID"
+              value={formData.organizationId}
+              onChange={handleFormChange}
+              className="w-full border px-4 py-2 rounded"
+              required
+            />
             {accountType === 'student' && (
-              <input type="text" name="studentId" placeholder="Student ID" value={formData.studentId} onChange={handleFormChange} className="w-full border px-4 py-2 rounded" required />
+              <input
+                type="text"
+                name="studentId"
+                placeholder="Student ID"
+                value={formData.studentId}
+                onChange={handleFormChange}
+                className="w-full border px-4 py-2 rounded"
+                required
+              />
             )}
-            <button type="submit" className="bg-[#3553B5] text-white px-6 py-2 rounded">Create Account</button>
+            <button type="submit" className="bg-[#3553B5] text-white px-6 py-2 rounded">
+              Create Account
+            </button>
           </form>
         </div>
       </main>

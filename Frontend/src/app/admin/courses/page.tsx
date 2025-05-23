@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 interface Course {
   code: string;
   name: string;
-  faculty: string;
 }
 
 export default function ViewCoursesPage() {
@@ -31,14 +30,16 @@ export default function ViewCoursesPage() {
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
       
       <h1 className="text-4xl font-bold text-[#3553B5] mb-6">📘 Course List</h1>
-    <div className="flex justify-end mb-6">
-      <button
-          onClick={() => router.push('/admin/dashboard')}
-          className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
-        >
-          ← Back to Dashboard
-        </button>
-      </div>
+    <div className="flex justify-between items-center mb-6">
+  <h1 className="text-4xl font-bold text-[#3553B5]">Courses</h1>
+  <button
+    onClick={() => router.push('/admin/dashboard')}
+    className="px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
+  >
+    ← Back to Dashboard
+  </button>
+</div>
+
       {/* Search Filter */}
       <div className="mb-6">
         <label htmlFor="search" className="block mb-2 font-medium text-gray-700">
@@ -63,7 +64,6 @@ export default function ViewCoursesPage() {
           >
             <h3 className="text-2xl font-semibold text-[#3553B5] mb-1">{course.code}</h3>
             <p className="text-md font-medium text-gray-800">{course.name}</p>
-            <p className="text-sm text-gray-600 mb-4">Faculty: {course.faculty}</p>
           </div>
         ))}
 
