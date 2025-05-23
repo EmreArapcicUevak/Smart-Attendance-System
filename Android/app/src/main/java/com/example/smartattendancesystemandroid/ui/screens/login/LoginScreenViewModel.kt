@@ -1,13 +1,12 @@
 package com.example.smartattendancesystemandroid.ui.screens.login
 
-import android.content.SharedPreferences
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartattendancesystemandroid.auth.AuthRepository
 import com.example.smartattendancesystemandroid.auth.AuthResult
 import com.example.smartattendancesystemandroid.data.model.JwtPayload
-import com.example.smartattendancesystemandroid.utils.decodeJwtPayload
+import com.example.smartattendancesystemandroid.data.token.TokenProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.channels.Channel
@@ -21,7 +20,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val prefs: SharedPreferences
+    private val tokenProvider: TokenProvider
 ): ViewModel(
 
 ) {
@@ -72,7 +71,7 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun getJwtPayload(): JwtPayload? {
-        return decodeJwtPayload(prefs.getString("jwt", null).toString())
+        return tokenProvider.decodeTokenPayload(tokenProvider.getToken())
     }
 
     private fun login() {

@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import com.example.smartattendancesystemandroid.auth.AuthApi
 import com.example.smartattendancesystemandroid.auth.AuthRepository
 import com.example.smartattendancesystemandroid.auth.AuthRepositoryImplementation
+import com.example.smartattendancesystemandroid.data.token.TokenProvider
+import com.example.smartattendancesystemandroid.data.token.TokenProviderImplementation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,7 +39,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(api: AuthApi, prefs: SharedPreferences): AuthRepository {
-        return AuthRepositoryImplementation(api, prefs)
+    fun provideTokenProvider(prefs: SharedPreferences): TokenProvider {
+        return TokenProviderImplementation(prefs = prefs)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(api: AuthApi, tokenProvider: TokenProvider): AuthRepository {
+        return AuthRepositoryImplementation(api, tokenProvider)
     }
 }
