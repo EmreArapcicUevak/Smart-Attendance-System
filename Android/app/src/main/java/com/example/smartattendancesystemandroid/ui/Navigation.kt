@@ -16,7 +16,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = LoginScreen
+        startDestination = StaffHomeScreen
     ) {
         composable<LoginScreen> {
             LoginScreen(navigateToStaffHomePage = {
@@ -32,7 +32,6 @@ fun Navigation() {
         }
         composable<CourseDetailsScreen> {
             CourseDetailsScreen(
-                settingsPressed = {},
                 logoutPressed = {},
                 navigateBackPressed = {},
                 canNavigateBack = true,

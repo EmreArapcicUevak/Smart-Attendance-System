@@ -49,7 +49,6 @@ fun CheckStudentCourseAttendanceScreen() {
 @Composable
 fun CheckStudentCourseAttendanceScreenContent(
     studentName: String,
-    settingsPressed: () -> Unit = {},
     logoutPressed: () -> Unit = {},
     canNavigateBack: Boolean = true,
     navigateBackPressed: () -> Unit = {},
@@ -63,7 +62,6 @@ fun CheckStudentCourseAttendanceScreenContent(
 ) {
     Skeleton(
         topAppBarTitle = studentName,
-        settingsPressed = settingsPressed,
         logoutPressed = logoutPressed,
         canNavigateBack = canNavigateBack,
         navigateBackPressed = navigateBackPressed
@@ -199,9 +197,7 @@ private fun ChangeStateDialog(
                 modifier = Modifier.width(110.dp)
             )
 
-            Row(
-
-            ) {
+            Row {
                 Button(
                     onClick = onClose,
                     shape = RoundedCornerShape(8.dp)

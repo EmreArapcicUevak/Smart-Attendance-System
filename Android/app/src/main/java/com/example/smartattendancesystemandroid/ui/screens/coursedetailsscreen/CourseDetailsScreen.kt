@@ -30,7 +30,6 @@ import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAn
 
 @Composable
 fun CourseDetailsScreen(
-    settingsPressed: () -> Unit,
     logoutPressed: () -> Unit,
     navigateBackPressed: () -> Unit,
     canNavigateBack: Boolean,
@@ -43,7 +42,6 @@ fun CourseDetailsScreen(
 
     CourseDetailsScreenContent(
         courseCode = courseDetailsUiState.courseCode,
-        settingsPressed = settingsPressed,
         logoutPressed = logoutPressed,
         navigateBackPressed = navigateBackPressed,
         canNavigateBack = canNavigateBack,
@@ -60,7 +58,6 @@ fun CourseDetailsScreen(
 @Composable
 private fun CourseDetailsScreenContent(
     courseCode: String,
-    settingsPressed: () -> Unit = {},
     logoutPressed: () -> Unit = {},
     navigateBackPressed: () -> Unit = {},
     canNavigateBack: Boolean = true,
@@ -75,7 +72,6 @@ private fun CourseDetailsScreenContent(
     Skeleton(
         topAppBarTitle = "$courseCode Details",
         logoutPressed = logoutPressed,
-        settingsPressed = settingsPressed,
         navigateBackPressed = navigateBackPressed,
         canNavigateBack = canNavigateBack,
         floatingActionButton = {

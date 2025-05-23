@@ -17,7 +17,6 @@ fun StaffHomeScreen() {
 
 
     StaffHomeScreenContent(
-        settingsPressed = {},
         logoutPressed = {},
         canNavigateBack = false,
         navigateBackPressed = {},
@@ -30,7 +29,6 @@ fun StaffHomeScreen() {
 
 @Composable
 private fun StaffHomeScreenContent(
-    settingsPressed: () -> Unit,
     logoutPressed: () -> Unit,
     courseSettingsPressed: (String) -> Unit,
     courseCardPressed: (String) -> Unit,
@@ -40,7 +38,6 @@ private fun StaffHomeScreenContent(
     navigateBackPressed: () -> Unit,
 ) {
     Skeleton(
-        settingsPressed = settingsPressed,
         logoutPressed = logoutPressed,
         canNavigateBack = canNavigateBack,
         topAppBarTitle = "Dashboard",
@@ -109,7 +106,6 @@ fun StaffHomeScreenContentPreview() {
 
 
         StaffHomeScreenContent(
-            settingsPressed = {},
             logoutPressed = {},
             canNavigateBack = false,
             navigateBackPressed = {},

@@ -13,7 +13,6 @@ fun StudentHomeScreen() {
 @Composable
 private fun StudentHomeScreenContent(
     topAppBarTitle: String = "Dashboard",
-    settingsPressed: () -> Unit = {},
     logoutPressed: () -> Unit = {},
     navigateBackPressed: () -> Unit = {},
     canNavigateBack: Boolean = false,
@@ -22,7 +21,6 @@ private fun StudentHomeScreenContent(
 ) {
     Skeleton(
         topAppBarTitle = topAppBarTitle,
-        settingsPressed = settingsPressed,
         logoutPressed = logoutPressed,
         navigateBackPressed = navigateBackPressed,
         canNavigateBack = canNavigateBack

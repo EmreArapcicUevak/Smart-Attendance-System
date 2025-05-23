@@ -17,7 +17,6 @@ fun StudentCourseDetailsScreen() {
 @Composable
 private fun StudentCourseDetailsScreenContent(
     topAppBarTitle: String = "CS302 Details",
-    settingsPressed: () -> Unit = {},
     logoutPressed: () -> Unit = {},
     navigateBackPressedPressed: () -> Unit = {},
     canNavigateBack: Boolean = true,
@@ -27,7 +26,6 @@ private fun StudentCourseDetailsScreenContent(
 ) {
     Skeleton(
         topAppBarTitle = topAppBarTitle,
-        settingsPressed = settingsPressed,
         logoutPressed = logoutPressed,
         navigateBackPressed = navigateBackPressedPressed,
         canNavigateBack = canNavigateBack,
