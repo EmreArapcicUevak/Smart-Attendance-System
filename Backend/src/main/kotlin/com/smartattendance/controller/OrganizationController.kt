@@ -1,10 +1,9 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.dto.OrganizationRequest
-import main.kotlin.com.smartattendance.dto.OrganizationResponse
-import main.kotlin.com.smartattendance.service.OrganizationService
+import com.smartattendance.dto.OrganizationRequest
+import com.smartattendance.dto.OrganizationResponse
+import com.smartattendance.service.OrganizationService
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController

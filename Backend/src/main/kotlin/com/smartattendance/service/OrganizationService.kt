@@ -1,11 +1,11 @@
-package main.kotlin.com.smartattendance.service
+package com.smartattendance.service
 
-import main.kotlin.com.smartattendance.dto.OrganizationRequest
-import main.kotlin.com.smartattendance.dto.OrganizationResponse
-import main.kotlin.com.smartattendance.entity.Organization
-import main.kotlin.com.smartattendance.repository.OrganizationRepository
-import main.kotlin.com.smartattendance.repository.UserRepository
-import main.kotlin.com.smartattendance.entity.Role
+import com.smartattendance.dto.OrganizationRequest
+import com.smartattendance.dto.OrganizationResponse
+import com.smartattendance.entity.Organization
+import com.smartattendance.repository.OrganizationRepository
+import com.smartattendance.repository.UserRepository
+import com.smartattendance.entity.Role
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

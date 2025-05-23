@@ -1,9 +1,9 @@
-package main.kotlin.com.smartattendance.config
+package com.smartattendance.config
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import main.kotlin.com.smartattendance.service.TokenService
+import com.smartattendance.service.TokenService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService

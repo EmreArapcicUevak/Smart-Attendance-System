@@ -1,12 +1,19 @@
-package main.kotlin.com.smartattendance.dto
+package com.smartattendance.dto
 
-import main.kotlin.com.smartattendance.entity.Attendance
+import com.smartattendance.entity.Attendance
+import com.smartattendance.entity.ComponentType
+
+data class AttendanceRequest(
+    val studentIds: List<Long>,
+    val componentType: ComponentType,
+    val weekNumber: Int
+)
 
 data class AttendanceResponse(
     val id: Long,
     val courseId: Long,
     val componentType: String, // e.g., "COURSE", "TUTORIAL", "LAB"
-    val date: String,
+    val weekNumber: Int,
     val status: String // e.g., "PRESENT", "ABSENT"
 ) {
     companion object {
@@ -14,7 +21,7 @@ data class AttendanceResponse(
             id = attendance.id,
             courseId = attendance.course.id,
             componentType = attendance.componentType.name,
-            date = attendance.date.toString(),
+            weekNumber = attendance.weekNumber,
             status = attendance.status.name
         )
     }

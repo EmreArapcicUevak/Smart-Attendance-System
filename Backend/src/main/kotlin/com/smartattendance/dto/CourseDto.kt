@@ -1,6 +1,6 @@
-package main.kotlin.com.smartattendance.dto
+package com.smartattendance.dto
 
-import main.kotlin.com.smartattendance.entity.DayOfTheWeek
+import com.smartattendance.entity.DayOfTheWeek
 
 data class CourseRequest(
     val courseName: String,

@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance.config
+package com.smartattendance.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

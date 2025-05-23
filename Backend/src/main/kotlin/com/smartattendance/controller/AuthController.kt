@@ -1,9 +1,9 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.entity.User
-import main.kotlin.com.smartattendance.repository.UserRepository
-import main.kotlin.com.smartattendance.dto.UserRequest
-import main.kotlin.com.smartattendance.service.TokenService
+import com.smartattendance.entity.User
+import com.smartattendance.repository.UserRepository
+import com.smartattendance.dto.UserRequest
+import com.smartattendance.service.TokenService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder

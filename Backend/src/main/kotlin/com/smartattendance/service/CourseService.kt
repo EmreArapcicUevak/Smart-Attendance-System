@@ -1,11 +1,11 @@
-package main.kotlin.com.smartattendance.service
+package com.smartattendance.service
 
 import com.smartattendance.dto.StudentResponse
-import main.kotlin.com.smartattendance.dto.CourseRequest
-import main.kotlin.com.smartattendance.dto.CourseResponse
-import main.kotlin.com.smartattendance.entity.Course
-import main.kotlin.com.smartattendance.repository.CourseRepository
-import main.kotlin.com.smartattendance.repository.UserRepository
+import com.smartattendance.dto.CourseRequest
+import com.smartattendance.dto.CourseResponse
+import com.smartattendance.entity.Course
+import com.smartattendance.repository.CourseRepository
+import com.smartattendance.repository.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder

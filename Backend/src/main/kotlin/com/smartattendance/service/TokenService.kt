@@ -1,13 +1,14 @@
-package main.kotlin.com.smartattendance.service
+package com.smartattendance.service
 
 import io.jsonwebtoken.*
 import io.jsonwebtoken.security.Keys
-import main.kotlin.com.smartattendance.entity.Role
+import com.smartattendance.entity.Role
 import java.util.*
 import javax.crypto.SecretKey
 import java.util.Base64
-import kotlin.text.get
+import org.springframework.stereotype.Service
 
+@Service
 object TokenService {
     private val SECRET: String = System.getenv("JWT_KEY")
         ?: throw IllegalStateException("JWT_KEY environment variable is not set")

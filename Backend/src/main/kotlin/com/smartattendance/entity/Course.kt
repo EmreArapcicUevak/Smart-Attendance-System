@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance.entity
+package com.smartattendance.entity
 
 import jakarta.persistence.*
 
