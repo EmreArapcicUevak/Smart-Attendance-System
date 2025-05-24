@@ -1,10 +1,10 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function HomePage() {
   const router = useRouter();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,11 +27,22 @@ export default function HomePage() {
       }
 
       const data = await res.json();
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('studentId', data.id || '1'); // optionally store student ID if returned
 
-      alert('✅ Login successful!');
-      router.push('/student/dashboard');
+      // ✅ Store credentials
+      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('userRole', data.role);
+      if (data.id) localStorage.setItem('userId', data.id);
+
+      // ✅ Role-based redirection
+      if (data.role === 'student') {
+        router.push('/student/dashboard');
+      } else if (data.role === 'staff') {
+        router.push('/staff/dashboard');
+      } else if (data.role === 'admin') {
+        router.push('/admin/dashboard');
+      } else {
+        alert('❌ Unknown user role. Please contact support.');
+      }
     } catch (err: any) {
       alert('❌ Error: ' + err.message);
     }
@@ -58,6 +69,7 @@ export default function HomePage() {
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
           </div>
+
           {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-[#AAA6A6] mb-1">
@@ -73,6 +85,7 @@ export default function HomePage() {
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
           </div>
+
           {/* Login Button */}
           <button
             type="submit"
@@ -80,6 +93,7 @@ export default function HomePage() {
           >
             Login
           </button>
+
           {/* Register Button */}
           <button
             type="button"
