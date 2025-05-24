@@ -36,7 +36,7 @@ import com.example.smartattendancesystemandroid.ui.theme.suggestionChipSuccessCo
 @Composable
 fun StudentListComponent(
     students: List<StudentCardData>,
-    cardPressed: (Long) -> Unit = {},
+    cardPressed: (Long, String) -> Unit = {l,s ->},
 ) {
     LazyColumn (
         modifier = Modifier.fillMaxSize()
@@ -76,13 +76,13 @@ private fun StudentCard(
     lectureAttendanceMinPercentage: Double,
     tutorialAttendanceMinPercentage: Double? = null,
     labAttendanceMinPercentage: Double? = null,
-    cardPressed: (Long) -> Unit = {},
+    cardPressed: (Long, String) -> Unit = {l,s ->},
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable(onClick = {cardPressed(id)}),
+            .clickable(onClick = {cardPressed(id, name)}),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(12.dp)
     ) {

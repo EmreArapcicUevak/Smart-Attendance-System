@@ -34,7 +34,7 @@ import com.example.smartattendancesystemandroid.ui.theme.suggestionColorChipNeut
 fun CourseComponentAttendanceCard(
     componentName: String,
     weekAttendedStateList: List<WeekAttendedState>,
-    onClick: (Int) -> Unit = {},
+    onClick: (Int, String) -> Unit = {i,s ->},
 ) {
     Card(
         modifier = Modifier
@@ -67,7 +67,7 @@ fun CourseComponentAttendanceCard(
                             WeekChip(
                                 weekNumber = i * 5 + j,
                                 weekAttendedState = weekAttendedStateList[i * 5 + j - 1],
-                                onClick = onClick
+                                onClick = {onClick(it, componentName)}
                             )
                         }
                     }

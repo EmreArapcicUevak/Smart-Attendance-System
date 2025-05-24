@@ -36,14 +36,14 @@ private fun StudentCourseDetailsScreenContent(
                 CourseComponentAttendanceCard(
                     componentName = "Lecture",
                     weekAttendedStateList = lectureWeekAttendedStateList,
-                    onClick = {},
+                    onClick = {i,s ->},
                 )
 
                 if (tutorialWeekAttendedStateList != null) {
                     CourseComponentAttendanceCard(
                         componentName = "Tutorial",
                         weekAttendedStateList = tutorialWeekAttendedStateList,
-                        onClick = {},
+                        onClick = {i,s ->},
                     )
                 }
 
@@ -51,7 +51,7 @@ private fun StudentCourseDetailsScreenContent(
                     CourseComponentAttendanceCard(
                         componentName = "Lab",
                         weekAttendedStateList = labWeekAttendedStateList,
-                        onClick = {},
+                        onClick = {i,s ->},
                     )
                 }
             }

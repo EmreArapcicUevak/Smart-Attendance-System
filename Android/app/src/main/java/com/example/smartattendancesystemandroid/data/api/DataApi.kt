@@ -5,7 +5,6 @@ import com.example.smartattendancesystemandroid.data.model.AttendanceResponse
 import com.example.smartattendancesystemandroid.data.model.CourseListResponse
 import com.example.smartattendancesystemandroid.data.model.CourseRequest
 import com.example.smartattendancesystemandroid.data.model.CourseResponse
-import com.example.smartattendancesystemandroid.data.model.Student
 import com.example.smartattendancesystemandroid.data.model.StudentListResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -49,8 +48,9 @@ interface DataApi {
         @Body body: AttendanceRequest
     ): Response<Unit>
 
-    @GET("attendance/{studentId}")
+    @GET("attendance/{courseId}/{studentId}")
     suspend fun getStudentAttendance(
+        @Path("courseId") courseId: Long,
         @Path("studentId") studentId: Long
     ): AttendanceResponse
 }

@@ -34,7 +34,7 @@ fun CourseDetailsScreen(
     logoutPressed: () -> Unit,
     navigateBackPressed: () -> Unit,
     canNavigateBack: Boolean,
-    cardPressed: (Long) -> Unit,
+    cardPressed: (Long, String, Long) -> Unit,
     courseDetailsScreenViewModel: CourseDetailsScreenViewModel = hiltViewModel<CourseDetailsScreenViewModel>()
 ) {
 
@@ -71,7 +71,7 @@ private fun CourseDetailsScreenContent(
     navigateBackPressed: () -> Unit = {},
     canNavigateBack: Boolean = true,
     students: List<StudentCardData> = listOf<StudentCardData>(),
-    cardPressed: (Long) -> Unit = {},
+    cardPressed: (Long, String, Long) -> Unit = {si, sn, ci ->},
     filterFieldValue: String = "",
     onFilterFieldValueChange: (String) -> Unit = {},
     takeAttendancePressed: (courseId: Long) -> Unit = {},
@@ -107,7 +107,7 @@ private fun CourseDetailsScreenContent(
 
         StudentListComponent(
             students = students,
-            cardPressed = cardPressed,
+            cardPressed = {studentId, studentName -> cardPressed(studentId, studentName, courseId)},
         )
     }
 }

@@ -1,6 +1,5 @@
 package com.example.smartattendancesystemandroid.ui.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -8,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.CheckStudentCourseAttendanceScreen
+import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.CheckStudentCourseAttendanceScreenViewModel
 import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.CourseDetailsScreen
 import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.CourseDetailsScreenViewModel
 import com.example.smartattendancesystemandroid.ui.screens.login.LoginScreen
@@ -80,13 +80,40 @@ fun Navigation() {
                     }
                 },
                 canNavigateBack = navController.previousBackStackEntry != null,
-                cardPressed = {
-                    //TODO
+                cardPressed = { studentId, studentName, courseId ->
+                    navController.navigate(CheckStudentCourseAttendanceScreen(
+                        studentId = studentId,
+                        studentName = studentName,
+                        courseId = courseId
+                    ))
                 }
             )
         }
         composable<CheckStudentCourseAttendanceScreen> {
-            CheckStudentCourseAttendanceScreen()
+            val args = it.toRoute<CheckStudentCourseAttendanceScreen>()
+            val checkStudentCourseAttendanceScreenViewModel: CheckStudentCourseAttendanceScreenViewModel = hiltViewModel<CheckStudentCourseAttendanceScreenViewModel>()
+            checkStudentCourseAttendanceScreenViewModel.setup(
+                studentId = args.studentId,
+                studentName = args.studentName,
+                courseId = args.courseId
+            )
+            CheckStudentCourseAttendanceScreen(
+                checkStudentCourseAttendanceScreenViewModel = checkStudentCourseAttendanceScreenViewModel,
+                logoutPressed = {
+                    navigationViewModel.logout()
+                    navController.navigate(LoginScreen) {
+                        popUpTo(CheckStudentCourseAttendanceScreen) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateBackPressed = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                },
+                canNavigateBack = navController.previousBackStackEntry != null,
+            )
         }
         composable<MarkAttendanceScreen> {
             MarkAttendanceScreen()
@@ -110,7 +137,11 @@ data class CourseSettingsScreen(val courseId: Long)
 object CreateCourseScreen
 
 @Serializable
-object CheckStudentCourseAttendanceScreen
+data class CheckStudentCourseAttendanceScreen(
+    val studentId: Long,
+    val studentName: String,
+    val courseId: Long
+)
 
 @Serializable
 object MarkAttendanceScreen

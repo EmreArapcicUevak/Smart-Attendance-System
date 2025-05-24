@@ -2,8 +2,12 @@ package com.example.smartattendancesystemandroid.data.repository
 
 import android.util.Log
 import com.example.smartattendancesystemandroid.data.api.DataApi
+import com.example.smartattendancesystemandroid.data.model.AttendanceRequest
+import com.example.smartattendancesystemandroid.data.model.AttendanceResponse
 import com.example.smartattendancesystemandroid.data.model.CourseListResponse
 import com.example.smartattendancesystemandroid.data.model.StudentListResponse
+import com.example.smartattendancesystemandroid.data.model.WeekAttendedState
+import com.example.smartattendancesystemandroid.data.model.getWeekAttendedStateExamples
 import retrofit2.HttpException
 
 class DataRepositoryImplementation(
@@ -34,6 +38,35 @@ class DataRepositoryImplementation(
         catch (e: Exception) {
             Log.e("APIE", e.toString())
             StudentListResponse(students = listOf())  //returns empty list
+        }
+    }
+
+    override suspend fun getStudentAttendance(
+        courseId: Long,
+        studentId: Long
+    ): AttendanceResponse {
+        return try {
+            api.getStudentAttendance(courseId, studentId)
+        }
+        catch (e: HttpException) {
+            Log.e("APIE", e.toString())
+            AttendanceResponse(lecture = getWeekAttendedStateExamples(WeekAttendedState.MISSED))
+        }
+        catch (e: Exception) {
+            Log.e("APIE", e.toString())
+            AttendanceResponse(lecture = getWeekAttendedStateExamples(WeekAttendedState.MISSED))
+        }
+    }
+
+    override suspend fun markAttendance(body: AttendanceRequest) {
+        try {
+            api.markAttendance(body)
+        }
+        catch (e: HttpException) {
+            Log.e("APIE", e.toString())
+        }
+        catch (e: Exception) {
+            Log.e("APIE", e.toString())
         }
     }
 }

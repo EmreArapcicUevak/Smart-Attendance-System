@@ -18,6 +18,7 @@ import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,9 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.smartattendancesystemandroid.data.model.WeekAttendedState
 import com.example.smartattendancesystemandroid.data.model.getWeekAttendedStateExamples
 import com.example.smartattendancesystemandroid.ui.components.CourseComponentAttendanceCard
+import com.example.smartattendancesystemandroid.ui.components.LoadingCircleScreen
 import com.example.smartattendancesystemandroid.ui.components.Skeleton
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 import com.example.smartattendancesystemandroid.ui.theme.suggestionChipFailureColor
@@ -37,13 +40,35 @@ import com.example.smartattendancesystemandroid.ui.theme.suggestionChipSuccessCo
 import com.example.smartattendancesystemandroid.ui.theme.suggestionColorChipNeutral
 
 @Composable
-fun CheckStudentCourseAttendanceScreen() {
+fun CheckStudentCourseAttendanceScreen(
+    logoutPressed: () -> Unit,
+    canNavigateBack: Boolean,
+    navigateBackPressed: () -> Unit,
+    checkStudentCourseAttendanceScreenViewModel: CheckStudentCourseAttendanceScreenViewModel = hiltViewModel<CheckStudentCourseAttendanceScreenViewModel>()
+) {
+
+    val checkStudentCourseAttendanceScreenUiState by checkStudentCourseAttendanceScreenViewModel.uiState.collectAsState()
+
+    if (checkStudentCourseAttendanceScreenUiState.isLoading) {
+        LoadingCircleScreen()
+        return
+    }
+
     CheckStudentCourseAttendanceScreenContent(
-        studentName = "Vedad Siljic",
-        lectureWeekAttendedStateList = getWeekAttendedStateExamples(WeekAttendedState.NOT_MARKED),
-        tutorialWeekAttendedStateList = getWeekAttendedStateExamples(WeekAttendedState.NOT_MARKED),
-        labWeekAttendedStateList = getWeekAttendedStateExamples(),
+        studentName = checkStudentCourseAttendanceScreenUiState.studentName,
+        logoutPressed = logoutPressed,
+        canNavigateBack = canNavigateBack,
+        navigateBackPressed = navigateBackPressed,
+        lectureWeekAttendedStateList = checkStudentCourseAttendanceScreenUiState.lectureWeekAttendedStateList,
+        tutorialWeekAttendedStateList = checkStudentCourseAttendanceScreenUiState.tutorialWeekAttendedStateList,
+        labWeekAttendedStateList = checkStudentCourseAttendanceScreenUiState.labWeekAttendedStateList,
+        dialogOpen = checkStudentCourseAttendanceScreenUiState.dialogOpen,
+        lastClickedWeekState = checkStudentCourseAttendanceScreenUiState.lastClickedWeekState,
+        onDialogClose = {checkStudentCourseAttendanceScreenViewModel.onDialogClose()},
+        onWeekClicked = {week, componentName -> checkStudentCourseAttendanceScreenViewModel.onWeekClicked(week, componentName)},
+        onChangeWeekAttendance = {checkStudentCourseAttendanceScreenViewModel.onChangeWeekAttendance()}
     )
+
 }
 
 @Composable
@@ -52,12 +77,13 @@ fun CheckStudentCourseAttendanceScreenContent(
     logoutPressed: () -> Unit = {},
     canNavigateBack: Boolean = true,
     navigateBackPressed: () -> Unit = {},
-    onWeekClicked: (Int) -> Unit = {},
+    onWeekClicked: (Int, String) -> Unit = {i,s ->},
     lectureWeekAttendedStateList: List<WeekAttendedState>,
     tutorialWeekAttendedStateList: List<WeekAttendedState>? = null,
     labWeekAttendedStateList: List<WeekAttendedState>? = null,
     dialogOpen: Boolean = true,
     onDialogClose: () -> Unit = {},
+    onChangeWeekAttendance: () -> Unit = {},
     lastClickedWeekState: WeekAttendedState = WeekAttendedState.NOT_MARKED,
 ) {
     Skeleton(
@@ -73,7 +99,8 @@ fun CheckStudentCourseAttendanceScreenContent(
                 if (dialogOpen) {
                     ChangeStateDialog(
                         onClose = onDialogClose,
-                        currentState = lastClickedWeekState
+                        currentState = lastClickedWeekState,
+                        onChangeWeekAttendance = onChangeWeekAttendance
                     )
                 }
 
@@ -110,6 +137,7 @@ private fun ChangeStateDialog(
     modifier: Modifier = Modifier,
     currentState: WeekAttendedState = WeekAttendedState.NOT_MARKED,
     onClose: () -> Unit = {},
+    onChangeWeekAttendance: () -> Unit = {}
 
     ) {
 
@@ -210,9 +238,7 @@ private fun ChangeStateDialog(
                 )
 
                 Button(
-                    onClick = {
-
-                    },
+                    onClick = onChangeWeekAttendance,
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(text = "Save")
