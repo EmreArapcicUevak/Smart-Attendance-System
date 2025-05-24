@@ -36,7 +36,7 @@ import com.example.smartattendancesystemandroid.ui.theme.suggestionChipSuccessCo
 @Composable
 fun StudentListComponent(
     students: List<StudentCardData>,
-    cardPressed: (String) -> Unit = {},
+    cardPressed: (Long) -> Unit = {},
 ) {
     LazyColumn (
         modifier = Modifier.fillMaxSize()
@@ -64,9 +64,9 @@ fun StudentListComponent(
 
 @Composable
 private fun StudentCard(
-    id: String,
+    id: Long,
     name: String,
-    studentId: String,
+    studentId: Long,
     lectureSection: Int,
     tutorialSection: Int? = null,
     labSection: Int? = null,
@@ -76,7 +76,7 @@ private fun StudentCard(
     lectureAttendanceMinPercentage: Double,
     tutorialAttendanceMinPercentage: Double? = null,
     labAttendanceMinPercentage: Double? = null,
-    cardPressed: (String) -> Unit = {},
+    cardPressed: (Long) -> Unit = {},
 ) {
     Card(
         modifier = Modifier
@@ -98,7 +98,7 @@ private fun StudentCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = studentId,
+                        text = studentId.toString(),
                         style = MaterialTheme.typography.titleSmall
                     )
                 }
@@ -113,7 +113,7 @@ private fun StudentCard(
             }
 
             HorizontalDivider(modifier = Modifier.padding(4.dp))
-
+            /*
             Row (
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -199,7 +199,9 @@ private fun StudentCard(
                     )
                 }
             }
+            */
         }
+
     }
 }
 
@@ -222,9 +224,9 @@ private fun StudentListComponentPreview() {
 @Composable
 private fun StudentCardPreview() {
     StudentCard(
-        id = "",
+        id = 0,
         name = "Vedad Šiljić",
-        studentId = "220302211",
+        studentId = 220302211,
         lectureSection = 1,
         lectureAttendancePercentage = 80.2,
         lectureAttendanceMinPercentage = 70.0,

@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.smartattendancesystemandroid.ui.components.LoadingCircleScreen
 import com.example.smartattendancesystemandroid.ui.components.Skeleton
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
@@ -33,14 +34,21 @@ fun CourseDetailsScreen(
     logoutPressed: () -> Unit,
     navigateBackPressed: () -> Unit,
     canNavigateBack: Boolean,
-    cardPressed: (String) -> Unit,
+    cardPressed: (Long) -> Unit,
     courseDetailsScreenViewModel: CourseDetailsScreenViewModel = hiltViewModel<CourseDetailsScreenViewModel>()
 ) {
 
     val courseDetailsUiState by courseDetailsScreenViewModel.uiState.collectAsState()
 
 
+    if (courseDetailsUiState.isLoading) {
+        LoadingCircleScreen()
+        return
+    }
+
+
     CourseDetailsScreenContent(
+        courseId = courseDetailsUiState.courseId,
         courseCode = courseDetailsUiState.courseCode,
         logoutPressed = logoutPressed,
         navigateBackPressed = navigateBackPressed,
@@ -57,15 +65,16 @@ fun CourseDetailsScreen(
 
 @Composable
 private fun CourseDetailsScreenContent(
+    courseId: Long,
     courseCode: String,
     logoutPressed: () -> Unit = {},
     navigateBackPressed: () -> Unit = {},
     canNavigateBack: Boolean = true,
     students: List<StudentCardData> = listOf<StudentCardData>(),
-    cardPressed: (String) -> Unit = {},
+    cardPressed: (Long) -> Unit = {},
     filterFieldValue: String = "",
-    onFilterFieldValueChange: (String) -> Unit = {},  // viewmodel
-    takeAttendancePressed: () -> Unit = {},  // TODO
+    onFilterFieldValueChange: (String) -> Unit = {},
+    takeAttendancePressed: (courseId: Long) -> Unit = {},
     canTakeAttendance: Boolean = true,
 
     ) {
@@ -77,7 +86,7 @@ private fun CourseDetailsScreenContent(
         floatingActionButton = {
             if (canTakeAttendance) {
                 FloatingActionButton(
-                    onClick = takeAttendancePressed,
+                    onClick = {takeAttendancePressed(courseId)},
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ) {
@@ -158,6 +167,7 @@ private fun CourseDetailsScreenPreview() {
 
     SmartAttendanceSystemAndroidTheme {
         CourseDetailsScreenContent(
+            courseId = 0,
             courseCode = "CS308",
             students = getExampleStudentCardData()
         )
