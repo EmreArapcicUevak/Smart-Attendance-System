@@ -27,7 +27,7 @@ class AttendanceService(
         val course = courseRepository.findById(courseId)
             .orElseThrow { IllegalArgumentException("Course not found") }
 
-        // Validate component type using hasLabs and hasTutorials
+        // Validate component type
         when (attendanceRequest.componentType) {
             ComponentType.LAB -> {
                 if (!course.hasLabs) {
@@ -40,19 +40,15 @@ class AttendanceService(
                 }
             }
             ComponentType.LECTURE -> {
-                // Assuming all courses have lectures by default, no validation needed
+                // Assuming all courses have lectures by default
             }
             else -> throw IllegalArgumentException("Invalid component type")
         }
 
-        val students = courseService.getStudentsByCourseId(courseId)
-            .filter { it.studentId in attendanceRequest.studentIds }
+        val allStudents = courseService.getStudentsByCourseId(courseId)
+        val presentStudentIds = attendanceRequest.studentIds.toSet()
 
-        if (students.isEmpty()) {
-            throw IllegalArgumentException("No valid students found for the given course and IDs")
-        }
-
-        val attendanceRecords = students.map { student ->
+        val attendanceRecords = allStudents.map { student ->
             val existingRecord = attendanceRepository.findByStudentIdAndCourseIdAndComponentTypeAndWeekNumber(
                 student.studentId, courseId, attendanceRequest.componentType, attendanceRequest.weekNumber
             )
@@ -68,7 +64,7 @@ class AttendanceService(
                 course = course,
                 componentType = attendanceRequest.componentType,
                 weekNumber = attendanceRequest.weekNumber,
-                status = AttendanceStatus.PRESENT
+                status = if (student.studentId in presentStudentIds) AttendanceStatus.PRESENT else AttendanceStatus.ABSENT
             )
         }
 
