@@ -45,10 +45,16 @@ class AttendanceService(
             else -> throw IllegalArgumentException("Invalid component type")
         }
 
-        val allStudents = courseService.getStudentsByCourseId(courseId)
+        val enrolledStudentIds = course.students.map { it.studentId }.toSet()
         val presentStudentIds = attendanceRequest.studentIds.toSet()
 
-        val attendanceRecords = allStudents.map { student ->
+        presentStudentIds.forEach { studentId ->
+            if (studentId !in enrolledStudentIds) {
+                throw IllegalArgumentException("Student with ID $studentId is not enrolled in the course")
+            }
+        }
+
+        val attendanceRecords = course.students.map { student ->
             val existingRecord = attendanceRepository.findByStudentIdAndCourseIdAndComponentTypeAndWeekNumber(
                 student.studentId, courseId, attendanceRequest.componentType, attendanceRequest.weekNumber
             )
@@ -58,8 +64,7 @@ class AttendanceService(
             }
 
             Attendance(
-                student = userRepository.findByStudentId(student.studentId)
-                    ?: throw IllegalArgumentException("Student not found"),
+                student = student,
                 studentId = student.studentId,
                 course = course,
                 componentType = attendanceRequest.componentType,
