@@ -20,7 +20,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch('http://localhost:8080/api/organizations/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ organizationName, email, password }),

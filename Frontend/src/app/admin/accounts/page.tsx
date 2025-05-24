@@ -17,12 +17,18 @@ export default function AdminAccountsPage() {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    fetch('/api/accounts')
-      .then(res => res.json())
-      .then(setAccounts)
-      .catch(() => {
+    const fetchAccounts = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/users');
+        const data = await response.json();
+        setAccounts(data);
+      } catch (error) {
+        console.error('Failed to fetch accounts:', error);
         setAccounts([]);
-      });
+      }
+    };
+
+    fetchAccounts();
   }, []);
 
   const filteredAccounts = accounts

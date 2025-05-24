@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 interface Account {
   name: string;
   email: string;
-  type: 'student' | 'Staff';
+  type: 'student' | 'staff';
   studentId?: string;
   organizationId: string;
 }
@@ -31,8 +31,15 @@ export default function AdminDashboard() {
   });
 
   useEffect(() => {
-    fetch('/api/accounts').then(res => res.json()).then(setAccounts);
-    fetch('/api/courses').then(res => res.json()).then(setCourses);
+    fetch('http://localhost:8080/api/users')
+      .then(res => res.json())
+      .then(setAccounts)
+      .catch(() => setAccounts([]));
+
+    fetch('http://localhost:8080/api/courses')
+      .then(res => res.json())
+      .then(setCourses)
+      .catch(() => setCourses([]));
   }, []);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -43,21 +50,29 @@ export default function AdminDashboard() {
   const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload = { ...formData, type: accountType };
-    const response = await fetch('/api/create-account', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const result = await response.json();
-    if (response.ok) {
-      setAccounts([...accounts, result]);
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        studentId: '',
-        organizationId: '',
+
+    try {
+      const response = await fetch('http://localhost:8080/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
+
+      const result = await response.json();
+      if (response.ok) {
+        setAccounts([...accounts, result]);
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+          studentId: '',
+          organizationId: '',
+        });
+      } else {
+        alert('❌ Failed to create account: ' + (result.message || 'Unknown error'));
+      }
+    } catch (err: any) {
+      alert('❌ Error creating account: ' + err.message);
     }
   };
 

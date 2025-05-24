@@ -40,7 +40,7 @@ export default function StudentDashboard() {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 bg-[#EFF1FA] p-6 rounded-lg shadow-sm">
           <div>
             <h1 className="text-3xl font-bold text-[#3553B5]">Welcome back, {userName} 👋</h1>
-            <p className="text-sm text-gray-600 mt-1">Here’s your student dashboard overview.</p>
+            <p className="text-sm text-gray-600 mt-1">Here's your student dashboard overview.</p>
           </div>
           <div className="mt-4 md:mt-0">
             <span className="bg-[#3553B5] text-white text-sm px-4 py-2 rounded-lg shadow">

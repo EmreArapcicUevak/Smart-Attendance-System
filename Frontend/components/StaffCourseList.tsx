@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type Course = {
   id: number;
@@ -9,18 +9,18 @@ type Course = {
   faculty: string;
 };
 
-// Mock data with new structure
-const mockCourses: Course[] = [
-  {
-    id: 1,
-    code: 'CS101',
-    name: 'Software Engineering',
-    faculty: 'Faculty of Engineering and Natural Sciences',
-  }
-];
-
 export default function StaffCourseList() {
-  const [courses] = useState<Course[]>(mockCourses);
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/courses')
+      .then((res) => res.json())
+      .then((data) => setCourses(data))
+      .catch((err) => {
+        console.error('Failed to fetch courses:', err);
+        setCourses([]);
+      });
+  }, []);
 
   return (
     <section className="mt-10">
