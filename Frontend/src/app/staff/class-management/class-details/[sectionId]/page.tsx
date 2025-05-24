@@ -20,10 +20,15 @@ export default function AttendanceDetailsPage() {
   const handleSearch = async () => {
     if (!searchId || !sectionId) return;
 
-    try {
-      const res = await fetch(
-        `http://localhost:8080/api/students/${searchId}/attendance?courseId=${sectionId}`
-      );
+try {
+  const res = await fetch(
+    `http://localhost:8080/api/students/${searchId}/attendance?courseId=${sectionId}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
+      }
+    }
+  );
 
       if (res.ok) {
         const data = await res.json();

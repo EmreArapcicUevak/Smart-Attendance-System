@@ -8,16 +8,20 @@ export default function ClassManagementPage() {
 
   const [classes, setClasses] = useState<{ code: string; name: string; faculty: string }[]>([]);
 
-  useEffect(() => {
-    fetch('http://localhost:8080/api/courses')
-      .then((res) => res.json())
-      .then((data) => {
-        setClasses(data);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch classes:', error);
-      });
-  }, []);
+useEffect(() => {
+  fetch('http://localhost:8080/api/courses/staff', {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
+    }
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setClasses(data);
+    })
+    .catch((error) => {
+      console.error('Failed to fetch classes:', error);
+    });
+}, []);
 
   const slugify = (name: string) => name.toUpperCase().replace(/\s+/g, '-');
 

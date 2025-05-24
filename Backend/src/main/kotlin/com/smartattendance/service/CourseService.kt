@@ -44,6 +44,7 @@ class CourseService(
         val course = Course(
             courseName = request.courseName,
             courseCode = request.courseCode,
+            faculty = request.faculty,
             createdBy = fullName,
             staffId = TokenService.extractId(token),
             hasLabs = request.hasLabs,
@@ -54,6 +55,7 @@ class CourseService(
             id = saved.id,
             courseName = saved.courseName,
             courseCode = saved.courseCode,
+            faculty = saved.faculty,
         )
     }
 
@@ -67,6 +69,7 @@ class CourseService(
             id = course.id,
             courseName = course.courseName,
             courseCode = course.courseCode,
+            faculty = course.faculty,
         )
     }
 
@@ -87,6 +90,7 @@ class CourseService(
             id = course.id,
             courseName = course.courseName,
             courseCode = course.courseCode,
+            faculty = course.faculty,
         )
     }
 
@@ -121,6 +125,7 @@ class CourseService(
                 id = course.id,
                 courseName = course.courseName,
                 courseCode = course.courseCode,
+                faculty = course.faculty,
             )
         }    }
 }

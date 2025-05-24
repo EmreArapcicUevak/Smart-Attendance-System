@@ -12,7 +12,7 @@ export default function HomePage() {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:8080/api/auth/authenticate', {
+      const res = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,13 +81,6 @@ export default function HomePage() {
             Login
           </button>
           {/* Register Button */}
-          <button
-            type="button"
-            className="w-full border border-[#3553B5] text-[#3553B5] py-3 rounded-lg font-semibold hover:bg-[#EFF1FA] transition"
-            onClick={() => router.push('/register')}
-          >
-            Create Organization
-          </button>
         </form>
       </div>
     </div>

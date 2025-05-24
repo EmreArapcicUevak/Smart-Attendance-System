@@ -15,6 +15,9 @@ data class Course(
     @Column(name = "course_code", nullable = false)
     var courseCode: String = "",
 
+    @Column(name = "faculty", nullable = false)
+    var faculty: String = "",
+
     @Column(name = "Instructor", nullable = false)
     val createdBy: String = "",
 

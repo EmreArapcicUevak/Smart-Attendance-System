@@ -15,29 +15,36 @@ export default function StudentAttendance() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sessionType, setSessionType] = useState('');
 
-  useEffect(() => {
-    const studentId = '1'; // Static for now, will be dynamic later
-    fetch(`http://localhost:8080/api/students/${studentId}/attendance`)
-      .then((res) => res.json())
-      .then(setAttendanceData)
-      .catch(() => {
-        setAttendanceData([
-          {
-            status: 'Present',
-            subject: 'Mathematics',
-            sessionType: 'Lecture',
-            faculty: 'Engineering',
-            week: '1',
-          },
-        ]);
-      });
-  }, []);
+useEffect(() => {
+  const studentId = '1'; // Static for now, will be dynamic later
+  const token = localStorage.getItem('authToken');
+  fetch(`http://localhost:8080/api/students/${studentId}/attendance`, {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  })
+    .then((res) => res.json())
+    .then(setAttendanceData)
+    .catch(() => {
+      setAttendanceData([
+        {
+          status: 'Present',
+          subject: 'Mathematics',
+          sessionType: 'Lecture',
+          faculty: 'Engineering',
+          week: '1',
+        },
+      ]);
+    });
+}, []);
 
-  const filteredData = attendanceData.filter((record) => {
-    const matchesSubject = record.subject.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = sessionType ? record.sessionType === sessionType : true;
-    return matchesSubject && matchesType;
-  });
+const filteredData = Array.isArray(attendanceData)
+  ? attendanceData.filter((record) => {
+      const matchesSubject = record.subject?.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesType = sessionType ? record.sessionType === sessionType : true;
+      return matchesSubject && matchesType;
+    })
+  : [];
 
   const totalPresent = filteredData.filter((r) => r.status === 'Present').length;
   const totalAbsent = filteredData.filter((r) => r.status === 'Absent').length;
