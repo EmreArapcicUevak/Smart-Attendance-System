@@ -25,7 +25,7 @@ import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAn
 @Composable
 fun StudentCourseList(
     studentCourses: List<StudentCourseCardData> = listOf(),
-    cardPressed: (Long) -> Unit = {},
+    cardPressed: (Long, String) -> Unit = {i, n ->},
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -43,7 +43,7 @@ fun StudentCourseList(
                     courseName = course.courseName,
                     courseCode = course.courseCode,
                     courseFaculty = course.courseFaculty,
-                    cardPressed = cardPressed
+                    cardPressed = {cardPressed(course.id, course.courseName)}
                 )
             }
         }

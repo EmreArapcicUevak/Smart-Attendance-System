@@ -45,4 +45,9 @@ class StudentHomeScreenViewModel @Inject constructor(
             }
         }
     }
+
+    fun getStudentId(): Long {
+        // TODO get student id from the token payload
+        return 0
+    }
 }

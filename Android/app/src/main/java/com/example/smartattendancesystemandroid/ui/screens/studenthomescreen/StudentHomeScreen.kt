@@ -14,7 +14,7 @@ fun StudentHomeScreen(
     logoutPressed: () -> Unit,
     navigateBackPressed: () -> Unit,
     canNavigateBack: Boolean,
-    cardPressed: (Long) -> Unit,
+    cardPressed: (Long, Long, String) -> Unit,
     studentHomeScreenViewModel: StudentHomeScreenViewModel = hiltViewModel<StudentHomeScreenViewModel>()
 ) {
     val studentHomeScreenUiState by studentHomeScreenViewModel.uiState.collectAsState()
@@ -29,7 +29,7 @@ fun StudentHomeScreen(
         navigateBackPressed = navigateBackPressed,
         canNavigateBack = canNavigateBack,
         studentCourses = studentHomeScreenUiState.studentCourses,
-        cardPressed = cardPressed
+        cardPressed = {courseId, courseName -> cardPressed(studentHomeScreenViewModel.getStudentId(), courseId, courseName)}
     )
 }
 
@@ -40,7 +40,7 @@ private fun StudentHomeScreenContent(
     navigateBackPressed: () -> Unit = {},
     canNavigateBack: Boolean = false,
     studentCourses: List<StudentCourseCardData> = listOf(),
-    cardPressed: (Long) -> Unit = {},
+    cardPressed: (Long, String) -> Unit = {ci, cn ->},
 ) {
     Skeleton(
         topAppBarTitle = topAppBarTitle,
@@ -50,7 +50,7 @@ private fun StudentHomeScreenContent(
     ) {
         StudentCourseList(
             studentCourses = studentCourses,
-            cardPressed = cardPressed,
+            cardPressed = {courseId, courseName -> cardPressed(courseId, courseName)},
         )
     }
 }

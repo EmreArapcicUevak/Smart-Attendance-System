@@ -2,16 +2,41 @@ package com.example.smartattendancesystemandroid.ui.screens.studentcoursedetails
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.getValue
 import com.example.smartattendancesystemandroid.data.model.WeekAttendedState
 import com.example.smartattendancesystemandroid.data.model.getWeekAttendedStateExamples
 import com.example.smartattendancesystemandroid.ui.components.CourseComponentAttendanceCard
+import com.example.smartattendancesystemandroid.ui.components.LoadingCircleScreen
 import com.example.smartattendancesystemandroid.ui.components.Skeleton
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
 @Composable
-fun StudentCourseDetailsScreen() {
-    //StudentCourseDetailsScreenContent()
+fun StudentCourseDetailsScreen(
+    logoutPressed: () -> Unit,
+    navigateBackPressed: () -> Unit,
+    canNavigateBack: Boolean,
+    studentCourseDetailsScreenViewModel: StudentCourseDetailsScreenViewModel = hiltViewModel<StudentCourseDetailsScreenViewModel>()
+) {
+
+    val studentCourseDetailsScreenUiState by studentCourseDetailsScreenViewModel.uiState.collectAsState()
+
+    if (studentCourseDetailsScreenUiState.isLoading) {
+        LoadingCircleScreen()
+        return
+    }
+
+    StudentCourseDetailsScreenContent(
+        topAppBarTitle = "${studentCourseDetailsScreenUiState.courseName} Details",
+        logoutPressed = logoutPressed,
+        navigateBackPressedPressed = navigateBackPressed,
+        canNavigateBack = canNavigateBack,
+        lectureWeekAttendedStateList = studentCourseDetailsScreenUiState.lectureWeekAttendedStateList,
+        tutorialWeekAttendedStateList = studentCourseDetailsScreenUiState.tutorialWeekAttendedStateList,
+        labWeekAttendedStateList = studentCourseDetailsScreenUiState.labWeekAttendedStateList
+    )
 }
 
 @Composable

@@ -14,7 +14,9 @@ import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.C
 import com.example.smartattendancesystemandroid.ui.screens.login.LoginScreen
 import com.example.smartattendancesystemandroid.ui.screens.markattendancescreen.MarkAttendanceScreen
 import com.example.smartattendancesystemandroid.ui.screens.staffhomescreen.StaffHomeScreen
+import com.example.smartattendancesystemandroid.ui.screens.studentcoursedetailsscreen.StudentCourseDetailsScreenViewModel
 import com.example.smartattendancesystemandroid.ui.screens.studenthomescreen.StudentHomeScreen
+import com.example.smartattendancesystemandroid.ui.screens.studentcoursedetailsscreen.StudentCourseDetailsScreen
 import kotlinx.serialization.Serializable
 
 @Composable
@@ -128,7 +130,7 @@ fun Navigation() {
                 logoutPressed = {
                     navigationViewModel.logout()
                     navController.navigate(LoginScreen) {
-                        popUpTo(StaffHomeScreen) {
+                        popUpTo(StudentHomeScreen) {
                             inclusive = true
                         }
                     }
@@ -139,10 +141,40 @@ fun Navigation() {
                         navController.popBackStack()
                     }
                 },
-                cardPressed = {
-                    //TODO
+                cardPressed = { studentId, courseId, courseName ->
+                    navController.navigate(StudentCourseDetailsScreen(
+                        studentId = studentId,
+                        courseId = courseId,
+                        courseName = courseName
+                    ))
                 }
             )
+        }
+        composable<StudentCourseDetailsScreen> {
+            val args = it.toRoute<StudentCourseDetailsScreen>()
+            val studentCourseDetailsScreenViewModel: StudentCourseDetailsScreenViewModel = hiltViewModel<StudentCourseDetailsScreenViewModel>()
+            studentCourseDetailsScreenViewModel.setup(
+                studentId = args.studentId,
+                courseId = args.courseId,
+                courseName = args.courseName
+            )
+            StudentCourseDetailsScreen(
+                studentCourseDetailsScreenViewModel = studentCourseDetailsScreenViewModel,
+                logoutPressed = {
+                    navigationViewModel.logout()
+                    navController.navigate(LoginScreen) {
+                        popUpTo(StudentCourseDetailsScreen) {
+                            inclusive = true
+                        }
+                    }
+                },
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateBackPressed = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                },
+                )
         }
         composable<MarkAttendanceScreen> {
             MarkAttendanceScreen()
@@ -174,6 +206,13 @@ data class CheckStudentCourseAttendanceScreen(
 
 @Serializable
 object StudentHomeScreen
+
+@Serializable
+data class StudentCourseDetailsScreen(
+    val studentId: Long,
+    val courseId: Long,
+    val courseName: String
+)
 
 @Serializable
 object MarkAttendanceScreen
