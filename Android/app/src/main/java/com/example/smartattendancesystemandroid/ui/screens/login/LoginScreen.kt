@@ -37,12 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.smartattendancesystemandroid.R
 import com.example.smartattendancesystemandroid.auth.AuthResult
+import com.example.smartattendancesystemandroid.data.model.UserType
 import com.example.smartattendancesystemandroid.ui.components.LoadingCircleScreen
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
 @Composable
 fun LoginScreen(
-    navigateToStaffHomePage: () -> Unit,
+    navigateToHomePage: (UserType) -> Unit,
     loginViewModel: LoginScreenViewModel = hiltViewModel()
 ) {
 
@@ -53,7 +54,7 @@ fun LoginScreen(
             when (result) {
                 is AuthResult.Authorized -> {
                     Log.d("APIE", loginViewModel.getJwtPayload().toString())
-                    navigateToStaffHomePage()
+                    navigateToHomePage(loginViewModel.getJwtPayload()?.role ?: throw Error("User type is null in Login Screen"))
                 }
 
                 is AuthResult.Unauthorized -> {

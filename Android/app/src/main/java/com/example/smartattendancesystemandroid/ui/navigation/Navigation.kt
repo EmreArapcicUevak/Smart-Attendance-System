@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.smartattendancesystemandroid.data.model.UserType
 import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.CheckStudentCourseAttendanceScreen
 import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseattendancescreen.CheckStudentCourseAttendanceScreenViewModel
 import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.CourseDetailsScreen
@@ -13,6 +14,7 @@ import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.C
 import com.example.smartattendancesystemandroid.ui.screens.login.LoginScreen
 import com.example.smartattendancesystemandroid.ui.screens.markattendancescreen.MarkAttendanceScreen
 import com.example.smartattendancesystemandroid.ui.screens.staffhomescreen.StaffHomeScreen
+import com.example.smartattendancesystemandroid.ui.screens.studenthomescreen.StudentHomeScreen
 import kotlinx.serialization.Serializable
 
 @Composable
@@ -25,8 +27,14 @@ fun Navigation() {
         startDestination = LoginScreen
     ) {
         composable<LoginScreen> {
-            LoginScreen(navigateToStaffHomePage = {
-                navController.navigate(StaffHomeScreen) {
+            LoginScreen(navigateToHomePage = {
+                val page = when(it) {
+                    UserType.STUDENT -> StudentHomeScreen
+                    UserType.TEACHER -> StaffHomeScreen
+                    UserType.ADMIN -> throw Error("User type is admin")
+                }
+
+                navController.navigate(page) {
                     popUpTo(LoginScreen) {
                         inclusive = true
                     }
@@ -115,6 +123,27 @@ fun Navigation() {
                 canNavigateBack = navController.previousBackStackEntry != null,
             )
         }
+        composable<StudentHomeScreen> {
+            StudentHomeScreen(
+                logoutPressed = {
+                    navigationViewModel.logout()
+                    navController.navigate(LoginScreen) {
+                        popUpTo(StaffHomeScreen) {
+                            inclusive = true
+                        }
+                    }
+                },
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateBackPressed = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                },
+                cardPressed = {
+                    //TODO
+                }
+            )
+        }
         composable<MarkAttendanceScreen> {
             MarkAttendanceScreen()
         }
@@ -142,6 +171,9 @@ data class CheckStudentCourseAttendanceScreen(
     val studentName: String,
     val courseId: Long
 )
+
+@Serializable
+object StudentHomeScreen
 
 @Serializable
 object MarkAttendanceScreen

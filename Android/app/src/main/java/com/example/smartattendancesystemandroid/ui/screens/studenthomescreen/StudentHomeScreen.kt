@@ -1,13 +1,36 @@
 package com.example.smartattendancesystemandroid.ui.screens.studenthomescreen
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.getValue
+import com.example.smartattendancesystemandroid.ui.components.LoadingCircleScreen
 import com.example.smartattendancesystemandroid.ui.components.Skeleton
 import com.example.smartattendancesystemandroid.ui.theme.SmartAttendanceSystemAndroidTheme
 
 @Composable
-fun StudentHomeScreen() {
-    StudentHomeScreenContent()
+fun StudentHomeScreen(
+    logoutPressed: () -> Unit,
+    navigateBackPressed: () -> Unit,
+    canNavigateBack: Boolean,
+    cardPressed: (Long) -> Unit,
+    studentHomeScreenViewModel: StudentHomeScreenViewModel = hiltViewModel<StudentHomeScreenViewModel>()
+) {
+    val studentHomeScreenUiState by studentHomeScreenViewModel.uiState.collectAsState()
+
+    if (studentHomeScreenUiState.isLoading) {
+        LoadingCircleScreen()
+        return
+    }
+
+    StudentHomeScreenContent(
+        logoutPressed = logoutPressed,
+        navigateBackPressed = navigateBackPressed,
+        canNavigateBack = canNavigateBack,
+        studentCourses = studentHomeScreenUiState.studentCourses,
+        cardPressed = cardPressed
+    )
 }
 
 @Composable
