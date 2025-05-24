@@ -23,8 +23,7 @@ useEffect(() => {
     });
 }, []);
 
-  const slugify = (name: string) => name.toUpperCase().replace(/\s+/g, '-');
-
+const slugify = (name: string) => (name ? name.toUpperCase().replace(/\s+/g, '-') : '');
   return (
     <div className="min-h-screen flex bg-white text-black font-sans">
       {/* Sidebar */}
@@ -68,13 +67,13 @@ useEffect(() => {
               <tbody>
                 {classes.map((course, idx) => (
                   <tr key={idx} className="hover:bg-[#EFF1FA] border-t border-gray-200">
-                    <td className="px-6 py-4">{course.code}</td>
-                    <td className="px-6 py-4">{course.name}</td>
+                    <td className="px-6 py-4">{course.courseCode}</td>
+                    <td className="px-6 py-4">{course.courseName}</td>
                     <td className="px-6 py-4">{course.faculty}</td>
                     <td className="px-6 py-4">
                       <button
                         className="bg-[#3553B5] text-white px-4 py-1 rounded hover:bg-blue-700 text-sm"
-                        onClick={() => router.push(`/staff/class-management/class-details/${slugify(course.code)}`)}
+                        onClick={() => router.push(`/staff/class-management/class-details/${slugify(course.courseCode)}`)}
                       >
                         Attendance Details
                       </button>

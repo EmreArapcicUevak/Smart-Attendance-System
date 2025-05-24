@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/auth")
 class AuthController(
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
 ) {
 
     @PostMapping("/register")
@@ -58,6 +60,12 @@ class AuthController(
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token is expired or invalid")
         }
+    }
+
+    @GetMapping("/role")
+    fun getRoleFromToken(@RequestHeader("Authorization") authorizationHeader: String): String {
+        val token = authorizationHeader.removePrefix("Bearer ")
+        return TokenService.extractRole(token) // Use your existing method to extract the role
     }
 }
 
