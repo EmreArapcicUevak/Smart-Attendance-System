@@ -20,25 +20,25 @@ data class Attendance(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student", nullable = false)
-    val student: User,
+    var student: User? = null,
 
     @Column(name = "student_id", nullable = false)
-    val studentId: Long,
+    var studentId: Long = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
-    val course: Course,
+    var course: Course? = null,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "component_type", nullable = false)
-    val componentType: ComponentType,
+    var componentType: ComponentType = ComponentType.LECTURE,
 
     @Column(name = "week_num", nullable = false)
-    val weekNumber: Int,
+    var weekNumber: Int = 0,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    val status: AttendanceStatus
+    var status: AttendanceStatus = AttendanceStatus.PRESENT
 )
 
 enum class ComponentType {

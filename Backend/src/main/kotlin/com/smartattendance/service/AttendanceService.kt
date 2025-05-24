@@ -17,13 +17,10 @@ class AttendanceService(
     private val userRepository: UserRepository,
     private val courseService: CourseService,
 ) {
-    fun getAttendanceForStudent(studentId: Long, courseId: Long?): List<AttendanceResponse> {
-        val records = if (courseId != null) {
-            attendanceRepository.findByStudentIdAndCourseId(studentId, courseId)
-        } else {
-            attendanceRepository.findByStudentId(studentId)
-        }
-        return records.map { AttendanceResponse.fromEntity(it) }
+    fun getAttendanceStatuses(studentId: Long, courseId: Long): List<String> {
+        return attendanceRepository.findByStudentIdAndCourseId(studentId, courseId)
+            .sortedBy { it.weekNumber }
+            .map { it.status.name }
     }
 
     fun markAttendance(courseId: Long, attendanceRequest: AttendanceRequest) {
@@ -76,5 +73,13 @@ class AttendanceService(
         }
 
         attendanceRepository.saveAll(attendanceRecords)
+    }
+
+    fun getAttendanceStatusesByComponentType(studentId: Long, courseId: Long): Map<String, List<String>> {
+        val records = attendanceRepository.findByStudentIdAndCourseId(studentId, courseId)
+            .sortedBy { it.weekNumber }
+
+        return records.groupBy { it.componentType.name }
+            .mapValues { (_, attendanceList) -> attendanceList.map { it.status.name } }
     }
 }
