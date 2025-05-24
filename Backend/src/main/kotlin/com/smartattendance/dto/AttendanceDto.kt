@@ -19,7 +19,7 @@ data class AttendanceResponse(
     companion object {
         fun fromEntity(attendance: Attendance) = AttendanceResponse(
             id = attendance.id,
-            courseId = attendance.course.id,
+            courseId = attendance.course?.id ?: 0,
             componentType = attendance.componentType.name,
             weekNumber = attendance.weekNumber,
             status = attendance.status.name
