@@ -1,14 +1,23 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
 
 export default function ClassManagementPage() {
   const router = useRouter();
 
-  const classes = [
-    { code: 'CS101', name: 'Introduction to Computer Science', faculty: 'Faculty of Engineering' },
-    { code: 'CS102', name: 'Data Structures', faculty: 'Faculty of Engineering' },
-  ];
+  const [classes, setClasses] = useState<{ code: string; name: string; faculty: string }[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/courses')
+      .then((res) => res.json())
+      .then((data) => {
+        setClasses(data);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch classes:', error);
+      });
+  }, []);
 
   const slugify = (name: string) => name.toUpperCase().replace(/\s+/g, '-');
 

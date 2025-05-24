@@ -12,11 +12,14 @@ export default function StudentClassesList() {
   const [classes, setClasses] = useState<ClassEntry[]>([]);
 
   useEffect(() => {
-    // ⬇️ Replace this with actual API call later
-    const classesData: ClassEntry[] = [
-      { id: 'CS101', name: 'Computer Science', faculty: 'Engineering' }
-    ];
-    setClasses(classesData);
+    const studentId = '1'; // Replace with dynamic ID when ready
+    fetch(`http://localhost:8080/api/students/${studentId}/courses`)
+      .then((res) => res.json())
+      .then((data) => setClasses(data))
+      .catch((err) => {
+        console.error('Failed to fetch enrolled classes:', err);
+        setClasses([]);
+      });
   }, []);
 
   return (
@@ -35,6 +38,10 @@ export default function StudentClassesList() {
           </div>
         ))}
       </div>
+
+      {classes.length === 0 && (
+        <p className="text-gray-500 mt-4 text-center">No enrolled classes found.</p>
+      )}
     </div>
   );
 }

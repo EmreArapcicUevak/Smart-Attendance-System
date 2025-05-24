@@ -9,6 +9,8 @@ export default function CreateCoursePage() {
   const [courseName, setCourseName] = useState('');
   const [courseCode, setCourseCode] = useState('');
   const [faculty, setFaculty] = useState('');
+  const [hasLab, setHasLab] = useState(false);
+  const [hasTutorial, setHasTutorial] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; code?: string; faculty?: string }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,19 +24,36 @@ export default function CreateCoursePage() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      const courseDetails = {
-        courseName,
-        courseCode,
-        faculty,
-      };
-
-      console.log('Course Created:', courseDetails);
-      alert('Course created successfully!');
-
-      // Reset fields
-      setCourseName('');
-      setCourseCode('');
-      setFaculty('');
+      fetch('http://localhost:8080/api/courses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: courseName,
+          code: courseCode,
+          faculty: faculty,
+          hasLab: hasLab,
+          hasTutorial: hasTutorial,
+        }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            alert('✅ Course created successfully!');
+            setCourseName('');
+            setCourseCode('');
+            setFaculty('');
+            setHasLab(false);
+            setHasTutorial(false);
+          } else {
+            return res.text().then(text => {
+              alert('❌ Failed to create course: ' + text);
+            });
+          }
+        })
+        .catch((err) => {
+          alert('❌ Error: ' + err.message);
+        });
     }
   };
 
@@ -89,6 +108,28 @@ export default function CreateCoursePage() {
               placeholder="e.g., Faculty of Engineering and Natural Science"
             />
             {errors.faculty && <p className="text-red-500 text-sm mt-1">{errors.faculty}</p>}
+          </div>
+
+          {/* Lab & Tutorial Checkboxes */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={hasLab}
+                onChange={() => setHasLab(!hasLab)}
+                className="w-5 h-5"
+              />
+              <span className="text-sm">Course has a lab</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={hasTutorial}
+                onChange={() => setHasTutorial(!hasTutorial)}
+                className="w-5 h-5"
+              />
+              <span className="text-sm">Course has a tutorial</span>
+            </label>
           </div>
 
           {/* Submit */}

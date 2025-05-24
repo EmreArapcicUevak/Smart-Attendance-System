@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ClassSettings from '../../../../components/ClassSettings';
 
 interface CourseComponent {
@@ -11,24 +11,25 @@ interface CourseComponent {
   students?: string[];
 }
 
-const mockCourses: CourseComponent[] = [
-  {
-    id: 1,
-    code: 'CS101',
-    name: 'Introduction to Computer Science',
-    faculty: 'Faculty of Engineering',
-    students: [],
-  },
-];
-
 const ITEMS_PER_PAGE = 5;
 
 export default function CourseManagement() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [courses, setCourses] = useState<CourseComponent[]>(mockCourses);
+  const [courses, setCourses] = useState<CourseComponent[]>([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<CourseComponent | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/courses')
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch courses:', error);
+      });
+  }, []);
 
   const totalPages = Math.ceil(courses.length / ITEMS_PER_PAGE);
   const currentCourses = courses.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
