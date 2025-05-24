@@ -1,10 +1,10 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.dto.CourseRequest
-import main.kotlin.com.smartattendance.dto.CourseResponse
-import main.kotlin.com.smartattendance.service.CourseService
+import com.smartattendance.dto.CourseRequest
+import com.smartattendance.dto.CourseResponse
+import com.smartattendance.dto.StudentResponse
+import com.smartattendance.service.CourseService
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -47,4 +47,16 @@ class CourseController(
         } catch (e: IllegalArgumentException) {
             ResponseEntity.notFound().build()
         }
+
+    @GetMapping("/{courseId}/students")
+    fun getStudentsByCourseId(@PathVariable courseId: Long): ResponseEntity<List<StudentResponse>> {
+        val students = courseService.getStudentsByCourseId(courseId)
+        return ResponseEntity.ok(students)
+    }
+
+    @GetMapping("/staff")
+    fun getCoursesByStaff(): ResponseEntity<List<CourseResponse>> {
+        val courses = courseService.getCoursesByStaffId()
+        return ResponseEntity.ok(courses)
+    }
 }

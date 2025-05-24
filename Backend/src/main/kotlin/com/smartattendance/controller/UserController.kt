@@ -1,10 +1,10 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.service.UserService
-import main.kotlin.com.smartattendance.dto.UserRequest
-import main.kotlin.com.smartattendance.dto.UserResponse
-import main.kotlin.com.smartattendance.entity.User
-import main.kotlin.com.smartattendance.entity.Role
+import com.smartattendance.service.UserService
+import com.smartattendance.dto.UserRequest
+import com.smartattendance.dto.UserResponse
+import com.smartattendance.entity.User
+import com.smartattendance.entity.Role
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

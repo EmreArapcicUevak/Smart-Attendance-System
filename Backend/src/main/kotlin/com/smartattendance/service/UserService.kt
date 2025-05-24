@@ -1,11 +1,10 @@
-package main.kotlin.com.smartattendance.service
+package com.smartattendance.service
 
 
-import main.kotlin.com.smartattendance.entity.User
-import main.kotlin.com.smartattendance.entity.Role
+import com.smartattendance.entity.User
+import com.smartattendance.entity.Role
 import org.springframework.security.crypto.password.PasswordEncoder
-import main.kotlin.com.smartattendance.repository.UserRepository
-import org.mindrot.jbcrypt.BCrypt
+import com.smartattendance.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service

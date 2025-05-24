@@ -2,7 +2,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example.smartattendance</groupId>
+    <groupId>com.smartattendance</groupId>
     <artifactId>smart-attendance-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -113,7 +113,6 @@
         </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>src/main/kotlin</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -141,7 +140,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>main.kotlin.com.smartattendance.SmartAttendanceBackendApplicationKt</mainClass>
+                    <mainClass>com.smartattendance.SmartAttendanceBackendApplicationKt</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
