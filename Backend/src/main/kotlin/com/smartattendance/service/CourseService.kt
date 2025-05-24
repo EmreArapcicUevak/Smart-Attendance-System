@@ -44,16 +44,16 @@ class CourseService(
         val course = Course(
             courseName = request.courseName,
             courseCode = request.courseCode,
-            dayOfTheWeek = request.dayOfTheWeek,
             createdBy = fullName,
             staffId = TokenService.extractId(token),
+            hasLabs = request.hasLabs,
+            hasTutorials = request.hasTutorials,
         )
         val saved = courseRepository.save(course)
         return CourseResponse(
             id = saved.id,
             courseName = saved.courseName,
             courseCode = saved.courseCode,
-            dayOfTheWeek = saved.dayOfTheWeek,
         )
     }
 
@@ -62,13 +62,11 @@ class CourseService(
             .orElseThrow { IllegalArgumentException("Course not found") }
         course.courseName = request.courseName
         course.courseCode = request.courseCode
-        course.dayOfTheWeek = request.dayOfTheWeek
         courseRepository.save(course)
         return CourseResponse(
             id = course.id,
             courseName = course.courseName,
             courseCode = course.courseCode,
-            dayOfTheWeek = course.dayOfTheWeek,
         )
     }
 
@@ -89,7 +87,6 @@ class CourseService(
             id = course.id,
             courseName = course.courseName,
             courseCode = course.courseCode,
-            dayOfTheWeek = course.dayOfTheWeek,
         )
     }
 
@@ -124,7 +121,6 @@ class CourseService(
                 id = course.id,
                 courseName = course.courseName,
                 courseCode = course.courseCode,
-                dayOfTheWeek = course.dayOfTheWeek,
             )
         }    }
 }
