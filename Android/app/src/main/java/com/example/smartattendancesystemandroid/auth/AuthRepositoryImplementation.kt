@@ -16,7 +16,8 @@ class AuthRepositoryImplementation(
             val response = api.login(
                 request = AuthRequest(email = email, password = password)
             )
-            tokenProvider.setToken(response.token)
+            tokenProvider.setToken(response.accessToken)
+
             AuthResult.Authorized()
         }
         catch (e: HttpException) {
@@ -24,10 +25,12 @@ class AuthRepositoryImplementation(
                 AuthResult.Unauthorized()
             }
             else {
+                Log.e("APIE", e.toString())
                 AuthResult.UnknownError()
             }
         }
         catch (e: Exception) {
+            Log.e("APIE", e.toString())
             AuthResult.UnknownError()
         }
     }
@@ -35,7 +38,7 @@ class AuthRepositoryImplementation(
     override suspend fun authenticate(): AuthResult<Unit> {
         return try {
             val token = tokenProvider.getToken() ?: return AuthResult.Unauthorized()
-            api.authenticate(token)
+            api.authenticate(token.toString())
             AuthResult.Authorized()
         }
         catch (e: HttpException) {
@@ -48,6 +51,7 @@ class AuthRepositoryImplementation(
             }
         }
         catch (e: Exception) {
+            Log.d("APIE", e.toString())
             AuthResult.UnknownError()
         }
     }

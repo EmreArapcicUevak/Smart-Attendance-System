@@ -2,6 +2,7 @@ package com.example.smartattendancesystemandroid.ui.screens.staffhomescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.smartattendancesystemandroid.data.repository.DataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class StaffHomeScreenViewModel @Inject constructor(
-
+    private val dataRepository: DataRepository
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(StaffHomeScreenUiState())
@@ -28,10 +29,19 @@ class StaffHomeScreenViewModel @Inject constructor(
                 currentState.copy(isLoading = true)
             }
 
-            // TODO get staff courses
+            val staffCourses = dataRepository.getStaffCourses()
+
+            val staffCourseCards = staffCourses.courses.map { staffCourse ->
+                CourseCardData(
+                    id = staffCourse.courseId,
+                    courseName = staffCourse.courseName,
+                    courseCode = staffCourse.courseCode,
+                    courseFaculty = staffCourse.courseFaculty
+                )
+            }
 
             _uiState.update { currentState ->
-                currentState.copy(isLoading = false)
+                currentState.copy(staffCourses = staffCourseCards, isLoading = false)
             }
         }
     }

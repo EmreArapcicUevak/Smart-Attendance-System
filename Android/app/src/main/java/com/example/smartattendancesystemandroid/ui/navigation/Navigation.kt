@@ -1,6 +1,7 @@
-package com.example.smartattendancesystemandroid.ui
+package com.example.smartattendancesystemandroid.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -14,6 +15,8 @@ import kotlinx.serialization.Serializable
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+    val navigationViewModel: NavigationViewModel = hiltViewModel<NavigationViewModel>()
+
     NavHost(
         navController = navController,
         startDestination = LoginScreen
@@ -28,7 +31,31 @@ fun Navigation() {
             })
         }
         composable<StaffHomeScreen> {
-            StaffHomeScreen()
+            StaffHomeScreen(
+                logoutPressed = {
+                    navigationViewModel.logout()
+                    navController.navigate(LoginScreen) {
+                        popUpTo(StaffHomeScreen) {
+                            inclusive = true
+                        }
+                    }
+                },
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateBackPressed = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                },
+                courseSettingsPressed = {
+                    navController.navigate(CourseSettingsScreen(it))
+                },
+                courseCardPressed = {
+                    navController.navigate(CourseSettingsScreen(it))
+                },
+                addCourseBtnPressed = {
+
+                }
+            )
         }
         composable<CourseDetailsScreen> {
             CourseDetailsScreen(
@@ -54,18 +81,16 @@ object LoginScreen
 object StaffHomeScreen
 
 @Serializable
-object CourseDetailsScreen
+data class CourseDetailsScreen(val courseId: Long)
+
+@Serializable
+data class CourseSettingsScreen(val courseId: Long)
+
+@Serializable
+object CreateCourseScreen
 
 @Serializable
 object CheckStudentCourseAttendanceScreen
 
 @Serializable
 object MarkAttendanceScreen
-
-/*
-@Serializable
-data class Example(
-    val example: Int,
-    val example2: String?
-)
-*/

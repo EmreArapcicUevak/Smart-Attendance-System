@@ -54,4 +54,8 @@ class TokenProviderImplementation (
             return null
         }
     }
+
+    override fun removeToken() {
+        prefs.edit { remove("jwt") }
+    }
 }

@@ -6,4 +6,5 @@ interface TokenProvider {
     fun getToken(): String?
     fun setToken(token: String)
     fun decodeTokenPayload(token: String?): JwtPayload?
+    fun removeToken()
 }

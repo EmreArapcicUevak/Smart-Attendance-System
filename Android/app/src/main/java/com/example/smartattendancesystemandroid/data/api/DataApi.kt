@@ -2,9 +2,11 @@ package com.example.smartattendancesystemandroid.data.api
 
 import com.example.smartattendancesystemandroid.data.model.AttendanceRequest
 import com.example.smartattendancesystemandroid.data.model.AttendanceResponse
+import com.example.smartattendancesystemandroid.data.model.CourseListResponse
 import com.example.smartattendancesystemandroid.data.model.CourseRequest
 import com.example.smartattendancesystemandroid.data.model.CourseResponse
 import com.example.smartattendancesystemandroid.data.model.Student
+import com.example.smartattendancesystemandroid.data.model.StudentListResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -24,13 +26,13 @@ interface DataApi {
     @GET("course/{courseId}/students")
     suspend fun getCourseStudents(
         @Path("courseId") courseId: Long
-    ): List<Student>
+    ): StudentListResponse
 
     @GET("course/staff-courses")
-    suspend fun getStaffCourses(): List<CourseResponse>
+    suspend fun getStaffCourses(): CourseListResponse
 
     @GET("course/student-courses")
-    suspend fun getStudentCourses(): List<CourseResponse>
+    suspend fun getStudentCourses(): CourseListResponse
 
     @POST("course")
     suspend fun createCourse(
