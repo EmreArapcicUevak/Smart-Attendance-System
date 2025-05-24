@@ -15,7 +15,7 @@ export default function OrganizationSettings() {
   const [editData, setEditData] = useState<{ name: string }>({ name: '' });
 
   useEffect(() => {
-    fetch('/api/Organizations')
+    fetch('http://localhost:8080/api/organizations')
       .then((res) => res.json())
       .then(setOrganizations)
       .catch(() => {
@@ -39,10 +39,11 @@ export default function OrganizationSettings() {
     const updated = [...organizations];
     updated[editingIndex] = {
       ...updated[editingIndex],
-      name: editData.name, // Only update the name
+      name: editData.name,
     };
     setOrganizations(updated);
     setEditingIndex(null);
+    // You may later add a PUT request here to persist changes to the backend
   };
 
   return (
