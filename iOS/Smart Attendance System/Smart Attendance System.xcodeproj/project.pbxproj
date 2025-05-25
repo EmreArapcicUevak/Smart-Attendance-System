@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1BBD14FF2DDD19B600785585 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 1BBD14FE2DDD19B600785585 /* JWTDecode */; };
+		1BF28F162DE33C7400266FB1 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 1BF28F152DE33C7400266FB1 /* CodeScanner */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BF28F162DE33C7400266FB1 /* CodeScanner in Frameworks */,
 				1BBD14FF2DDD19B600785585 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +98,7 @@
 			name = "Smart Attendance System";
 			packageProductDependencies = (
 				1BBD14FE2DDD19B600785585 /* JWTDecode */,
+				1BF28F152DE33C7400266FB1 /* CodeScanner */,
 			);
 			productName = "Smart Attendance System";
 			productReference = 1BB4C9492DC82C3E00082348 /* Smart Attendance System.app */;
@@ -154,6 +157,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				1BBD14FD2DDD19B600785585 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+				1BF28F142DE33C7400266FB1 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1BB4C94A2DC82C3E00082348 /* Products */;
@@ -340,8 +344,10 @@
 				DEVELOPMENT_TEAM = YR4UVK8LD7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Smart-Attendance-System-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Smart Attendance System";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need the camera to scan the Barcodes from student ID cards";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -374,8 +380,10 @@
 				DEVELOPMENT_TEAM = YR4UVK8LD7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Smart-Attendance-System-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Smart Attendance System";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need the camera to scan the Barcodes from student ID cards";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -475,6 +483,14 @@
 				minimumVersion = 3.3.0;
 			};
 		};
+		1BF28F142DE33C7400266FB1 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -482,6 +498,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1BBD14FD2DDD19B600785585 /* XCRemoteSwiftPackageReference "JWTDecode" */;
 			productName = JWTDecode;
+		};
+		1BF28F152DE33C7400266FB1 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1BF28F142DE33C7400266FB1 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
