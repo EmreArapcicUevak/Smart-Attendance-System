@@ -8,17 +8,32 @@
 import SwiftUI
 
 struct CourseInformationView: View {
+    @Binding var courseModel : CourseModel
     var body: some View {
-        ZStack {
-            Color
-                .surface
-                .ignoresSafeArea()
-            
-            
-        }
+        
+        CustomTextField(
+            fieldText: "Course Name",
+            text_field: $courseModel.courseName
+        )
     }
 }
 
 #Preview {
-    CourseInformationView()
+    @Previewable @State var courseModel : CourseModel = .init(
+        courseName: "Computer Science",
+        courseFaculty: "FENS",
+        courseCode: "CS101",
+        hasTutorial: true,
+        hasLab: true,
+        courseId: 2
+    )
+    
+    ZStack {
+        Color
+            .surface
+            .ignoresSafeArea()
+        
+        CourseInformationView(courseModel: $courseModel)
+            .padding()
+    }
 }
