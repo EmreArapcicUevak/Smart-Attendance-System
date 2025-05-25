@@ -12,6 +12,8 @@ import com.example.smartattendancesystemandroid.ui.screens.checkstudentcourseatt
 import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.CourseDetailsScreen
 import com.example.smartattendancesystemandroid.ui.screens.coursedetailsscreen.CourseDetailsScreenViewModel
 import com.example.smartattendancesystemandroid.ui.screens.createcoursescreen.CreateCourseScreen
+import com.example.smartattendancesystemandroid.ui.screens.editcoursescreen.EditCourseScreen
+import com.example.smartattendancesystemandroid.ui.screens.editcoursescreen.EditCourseScreenViewModel
 import com.example.smartattendancesystemandroid.ui.screens.login.LoginScreen
 import com.example.smartattendancesystemandroid.ui.screens.markattendancescreen.MarkAttendanceScreen
 import com.example.smartattendancesystemandroid.ui.screens.markattendancescreen.MarkAttendanceScreenViewModel
@@ -62,7 +64,7 @@ fun Navigation() {
                     }
                 },
                 courseSettingsPressed = {
-                    navController.navigate(CourseSettingsScreen(it))
+                    navController.navigate(EditCourseScreen(it))
                 },
                 courseCardPressed = {
                     navController.navigate(CourseDetailsScreen(it))
@@ -221,6 +223,28 @@ fun Navigation() {
                 }
             )
         }
+        composable<EditCourseScreen> {
+            val args = it.toRoute<EditCourseScreen>()
+            val editCourseScreenViewModel = hiltViewModel<EditCourseScreenViewModel>()
+            editCourseScreenViewModel.setup(args.courseId)
+            EditCourseScreen(
+                editCourseScreenViewModel = editCourseScreenViewModel,
+                logoutPressed = {
+                    navigationViewModel.logout()
+                    navController.navigate(LoginScreen) {
+                        popUpTo(EditCourseScreen) {
+                            inclusive = true
+                        }
+                    }
+                },
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateBackPressed = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -234,10 +258,12 @@ object StaffHomeScreen
 data class CourseDetailsScreen(val courseId: Long)
 
 @Serializable
-data class CourseSettingsScreen(val courseId: Long)
+object CreateCourseScreen
 
 @Serializable
-object CreateCourseScreen
+data class EditCourseScreen(
+    val courseId: Long
+)
 
 @Serializable
 data class CheckStudentCourseAttendanceScreen(

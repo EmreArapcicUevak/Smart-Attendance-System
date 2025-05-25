@@ -23,6 +23,12 @@ interface DataApi {
         @Query("studentId") studentId: Long
     ): Response<Unit>
 
+    @POST("course/{courseId}/withdraw")
+    suspend fun withdrawStudent(
+        @Path("courseId") courseId: Long,
+        @Query("studentId") studentId: Long
+    ): Response<Unit>
+
     @GET("course/{courseId}/students")
     suspend fun getCourseStudents(
         @Path("courseId") courseId: Long

@@ -45,6 +45,7 @@ fun Skeleton(
     navigateBackPressed: () -> Unit,
     additionalActions: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
 
@@ -103,6 +104,7 @@ fun Skeleton(
                 }
             )
         },
+        bottomBar = bottomBar,
         floatingActionButton = floatingActionButton,
     ) { innerPadding ->
         Column(

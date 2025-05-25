@@ -14,4 +14,8 @@ interface DataRepository {
     suspend fun markAttendance(body: AttendanceRequest)
     suspend fun getStudentCourses(): CourseListResponse
     suspend fun createCourse(body: CourseRequest): CourseResponse
+    suspend fun updateCourse(body: CourseResponse): CourseResponse
+    suspend fun deleteCourse(courseId: Long)
+    suspend fun enrollStudent(courseId: Long, studentId: Long)
+    suspend fun withdrawStudent(courseId: Long, studentId: Long)
 }
