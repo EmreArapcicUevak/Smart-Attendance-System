@@ -32,5 +32,5 @@ struct PopUpButtonView: View {
 
 #Preview {
     PopUpButtonView(viewShown: .constant(true))
-        .environment(PopUpViewModel.init(displayMessage: "yes", buttonText: "yes", headingLabelText: "yes", headingLabelSystemImage: "square.and.arrow.up", containerColor: Color.surfContainer, onContainerColor: Color.onSurfaceVariant, textColor: .myPrimary))
+        .environment(PopUpViewModel.init(displayMessage: "yes", buttonText: "yes", headingLabelText: "yes", headingLabelSystemImage: "square.and.arrow.up", containerColor: Color.surfaceContainer, onContainerColor: Color.onSurfaceVariant, textColor: .myPrimary))
 }

@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct AddButtonView: View {
-    @Binding var path : NavigationPath
-    var triggerFunction : (Binding<NavigationPath>) -> Void
+    var triggerFunction : () -> Void
     
     var body: some View {
         Button {
-            triggerFunction($path)
+            triggerFunction()
         } label: {
             Image(systemName: "plus")
                 .resizable()
@@ -26,7 +25,8 @@ struct AddButtonView: View {
 
 #Preview {
     @Previewable @State var path = NavigationPath()
-    AddButtonView(path: $path) { path in
-        path.wrappedValue.append(UserModel())
+    
+    AddButtonView() {
+        SessionExpirationManager.shared.path?.wrappedValue.append(UserModel())
     }
 }

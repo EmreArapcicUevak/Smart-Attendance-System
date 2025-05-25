@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct BackArrowView: View {
-    @Binding var path : NavigationPath
     var body: some View {
         Button {
-            if !path.isEmpty {
-                path.removeLast()
+            if let path = SessionExpirationManager.shared.path?.wrappedValue, !path.isEmpty {
+                SessionExpirationManager.shared.path?.wrappedValue.removeLast()
             }
         } label: {
             Image(systemName: "chevron.left")
@@ -23,7 +22,5 @@ struct BackArrowView: View {
 }
 
 #Preview {
-    @Previewable @State var path = NavigationPath()
-    
-    BackArrowView(path: $path)
+    BackArrowView()
 }

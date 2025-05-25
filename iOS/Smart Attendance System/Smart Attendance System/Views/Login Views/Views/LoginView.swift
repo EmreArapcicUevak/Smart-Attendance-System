@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @State private var controller = LoginViewModel()
-    
+
     var body: some View {
         NavigationStack(path: $controller.path) {
             ZStack {
@@ -25,20 +25,20 @@ struct LoginView: View {
                     
                     Divider()
                     
-                    LoginTextField(
+                    CustomTextField(
                         fieldText: "Email",
                         text_field: $controller.userModel.email
                     )
                     .padding(.bottom)
                     
-                    LoginSecureField(
+                    CustomSecureField(
                         fieldText: "Password",
                         text_field: $controller.userModel.password
                     )
                     
                     
                     Button("Forgot Password") {
-                        controller.displayPopUpMessage("Please contact your organization administrator if you forgot your password")
+                        controller.errorAndNotficationController.displayPopUpMessage("Please contact your organization administrator if you forgot your password")
                     }
                     .padding(.top)
                     .foregroundStyle(Color.secondary)
@@ -51,7 +51,7 @@ struct LoginView: View {
                         Text("Login")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .foregroundStyle(Color.primary)
+                            .foregroundStyle(Color.myPrimary)
                             .background(
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color.primaryContainer)
@@ -61,21 +61,27 @@ struct LoginView: View {
 
                 }
                 .padding()
-                .background(Color.surfContainer)
+                .background(Color.surfaceContainer)
                 .clipShape(.rect(cornerRadius: 5))
                 .frame(maxWidth: 370)
                 
                 LoadingView(isLoading: $controller.isLoading)
                 ErrorAndNotificationView(
-                    notificationMessage: $controller.popUpMessage,
-                    errorMessage: $controller.errorMessage,
-                    notificationVisible: $controller.showPopUp,
-                    errorVisible: $controller.showError
+                    notificationMessage: $controller.errorAndNotficationController.popUpMessage,
+                    errorMessage: $controller.errorAndNotficationController.errorMessage,
+                    notificationVisible: $controller.errorAndNotficationController.showPopUp,
+                    errorVisible: $controller.errorAndNotficationController.showError
                 )
+            }
+            .onAppear() {
+                SessionExpirationManager.shared.path = $controller.path
+                SessionExpirationManager.shared.errorAndNotificationController = controller.errorAndNotficationController
             }
             .navigationDestination(for: IdentityModel.self) { idenModel in
                 if idenModel.role == "TEACHER" {
-                    StaffDashboard(path: $controller.path)
+                    StaffDashboard()
+                } else if idenModel.role == "STUDENT" {
+                    StudentDashboardView()
                 } else {
                     ErrorPopUp(
                         errorMessage: 

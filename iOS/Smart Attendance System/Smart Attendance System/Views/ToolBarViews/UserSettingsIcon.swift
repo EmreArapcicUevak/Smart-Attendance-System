@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct UserSettingsIcon: View {
-    @Binding var path: NavigationPath
     var body: some View {
         Menu {
             Button {
@@ -18,8 +17,7 @@ struct UserSettingsIcon: View {
             }
             
             Button {
-                path.removeLast(path.count)
-                print(path)
+                SessionExpirationManager.shared.popToRoot()
             } label: {
                 Label("Logout", systemImage: "rectangle.portrait.and.arrow.forward")
             }
@@ -35,6 +33,5 @@ struct UserSettingsIcon: View {
 }
 
 #Preview {
-    @Previewable @State var path: NavigationPath = NavigationPath()
-    UserSettingsIcon(path: $path)
+    UserSettingsIcon()
 }
