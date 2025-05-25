@@ -41,14 +41,31 @@ export default function AdminDashboard() {
   };
 
   const handleCreateAccount = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const payload = { ...formData, type: accountType };
-    const response = await fetch('/api/create-account', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+  e.preventDefault();
+
+  const payload: any = {
+  organizationId: parseInt(formData.organizationId),
+  email: formData.email,
+  password: formData.password,
+  fullName: formData.name,
+  role: accountType,
+};
+
+if (accountType === 'student') {
+  payload.studentId = parseInt(formData.studentId);
+}
+
+
+  try {
+    const response = await fetch('http://localhost:8080/auth/register', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload),
+});
+
+
     const result = await response.json();
+
     if (response.ok) {
       setAccounts([...accounts, result]);
       setFormData({
@@ -58,8 +75,17 @@ export default function AdminDashboard() {
         studentId: '',
         organizationId: '',
       });
+      alert('Account created successfully!');
+    } else {
+      console.error('Failed to register user:', result);
+      alert('Failed to create account.');
     }
-  };
+  } catch (err) {
+    console.error('Error during registration:', err);
+    alert('Something went wrong.');
+  }
+};
+
 
   return (
     <div className="min-h-screen flex bg-white text-black font-sans">
