@@ -8,34 +8,7 @@
 import SwiftUI
 
 struct StaffDashboard: View {
-    @Binding var path: NavigationPath
-    let courses: [CourseModel] = [
-        .init(
-            courseName: "Introduction to Computer Science",
-            courseFaculty: "FENS",
-            courseCode: "CS101"
-        ),
-        .init(
-            courseName: "Psychology",
-            courseFaculty: "FASS",
-            courseCode: "PSY101"
-        ),
-        .init(
-            courseName: "Business Managment",
-            courseFaculty: "FAP",
-            courseCode: "BUS201"
-        ),
-        .init(
-            courseName: "Academic Writing",
-            courseFaculty: "ELS",
-            courseCode: "ENG102"
-        ),
-        .init(
-            courseName: "Data Structures",
-            courseFaculty: "FENS",
-            courseCode: "CS202"
-        )
-    ]
+    @State private var controller : StaffDashboardViewModel = StaffDashboardViewModel()
     
     var body: some View {
         ZStack {
@@ -44,9 +17,9 @@ struct StaffDashboard: View {
                 .ignoresSafeArea()
             
             VStack {
-                
                 ScrollView() {
-                    ForEach(courses) { course in
+                    
+                    ForEach(self.controller.courses) { course in
                         NavigationLink(value: course) {
                             CourseCardView(courseModel: course)
                                 .padding()
@@ -56,19 +29,31 @@ struct StaffDashboard: View {
                 .scenePadding(.bottom)
             }
             
+            LoadingView(isLoading: $controller.isLoading)
+            ErrorAndNotificationView(
+                notificationMessage: $controller.errorAndNotificationController.popUpMessage,
+                errorMessage: $controller.errorAndNotificationController.errorMessage,
+                notificationVisible: $controller.errorAndNotificationController.showPopUp,
+                errorVisible: $controller.errorAndNotificationController.showError
+            )
         }
         .navigationDestination(for: CourseModel.self, destination: { courseModel in
-            DetailedCourseView(path: $path, course: courseModel)
+            DetailedCourseView(course: courseModel)
+        })
+        .navigationDestination(for: CreateCourseRouteModel.self, destination: { routeModel in
+            CreateCourseView()
+        })
+        .navigationDestination(for: CourseEditRoute.self, destination: { courseEditRouteModel in
+            CourseSettingsView(course: courseEditRouteModel.course)
         })
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 AddButtonView(
-                    path: $path,
                     triggerFunction: addCreateCourseView
                 )
                 
-                UserSettingsIcon(path: $path)
+                UserSettingsIcon()
             }
             
             ToolbarItem(placement: .principal) {
@@ -82,6 +67,11 @@ struct StaffDashboard: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.surfaceBright, for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .onAppear() {
+            Task {
+                await controller.loadView()
+            }
+        }
     }
     
 }
@@ -89,6 +79,6 @@ struct StaffDashboard: View {
 #Preview {
     @Previewable @State var path = NavigationPath()
     NavigationStack(path: $path) {
-        StaffDashboard(path: $path)
+        StaffDashboard()
     }
 }

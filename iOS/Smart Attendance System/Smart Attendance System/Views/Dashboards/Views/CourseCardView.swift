@@ -9,6 +9,13 @@ import SwiftUI
 
 struct CourseCardView: View {
     let courseModel: CourseModel
+    let isForStudent: Bool
+    
+    init(courseModel: CourseModel, isForStudent : Bool = false) {
+        self.courseModel = courseModel
+        self.isForStudent = isForStudent
+    }
+    
     var body: some View {
         NavigationLink(value: courseModel) {
             VStack() {
@@ -21,12 +28,14 @@ struct CourseCardView: View {
                     
                     Spacer()
                     
-                    NavigationLink(value: UserModel()) {
-                        Image(systemName: "gearshape.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
-                            .foregroundStyle(.myPrimary)
+                    if (isForStudent == false) {
+                        NavigationLink(value: CourseEditRoute(course: courseModel)) {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .foregroundStyle(.myPrimary)
+                        }
                     }
                 }.padding()
                 
@@ -57,9 +66,12 @@ struct CourseCardView: View {
 #Preview {
     CourseCardView(
         courseModel: .init(
-            courseName: "Psychology 101",
-            courseFaculty: "FASS",
-            courseCode: "PSY101"
+            courseName: "Computer Science",
+            courseFaculty: "FENS",
+            courseCode: "CS101",
+            hasTutorial: true,
+            hasLab: true,
+            courseId: 2
         )
     )
 }
