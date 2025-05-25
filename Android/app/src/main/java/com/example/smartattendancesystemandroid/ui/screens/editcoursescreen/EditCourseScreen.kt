@@ -62,7 +62,11 @@ fun EditCourseScreen(
         onWithdrawFieldChange = {editCourseScreenViewModel.onWithdrawFieldChange(it)},
         isDialogOpen = editCourseScreenUiState.isDialogOpen,
         closeConfirmDeletionDialog = { editCourseScreenViewModel.closeConfirmDeletionDialog() },
-        openConfirmDeletionDialog = { editCourseScreenViewModel.openConfirmDeletionDialog() }
+        openConfirmDeletionDialog = { editCourseScreenViewModel.openConfirmDeletionDialog() },
+        enrollFieldValue = editCourseScreenUiState.enrollFieldValue,
+        withdrawFieldValue = editCourseScreenUiState.withdrawFieldValue,
+        canEnroll = editCourseScreenUiState.canEnroll,
+        canWithdraw = editCourseScreenUiState.canWithdraw
     )
 }
 

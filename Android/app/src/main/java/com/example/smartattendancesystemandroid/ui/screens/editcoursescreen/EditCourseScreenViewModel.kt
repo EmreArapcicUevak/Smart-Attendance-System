@@ -39,10 +39,10 @@ class EditCourseScreenViewModel @Inject constructor(
             }
 
             val data = dataRepository.getStaffCourses()
+            if (data.courses.isEmpty()) return@launch
             val courses = data.courses.filter { course ->
                 course.courseId == _uiState.value.courseId
             }
-
             val course: CourseResponse = courses[0]
 
             _uiState.update { currentState ->

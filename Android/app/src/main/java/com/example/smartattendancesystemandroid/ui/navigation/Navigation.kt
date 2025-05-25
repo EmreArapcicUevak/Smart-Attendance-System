@@ -225,7 +225,7 @@ fun Navigation() {
         }
         composable<EditCourseScreen> {
             val args = it.toRoute<EditCourseScreen>()
-            val editCourseScreenViewModel = hiltViewModel<EditCourseScreenViewModel>()
+            val editCourseScreenViewModel = hiltViewModel<EditCourseScreenViewModel>(it)
             editCourseScreenViewModel.setup(args.courseId)
             EditCourseScreen(
                 editCourseScreenViewModel = editCourseScreenViewModel,
