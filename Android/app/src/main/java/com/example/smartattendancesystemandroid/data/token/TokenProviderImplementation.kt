@@ -46,7 +46,8 @@ class TokenProviderImplementation (
                     fullName = payload.getString("fullName"),
                     iat = payload.getLong("iat"),
                     exp = payload.getLong("exp"),
-                    role = role
+                    role = role,
+                    id = payload.getLong("id")
                 )
             }
         } catch (e: Exception) {

@@ -5,5 +5,6 @@ data class JwtPayload(
     val fullName: String,
     val iat: Long,
     val exp: Long,
-    val role: UserType
+    val role: UserType,
+    val id: Long
 )

@@ -3,6 +3,7 @@ package com.example.smartattendancesystemandroid.ui.screens.studenthomescreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartattendancesystemandroid.data.repository.DataRepository
+import com.example.smartattendancesystemandroid.data.token.TokenProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StudentHomeScreenViewModel @Inject constructor(
-    private val dataRepository: DataRepository
+    private val dataRepository: DataRepository,
+    private val tokenProvider: TokenProvider
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(StudentHomeScreenUiState())
@@ -47,7 +49,6 @@ class StudentHomeScreenViewModel @Inject constructor(
     }
 
     fun getStudentId(): Long {
-        // TODO get student id from the token payload
-        return 0
+        return tokenProvider.decodeTokenPayload(tokenProvider.getToken())?.id ?: throw Error("Id in the token payload is null STUDENT_HOME_SCREEN_VIEWMODEL")
     }
 }
