@@ -15,12 +15,12 @@ struct StudentCardView: View {
             HStack {
                 // Name and ID
                 VStack(alignment: .leading) {
-                    Text(student.name)
+                    Text(student.fullName)
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundStyle(Color.myPrimary)
                     
-                    Text(student.student_id)
+                    Text(student.id.description)
                         .font(.subheadline)
                         .foregroundStyle(Color.mySecondary)
                 }
@@ -34,12 +34,6 @@ struct StudentCardView: View {
                     .foregroundStyle(Color.mySecondary)
                     
             }
-            
-            Divider()
-                .padding(.vertical)
-                .foregroundStyle(Color.mySecondary)
-            
-            // Add attendance here!
         }
         .padding()
         .background(
@@ -51,11 +45,9 @@ struct StudentCardView: View {
 #Preview {
     StudentCardView(
         student: .init(
-            major: "CSE",
-            firstName: "Emre",
-            secondName: "Arapcic-Uevak",
             email: "EmreArapcicUevak@gmail.com",
-            student_id: "220302289"
+            id: 220302289,
+            fullName: "Emre Arapcic-Uevak"
         )
     )
     .padding()

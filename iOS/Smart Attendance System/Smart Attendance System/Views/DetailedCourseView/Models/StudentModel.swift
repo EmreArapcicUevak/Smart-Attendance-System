@@ -7,13 +7,12 @@
 
 import Foundation
 
-struct StudentModel : Hashable, Identifiable {
-    var major: String
-    var firstName: String
-    var secondName: String
+struct StudentModel : Hashable, Identifiable, Codable, Equatable {
     var email: String
-    var student_id: String
-    
-    var id: String { student_id }
-    var name: String { "\(firstName) \(secondName)" }
+    var id: Int
+    var fullName: String
+}
+
+struct StudentListResponse: Codable {
+    var students: [StudentModel]
 }
