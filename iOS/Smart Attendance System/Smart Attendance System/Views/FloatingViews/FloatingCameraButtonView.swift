@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct FloatingCameraButtonView: View {
-    @Binding var path: NavigationPath
+    let action: () -> Void
+    
     var body: some View {
         Button {
-            path.append(OpenCameraEnum.openCameraView)
+            action()
         } label: {
             Image(systemName: "camera.fill")
                 .foregroundStyle(Color.myPrimary)
@@ -30,7 +31,7 @@ struct FloatingCameraButtonView: View {
 }
 
 #Preview {
-    @Previewable @State var path = NavigationPath()
-    
-    FloatingCameraButtonView(path: $path)
+    FloatingCameraButtonView() {
+        print("Nice")
+    }
 }
