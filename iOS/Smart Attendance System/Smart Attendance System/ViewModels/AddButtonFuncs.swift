@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-func addCreateCourseView(path: Binding<NavigationPath>) {
+func addCreateCourseView() {
     print("Finish adding course")
+    SessionExpirationManager.shared.path?.wrappedValue.append(CreateCourseRouteModel.createCourse)
     //path.wrappedValue.append(UserModel()) // Change later!!!
 }

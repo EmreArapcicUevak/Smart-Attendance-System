@@ -1,23 +1,23 @@
 //
-//  AddButtonView.swift
+//  RemoveButtonView.swift
 //  Smart Attendance System
 //
-//  Created by Emre Arapcic-Uevak on 6. 5. 2025..
+//  Created by Emre Arapcic-Uevak on 24. 5. 2025..
 //
 
 import SwiftUI
 
-struct AddButtonView: View {
+struct RemoveButtonView: View {
     var triggerFunction : () -> Void
     
     var body: some View {
         Button {
             triggerFunction()
         } label: {
-            Image(systemName: "plus")
+            Image(systemName: "minus.circle")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: 20, maxHeight: 20)
+                .frame(maxWidth: 30, maxHeight: 30)
                 .foregroundStyle(Color.mySecondary)
         }
     }
@@ -26,7 +26,7 @@ struct AddButtonView: View {
 #Preview {
     @Previewable @State var path = NavigationPath()
     
-    AddButtonView() {
+    RemoveButtonView() {
         SessionExpirationManager.shared.path?.wrappedValue.append(UserModel())
     }
 }
