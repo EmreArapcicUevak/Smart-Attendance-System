@@ -10,35 +10,22 @@ import SwiftUI
 struct CustomTextField: View {
     let fieldText: String
     @Binding var text_field: String
-    let validationFunction : (String) -> Bool
-    
-    private var validInput: Bool {
-        validationFunction(text_field)
-    }
-    
-    private var textColor: Color {
-        text_field.isEmpty || validInput ? Color.mySecondary : Color.error
-    }
-    
-    private var outlineColor: Color {
-        text_field.isEmpty || validInput ? Color.outline : Color.errorContainer
-    }
-    
     
     var body: some View {
         VStack(alignment: .leading) {
             Text(fieldText)
-                .foregroundStyle(textColor)
+                .foregroundStyle(.mySecondary)
                 .font(.subheadline)
+                .fontWeight(.light)
             
             
             TextField(fieldText, text: $text_field)
                 .padding()
                 .overlay {
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(outlineColor, lineWidth: 1)
+                        .stroke(Color.outline, lineWidth: 1)
                 }
-                .foregroundStyle(outlineColor)
+                .foregroundStyle(.myPrimary)
         }
     }
 }
@@ -49,8 +36,6 @@ struct CustomTextField: View {
     
     CustomTextField(
         fieldText: "Email",
-        text_field: $text_field
-    ) { text in
-        return true
-    }
+        text_field: $text_field,
+    )
 }

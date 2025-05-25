@@ -15,10 +15,8 @@ class LoginViewModel {
     
     var errorAndNotficationController = ErrorAndNotificationSimpleParamModel()
     
-    var userModel: UserModel = .init()
-    var path = NavigationPath()
-    
-    var idenModel : IdentityModel?
+    var userModel: UserModel = .init(email: "profvedad@mail.ba", password: "daddy")
+    var path : NavigationPath = NavigationPath()
     
     func checkValidEmail(_ email: String) -> Bool {
         let emailRegex = #"^[A-Za-z0-9._%+-]+@(([A-Za-z0-9.-]+\.[A-Za-z]{2,})|(\[[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}\]))$"#
@@ -60,7 +58,7 @@ class LoginViewModel {
     }
     
     func getAuthToken() async throws -> String {
-        let endpoint = "\(Constants.API_URL)/api/auth"
+        let endpoint = "\(Constants.API_URL)/auth/login"
         guard let url = URL(string: endpoint) else {
             self.errorAndNotficationController.displayErrorMessage("Invalid URL \"\(endpoint)\"")
             throw AuthError.invalidURL
@@ -79,7 +77,11 @@ class LoginViewModel {
             throw AuthError.invalidResponse
         }
         
-        guard response.statusCode == 201 else {
+        guard response.statusCode == 200 else {
+            if response.statusCode == 401 {
+                throw AuthError.invalidEmailOrPassword
+            }
+            
             self.errorAndNotficationController.displayErrorMessage("Invalid status code: \(response.statusCode)")
             throw AuthError.invalidResponse
         }
@@ -104,16 +106,19 @@ class LoginViewModel {
             guard let expiresAt = jwt["exp"].integer else { throw jwtError.invalidToken }
             guard let role = jwt["role"].string else { throw jwtError.invalidToken }
             
-            self.idenModel = IdentityModel(
+            let idenModel = IdentityModel(
                 JWT: accessToken,
                 expiresAt: expiresAt,
                 issuesAt: issuesAt,
                 role: role
             )
             
-            path.append(self.idenModel)
+            SessionExpirationManager.shared.identityModel = idenModel
+            self.path.append(idenModel)
         } catch jwtError.invalidToken {
             self.errorAndNotficationController.displayErrorMessage("Failed whilst decoding the JWT token")
+        } catch AuthError.invalidEmailOrPassword {
+            self.errorAndNotficationController.displayErrorMessage("Invalid Email or Password")
         } catch {
             self.errorAndNotficationController.displayErrorMessage("Failed to login (\(error.localizedDescription))\nPlease try again later")
             print("Some other error occurred: \(error.localizedDescription)")

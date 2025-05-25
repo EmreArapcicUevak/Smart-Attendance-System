@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @State private var controller = LoginViewModel()
-    
+
     var body: some View {
         NavigationStack(path: $controller.path) {
             ZStack {
@@ -27,15 +27,13 @@ struct LoginView: View {
                     
                     CustomTextField(
                         fieldText: "Email",
-                        text_field: $controller.userModel.email,
-                        validationFunction: controller.checkValidEmail
+                        text_field: $controller.userModel.email
                     )
                     .padding(.bottom)
                     
                     CustomSecureField(
                         fieldText: "Password",
-                        text_field: $controller.userModel.password,
-                        validationFunction: controller.checkValidPassword(_:)
+                        text_field: $controller.userModel.password
                     )
                     
                     
@@ -75,9 +73,15 @@ struct LoginView: View {
                     errorVisible: $controller.errorAndNotficationController.showError
                 )
             }
+            .onAppear() {
+                SessionExpirationManager.shared.path = $controller.path
+                SessionExpirationManager.shared.errorAndNotificationController = controller.errorAndNotficationController
+            }
             .navigationDestination(for: IdentityModel.self) { idenModel in
                 if idenModel.role == "TEACHER" {
-                    StaffDashboard(path: $controller.path)
+                    StaffDashboard()
+                } else if idenModel.role == "STUDENT" {
+                    StudentDashboardView()
                 } else {
                     ErrorPopUp(
                         errorMessage: 
