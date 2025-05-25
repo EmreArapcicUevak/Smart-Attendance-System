@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 interface Account {
   name: string;
   email: string;
-  type: 'student' | 'Staff';
+  type: 'student' | 'staff';
   studentId?: string;
   organizationId: string;
 }
@@ -31,8 +31,15 @@ export default function AdminDashboard() {
   });
 
   useEffect(() => {
-    fetch('/api/accounts').then(res => res.json()).then(setAccounts);
-    fetch('/api/courses').then(res => res.json()).then(setCourses);
+    fetch('http://localhost:8080/api/users')
+      .then(res => res.json())
+      .then(setAccounts)
+      .catch(() => setAccounts([]));
+
+    fetch('http://localhost:8080/api/courses')
+      .then(res => res.json())
+      .then(setCourses)
+      .catch(() => setCourses([]));
   }, []);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

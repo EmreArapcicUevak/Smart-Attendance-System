@@ -30,4 +30,3 @@ cd smart-attendance-system/frontend
 3. **run frontend**
     npm run dev
 4. **It should be shown in localhost:3000 on your browser**
-

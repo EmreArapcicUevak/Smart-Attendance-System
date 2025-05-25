@@ -16,7 +16,8 @@ export default function StudentAttendance() {
   const [sessionType, setSessionType] = useState('');
 
   useEffect(() => {
-    fetch('/api/attendance')
+    const studentId = '1'; // Static for now, will be dynamic later
+    fetch(`http://localhost:8080/api/students/${studentId}/attendance`)
       .then((res) => res.json())
       .then(setAttendanceData)
       .catch(() => {

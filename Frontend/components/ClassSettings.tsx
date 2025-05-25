@@ -23,7 +23,7 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
   const [newStudentId, setNewStudentId] = useState('');
   const [students, setStudents] = useState<string[]>(course.students || []);
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     const updatedCourse: CourseComponent = {
       ...course,
       code,
@@ -31,15 +31,77 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
       faculty,
       students,
     };
-    onSave(updatedCourse);
-    setCurrentView('details');
+
+    try {
+      const res = await fetch(`http://localhost:8080/api/courses/${course.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          code,
+          faculty,
+        }),
+      });
+
+      if (res.ok) {
+        onSave(updatedCourse);
+        setCurrentView('details');
+        alert('✅ Course updated successfully.');
+      } else {
+        const error = await res.text();
+        alert(`❌ Failed to update: ${error}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('❌ Error updating course.');
+    }
   };
 
-  const handleAddStudent = () => {
-    if (newStudentId.trim() && !students.includes(newStudentId.trim())) {
-      const updatedStudents = [...students, newStudentId.trim()];
-      setStudents(updatedStudents);
-      setNewStudentId('');
+  const handleDeleteCourse = async () => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/courses/${course.id}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        alert('✅ Course deleted.');
+        onDelete();
+      } else {
+        const error = await res.text();
+        alert(`❌ Failed to delete: ${error}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('❌ Error deleting course.');
+    }
+  };
+
+  const handleAddStudent = async () => {
+    const trimmed = newStudentId.trim();
+    if (!trimmed || students.includes(trimmed)) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:8080/api/courses/${course.id}/enroll?studentId=${trimmed}`,
+        {
+          method: 'POST',
+        }
+      );
+
+      if (res.ok) {
+        const updatedStudents = [...students, trimmed];
+        setStudents(updatedStudents);
+        setNewStudentId('');
+        alert('✅ Student enrolled.');
+      } else {
+        const error = await res.text();
+        alert(`❌ Failed to enroll: ${error}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('❌ Error enrolling student.');
     }
   };
 
@@ -72,7 +134,7 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
           <p><strong>Name:</strong> {course.name}</p>
           <p><strong>Faculty:</strong> {course.faculty}</p>
           <button
-            onClick={onDelete}
+            onClick={handleDeleteCourse}
             className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
           >
             Delete Course
