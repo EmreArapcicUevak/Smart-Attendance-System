@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.rounded.ThumbUp
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -35,6 +35,7 @@ fun CourseDetailsScreen(
     navigateBackPressed: () -> Unit,
     canNavigateBack: Boolean,
     cardPressed: (Long, String, Long) -> Unit,
+    takeAttendancePressed: (courseId: Long) -> Unit,
     courseDetailsScreenViewModel: CourseDetailsScreenViewModel = hiltViewModel<CourseDetailsScreenViewModel>()
 ) {
 
@@ -59,7 +60,8 @@ fun CourseDetailsScreen(
             courseDetailsScreenViewModel.onFilterFieldValueChange(it)
         },
         cardPressed = cardPressed,
-        canTakeAttendance = courseDetailsUiState.canTakeAttendance
+        canTakeAttendance = true,
+        takeAttendancePressed = takeAttendancePressed
     )
 }
 
@@ -91,7 +93,7 @@ private fun CourseDetailsScreenContent(
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.ThumbUp,
+                        imageVector = Icons.Rounded.Edit,
                         contentDescription = null
                     )
                 }

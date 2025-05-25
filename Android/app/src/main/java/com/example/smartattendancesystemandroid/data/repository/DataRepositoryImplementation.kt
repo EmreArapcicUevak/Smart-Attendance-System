@@ -5,6 +5,7 @@ import com.example.smartattendancesystemandroid.data.api.DataApi
 import com.example.smartattendancesystemandroid.data.model.AttendanceRequest
 import com.example.smartattendancesystemandroid.data.model.AttendanceResponse
 import com.example.smartattendancesystemandroid.data.model.CourseListResponse
+import com.example.smartattendancesystemandroid.data.model.CourseRequest
 import com.example.smartattendancesystemandroid.data.model.CourseResponse
 import com.example.smartattendancesystemandroid.data.model.StudentListResponse
 import com.example.smartattendancesystemandroid.data.model.WeekAttendedState
@@ -82,6 +83,20 @@ class DataRepositoryImplementation(
         catch (e: Exception) {
             Log.e("APIE", e.toString())
             CourseListResponse(courses = listOf(CourseResponse(1, "", "", "", false, false)))
+        }
+    }
+
+    override suspend fun createCourse(body: CourseRequest): CourseResponse {
+        return try {
+            api.createCourse(body)
+        }
+        catch (e: HttpException) {
+            Log.e("APIE", e.toString())
+            CourseResponse(-1, "", "", "", false, false)
+        }
+        catch (e: Exception) {
+            Log.e("APIE", e.toString())
+            CourseResponse(-1, "", "", "", false, false)
         }
     }
 }

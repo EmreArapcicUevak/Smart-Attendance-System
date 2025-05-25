@@ -3,6 +3,8 @@ package com.example.smartattendancesystemandroid.data.repository
 import com.example.smartattendancesystemandroid.data.model.AttendanceRequest
 import com.example.smartattendancesystemandroid.data.model.AttendanceResponse
 import com.example.smartattendancesystemandroid.data.model.CourseListResponse
+import com.example.smartattendancesystemandroid.data.model.CourseRequest
+import com.example.smartattendancesystemandroid.data.model.CourseResponse
 import com.example.smartattendancesystemandroid.data.model.StudentListResponse
 
 interface DataRepository {
@@ -11,4 +13,5 @@ interface DataRepository {
     suspend fun getStudentAttendance(courseId: Long, studentId: Long): AttendanceResponse
     suspend fun markAttendance(body: AttendanceRequest)
     suspend fun getStudentCourses(): CourseListResponse
+    suspend fun createCourse(body: CourseRequest): CourseResponse
 }
