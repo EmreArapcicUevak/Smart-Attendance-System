@@ -1,9 +1,10 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.dto.AttendanceResponse
-import main.kotlin.com.smartattendance.service.AttendanceService
+import com.smartattendance.dto.AttendanceResponse
+import com.smartattendance.dto.AttendanceRequest
+import com.smartattendance.entity.ComponentType
+import com.smartattendance.service.AttendanceService
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -11,12 +12,21 @@ import org.springframework.web.bind.annotation.*
 class AttendanceController(
     private val attendanceService: AttendanceService
 ) {
-    @GetMapping("/{studentId}/attendance")
-    fun getStudentAttendance(
+    @GetMapping("/{studentId}/courses/{courseId}/attendance")
+    fun getAttendanceStatusesByComponentType(
         @PathVariable studentId: Long,
-        @RequestParam(required = false) courseId: Long?
-    ): ResponseEntity<List<AttendanceResponse>> {
-        val records = attendanceService.getAttendanceForStudent(studentId, courseId)
-        return ResponseEntity.ok(records)
+        @PathVariable courseId: Long
+    ): ResponseEntity<Map<String, List<String>>> {
+        val statusesByComponent = attendanceService.getAttendanceStatusesByComponentType(studentId, courseId)
+        return ResponseEntity.ok(statusesByComponent)
+    }
+
+    @PostMapping("/courses/{courseId}/attendance")
+    fun markAttendance(
+        @PathVariable courseId: Long,
+        @RequestBody attendanceRequest: AttendanceRequest
+    ): ResponseEntity<Void> {
+        attendanceService.markAttendance(courseId, attendanceRequest)
+        return ResponseEntity.ok().build()
     }
 }

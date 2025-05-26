@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance
+package com.smartattendance
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance.entity
+package com.smartattendance.entity
 
 import jakarta.persistence.*
 
@@ -15,12 +15,17 @@ data class Course(
     @Column(name = "course_code", nullable = false)
     var courseCode: String = "",
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "day_od_the_week", nullable = false)
-    var dayOfTheWeek: DayOfTheWeek = DayOfTheWeek.MONDAY,
-
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "Instructor", nullable = false)
     val createdBy: String = "",
+
+    @Column(name = "staff_id", nullable = false)
+    val staffId: Long = 0,
+
+    @Column(name = "has_labs", nullable = false)
+    var hasLabs: Boolean = false,
+
+    @Column(name = "has_tutorials", nullable = false)
+    var hasTutorials: Boolean = false,
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(

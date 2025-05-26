@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance.dto
+package com.smartattendance.dto
 
 data class UserResponse (
     val id: Long,

@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance.dto
+package com.smartattendance.dto
 
     data class OrganizationRequest(
         val name: String,

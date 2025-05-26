@@ -1,6 +1,6 @@
-package main.kotlin.com.smartattendance.dto
+package com.smartattendance.dto
 
-import main.kotlin.com.smartattendance.entity.Role
+import com.smartattendance.entity.Role
 
 data class UserRequest(
     val organizationId: Long,
