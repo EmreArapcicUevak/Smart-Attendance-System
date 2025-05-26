@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Organization {
+  id: number;
   name: string;
 }
 
@@ -20,7 +21,7 @@ export default function OrganizationSettings() {
       .then(setOrganizations)
       .catch(() => {
         setOrganizations([
-          { name: 'International University of Sarajevo' },
+          { id: 0, name: 'International University of Sarajevo' },
         ]);
       });
   }, []);
@@ -43,7 +44,7 @@ export default function OrganizationSettings() {
     };
     setOrganizations(updated);
     setEditingIndex(null);
-    // You may later add a PUT request here to persist changes to the backend
+    // Optional: Add PUT to backend later using updated[editingIndex].id
   };
 
   return (
@@ -76,7 +77,7 @@ export default function OrganizationSettings() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredOrganizations.map((org, idx) => (
             <div
-              key={idx}
+              key={org.id}
               className="bg-white rounded-xl shadow-md border p-5 transition hover:shadow-lg"
             >
               {editingIndex === idx ? (

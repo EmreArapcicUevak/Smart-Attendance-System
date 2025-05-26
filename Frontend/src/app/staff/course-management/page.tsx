@@ -7,7 +7,6 @@ interface CourseComponent {
   id: number;
   code: string;
   name: string;
-  faculty: string;
   students?: string[];
 }
 
@@ -64,7 +63,6 @@ export default function CourseManagement() {
             <tr>
               <th className="px-4 py-2 border-b">Code</th>
               <th className="px-4 py-2 border-b">Name</th>
-              <th className="px-4 py-2 border-b">Faculty</th>
               <th className="px-4 py-2 border-b">Actions</th>
             </tr>
           </thead>
@@ -73,7 +71,6 @@ export default function CourseManagement() {
               <tr key={course.id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 border-b">{course.code}</td>
                 <td className="px-4 py-3 border-b">{course.name}</td>
-                <td className="px-4 py-3 border-b">{course.faculty}</td>
                 <td className="px-4 py-3 border-b">
                   <div className="flex gap-4">
                     <button

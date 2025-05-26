@@ -43,10 +43,9 @@ try {
     }
   };
 
-  const filteredData = attendanceData;
-
   return (
     <div className="min-h-screen flex bg-white text-black font-sans">
+      {/* Sidebar */}
       <aside className="w-64 bg-[#3553B5] text-white p-6 flex flex-col gap-6">
         <h2 className="text-2xl font-bold">Smart Attendance</h2>
         <button className="text-left text-lg hover:text-gray-200" onClick={() => router.back()}>
@@ -54,6 +53,7 @@ try {
         </button>
       </aside>
 
+      {/* Main */}
       <main className="flex-1 p-10">
         <h1 className="text-3xl font-bold mb-6">Attendance Details - {sectionId}</h1>
 
@@ -81,8 +81,8 @@ try {
               </tr>
             </thead>
             <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map((entry, idx) => (
+              {attendanceData.length > 0 ? (
+                attendanceData.map((entry, idx) => (
                   <tr key={idx} className="hover:bg-[#EFF1FA] border-t border-gray-200">
                     <td className="px-6 py-4">{searchId}</td>
                     <td className="px-6 py-4">{entry.sessionType}</td>
@@ -92,7 +92,9 @@ try {
                 ))
               ) : (
                 <tr>
-                  <td className="px-6 py-4" colSpan={4}>No data to display.</td>
+                  <td className="px-6 py-4 text-center text-gray-500" colSpan={4}>
+                    No data to display.
+                  </td>
                 </tr>
               )}
             </tbody>

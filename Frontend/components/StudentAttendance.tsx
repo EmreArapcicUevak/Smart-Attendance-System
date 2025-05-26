@@ -4,47 +4,27 @@ import React, { useEffect, useState } from 'react';
 
 interface AttendanceRecord {
   status: 'Present' | 'Absent';
-  subject: string;
   sessionType: 'Lecture' | 'Lab' | 'Tutorial';
-  week: string;
-  faculty: string;
+  week: number;
 }
 
 export default function StudentAttendance() {
   const [attendanceData, setAttendanceData] = useState<AttendanceRecord[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [sessionType, setSessionType] = useState('');
 
-useEffect(() => {
-  const studentId = '1'; // Static for now, will be dynamic later
-  const token = localStorage.getItem('authToken');
-  fetch(`http://localhost:8080/api/students/${studentId}/attendance`, {
-    headers: {
-      Authorization: token ? `Bearer ${token}` : '',
-    },
-  })
-    .then((res) => res.json())
-    .then(setAttendanceData)
-    .catch(() => {
-      setAttendanceData([
-        {
-          status: 'Present',
-          subject: 'Mathematics',
-          sessionType: 'Lecture',
-          faculty: 'Engineering',
-          week: '1',
-        },
-      ]);
-    });
-}, []);
+  useEffect(() => {
+    const studentId = '1'; // Static for now, will be dynamic later
+    fetch(`http://localhost:8080/api/students/${studentId}/attendance`)
+      .then((res) => res.json())
+      .then(setAttendanceData)
+      .catch(() => {
+        setAttendanceData([]);
+      });
+  }, []);
 
-const filteredData = Array.isArray(attendanceData)
-  ? attendanceData.filter((record) => {
-      const matchesSubject = record.subject?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesType = sessionType ? record.sessionType === sessionType : true;
-      return matchesSubject && matchesType;
-    })
-  : [];
+  const filteredData = attendanceData.filter((record) => {
+    return sessionType ? record.sessionType === sessionType : true;
+  });
 
   const totalPresent = filteredData.filter((r) => r.status === 'Present').length;
   const totalAbsent = filteredData.filter((r) => r.status === 'Absent').length;
@@ -57,14 +37,6 @@ const filteredData = Array.isArray(attendanceData)
 
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 justify-between mb-8">
-        <input
-          type="text"
-          placeholder="Search by course name..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white"
-        />
-
         <select
           value={sessionType}
           onChange={(e) => setSessionType(e.target.value)}
@@ -94,8 +66,6 @@ const filteredData = Array.isArray(attendanceData)
         <table className="min-w-full bg-white text-left text-sm border border-gray-200 rounded-lg">
           <thead className="bg-gray-200 text-black">
             <tr>
-              <th className="px-6 py-3">Course</th>
-              <th className="px-6 py-3">Faculty</th>
               <th className="px-6 py-3">Session</th>
               <th className="px-6 py-3">Week</th>
               <th className="px-6 py-3">Status</th>
@@ -109,8 +79,6 @@ const filteredData = Array.isArray(attendanceData)
                   record.status === 'Present' ? 'bg-green-50' : 'bg-red-50'
                 }`}
               >
-                <td className="px-6 py-4">{record.subject}</td>
-                <td className="px-6 py-4">{record.faculty}</td>
                 <td className="px-6 py-4">{record.sessionType}</td>
                 <td className="px-6 py-4">{record.week}</td>
                 <td

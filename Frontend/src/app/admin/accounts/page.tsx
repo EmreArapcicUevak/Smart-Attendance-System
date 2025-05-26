@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Account {
-  name: string;
-  email: string;
-  type: 'student' | 'staff';
+  fullName: string;
+  role: 'student' | 'staff';
   studentId?: string;
 }
 
@@ -16,26 +15,28 @@ export default function AdminAccountsPage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
 
+  const fetchAccounts = async (roleFilter: string) => {
+    try {
+      let url = 'http://localhost:8080/api/users';
+      if (roleFilter === 'student') url += '/students';
+      else if (roleFilter === 'staff') url += '/staff';
+
+      const response = await fetch(url);
+      const data = await response.json();
+      setAccounts(data);
+    } catch (error) {
+      console.error('Failed to fetch accounts:', error);
+      setAccounts([]);
+    }
+  };
+
   useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/users');
-        const data = await response.json();
-        setAccounts(data);
-      } catch (error) {
-        console.error('Failed to fetch accounts:', error);
-        setAccounts([]);
-      }
-    };
+    fetchAccounts(filter);
+  }, [filter]);
 
-    fetchAccounts();
-  }, []);
-
-  const filteredAccounts = accounts
-    .filter(account =>
-      account.name.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter(account => !filter || account.type === filter);
+  const filteredAccounts = accounts.filter(account =>
+    account.fullName.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
@@ -63,7 +64,7 @@ export default function AdminAccountsPage() {
           onChange={(e) => setFilter(e.target.value)}
           className="w-full md:w-60 border px-4 py-2 rounded shadow-sm bg-white"
         >
-          <option value="">All Types</option>
+          <option value="">All Roles</option>
           <option value="student">Student</option>
           <option value="staff">Staff</option>
         </select>
@@ -76,12 +77,11 @@ export default function AdminAccountsPage() {
             key={idx}
             className="bg-white rounded-xl shadow-md border p-5 transition hover:shadow-lg"
           >
-            <h3 className="text-xl font-bold text-[#3553B5]">{account.name}</h3>
-            <p className="text-sm text-gray-600 capitalize">Type: {account.type}</p>
-            {account.type === 'student' && (
+            <h3 className="text-xl font-bold text-[#3553B5]">{account.fullName}</h3>
+            <p className="text-sm text-gray-600 capitalize">Role: {account.role}</p>
+            {account.role === 'student' && account.studentId && (
               <p className="text-sm text-gray-600">Student ID: {account.studentId}</p>
             )}
-            <p className="text-sm text-gray-600">Email: {account.email}</p>
           </div>
         ))}
 

@@ -6,7 +6,6 @@ type Course = {
   id: number;
   courseCode: string;
   courseName: string;
-  faculty: string;
 };
 
 export default function StaffCourseList() {
@@ -37,7 +36,6 @@ useEffect(() => {
               <tr>
                 <th className="px-6 py-3">Course Code</th>
                 <th className="px-6 py-3">Course Name</th>
-                <th className="px-6 py-3">Faculty</th>
               </tr>
             </thead>
             <tbody>
@@ -49,7 +47,6 @@ useEffect(() => {
                   >
                     <td className="px-6 py-4">{course.courseCode}</td>
                     <td className="px-6 py-4">{course.courseName}</td>
-                    <td className="px-6 py-4">{course.faculty}</td>
                   </tr>
                 ))
               ) : (

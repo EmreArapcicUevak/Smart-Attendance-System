@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Course {
+  id: number;
   code: string;
-  name: string;
+  fullName: string;
 }
 
 export default function ViewCoursesPage() {
@@ -16,20 +17,27 @@ export default function ViewCoursesPage() {
   useEffect(() => {
     fetch('http://localhost:8080/api/courses')
       .then(res => res.json())
-      .then(setCourses)
+      .then(data => {
+        const mappedCourses = data.map((c: any) => ({
+          id: c.id,
+          code: c.courseCode,
+          fullName: c.courseName,
+        }));
+        setCourses(mappedCourses);
+      })
       .catch(() => {
         setCourses([]);
       });
   }, []);
 
   const filteredCourses = courses.filter(course =>
-    course.name.toLowerCase().includes(searchTerm.toLowerCase())
+    course.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
       <h1 className="text-4xl font-bold text-[#3553B5] mb-6">📘 Course List</h1>
-      
+
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-[#3553B5]">Courses</h1>
         <button
@@ -57,13 +65,13 @@ export default function ViewCoursesPage() {
 
       {/* Course Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCourses.map((course, idx) => (
+        {filteredCourses.map((course) => (
           <div
-            key={idx}
+            key={course.id}
             className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-200"
           >
             <h3 className="text-2xl font-semibold text-[#3553B5] mb-1">{course.code}</h3>
-            <p className="text-md font-medium text-gray-800">{course.name}</p>
+            <p className="text-md font-medium text-gray-800">{course.fullName}</p>
           </div>
         ))}
 

@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 export default function ClassManagementPage() {
   const router = useRouter();
 
-  const [classes, setClasses] = useState<{ code: string; name: string; faculty: string }[]>([]);
+  const [classes, setClasses] = useState<{ code: string; name: string }[]>([]);
 
 useEffect(() => {
   fetch('http://localhost:8080/api/courses/staff', {
@@ -60,7 +60,6 @@ const slugify = (name: string) => (name ? name.toUpperCase().replace(/\s+/g, '-'
                 <tr>
                   <th className="px-6 py-3 text-left">Course Code</th>
                   <th className="px-6 py-3 text-left">Course Name</th>
-                  <th className="px-6 py-3 text-left">Faculty</th>
                   <th className="px-6 py-3 text-left">Actions</th>
                 </tr>
               </thead>
