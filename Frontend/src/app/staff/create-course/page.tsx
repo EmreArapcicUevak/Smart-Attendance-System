@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function CreateCoursePage() {
-  const [courseName, setCourseName] = useState('');
-  const [courseCode, setCourseCode] = useState('');
-  const [faculty, setFaculty] = useState('');
+  const [courseName, setCourseName] = useState("");
+  const [courseCode, setCourseCode] = useState("");
+  const [faculty, setFaculty] = useState("");
   const [errors, setErrors] = useState<{ name?: string; code?: string }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -13,22 +13,44 @@ export default function CreateCoursePage() {
     const newErrors: { name?: string; code?: string } = {};
 
     if (!courseName.trim()) {
-      newErrors.name = 'Course name is required.';
+      newErrors.name = "Course name is required.";
     }
     if (!courseCode.trim()) {
-      newErrors.code = 'Course code is required.';
+      newErrors.code = "Course code is required.";
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Submit logic here
-      console.log({ courseName, courseCode, faculty });
-      alert('Course created successfully!');
-      // Reset
-      setCourseName('');
-      setCourseCode('');
-      setFaculty('');
+      fetch("http://localhost:8080/api/courses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken") || ""}`,
+        },
+        body: JSON.stringify({
+          courseName: courseName,
+          courseCode: courseCode,
+          hasLab: hasLab,
+          hasTutorial: hasTutorial,
+        }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            alert("✅ Course created successfully!");
+            setCourseName("");
+            setCourseCode("");
+            setHasLab(false);
+            setHasTutorial(false);
+          } else {
+            return res.text().then((text) => {
+              alert("❌ Failed to create course: " + text);
+            });
+          }
+        })
+        .catch((err) => {
+          alert("❌ Error: " + err.message);
+        });
     }
   };
 
@@ -36,12 +58,16 @@ export default function CreateCoursePage() {
     <div className="min-h-screen flex bg-white text-black font-sans">
       {/* Main content */}
       <main className="mx-auto mt-20 w-full max-w-xl px-6">
-        <h1 className="text-3xl font-bold text-[#3553B5] mb-8">Create New Course</h1>
+        <h1 className="text-3xl font-bold text-[#3553B5] mb-8">
+          Create New Course
+        </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Course Name */}
           <div>
-            <label className="block text-lg font-medium mb-2">Course Name</label>
+            <label className="block text-lg font-medium mb-2">
+              Course Name
+            </label>
             <input
               type="text"
               value={courseName}
@@ -49,12 +75,16 @@ export default function CreateCoursePage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
               placeholder="e.g., Introduction to Programming"
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
 
           {/* Course Code */}
           <div>
-            <label className="block text-lg font-medium mb-2">Course Code</label>
+            <label className="block text-lg font-medium mb-2">
+              Course Code
+            </label>
             <input
               type="text"
               value={courseCode}
@@ -62,12 +92,16 @@ export default function CreateCoursePage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
               placeholder="e.g., CS101"
             />
-            {errors.code && <p className="text-red-500 text-sm mt-1">{errors.code}</p>}
+            {errors.code && (
+              <p className="text-red-500 text-sm mt-1">{errors.code}</p>
+            )}
           </div>
 
           {/* Course Faculty */}
           <div>
-            <label className="block text-lg font-medium mb-2">Course Faculty</label>
+            <label className="block text-lg font-medium mb-2">
+              Course Faculty
+            </label>
             <select
               value={faculty}
               onChange={(e) => setFaculty(e.target.value)}
