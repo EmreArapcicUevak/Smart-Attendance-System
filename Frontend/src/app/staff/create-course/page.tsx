@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CreateCoursePage() {
   const router = useRouter();
 
-  const [courseName, setCourseName] = useState('');
-  const [courseCode, setCourseCode] = useState('');
+  const [courseName, setCourseName] = useState("");
+  const [courseCode, setCourseCode] = useState("");
   const [hasLab, setHasLab] = useState(false);
   const [hasTutorial, setHasTutorial] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; code?: string }>({});
@@ -16,8 +16,8 @@ export default function CreateCoursePage() {
     e.preventDefault();
     const newErrors: { name?: string; code?: string } = {};
 
-    if (!courseName.trim()) newErrors.name = 'Course name is required.';
-    if (!courseCode.trim()) newErrors.code = 'Course code is required.';
+    if (!courseName.trim()) newErrors.name = "Course name is required.";
+    if (!courseCode.trim()) newErrors.code = "Course code is required.";
 
     setErrors(newErrors);
 
@@ -57,10 +57,12 @@ export default function CreateCoursePage() {
   return (
     <div className="min-h-screen flex bg-white text-black font-sans">
       <main className="mx-auto mt-20 w-full max-w-xl px-6">
-        <h1 className="text-3xl font-bold text-[#3553B5] mb-8">Create New Course</h1>
+        <h1 className="text-3xl font-bold text-[#3553B5] mb-8">
+          Create New Course
+        </h1>
         <div>
           <button
-            onClick={() => router.push('/staff/dashboard')}
+            onClick={() => router.push("/staff/dashboard")}
             className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
           >
             ← Back to Dashboard
@@ -102,22 +104,6 @@ export default function CreateCoursePage() {
             )}
           </div>
 
-          {/* Course Faculty */}
-          <div>
-            <label className="block text-lg font-medium mb-2">
-              Course Faculty
-            </label>
-            <select
-              value={faculty}
-              onChange={(e) => setFaculty(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
-            >
-              <option value="">Select Faculty</option>
-              <option value="Engineering">Engineering</option>
-              <option value="Science">Science</option>
-              <option value="Business">Business</option>
-              <option value="Arts">Arts</option>
-            </select>
           {/* Lab & Tutorial Checkboxes */}
           <div className="space-y-2">
             <label className="flex items-center gap-2">

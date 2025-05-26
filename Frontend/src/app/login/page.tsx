@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function HomePage() {
 
       // Store token and user ID
       localStorage.setItem("authToken", data.token);
-      localStorage.setItem("userId", data.id);
+      localStorage.setItem("userId", JSON.parse(atob(data.token.split(".")[1])).id);
 
       // Fetch role from backend
       const roleResponse = await fetch("http://localhost:8080/auth/role", {

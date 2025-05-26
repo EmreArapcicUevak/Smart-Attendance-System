@@ -125,10 +125,8 @@ class CourseService(
         }
     }
 
-    fun getCoursesByStudentId(studentId: Long): List<CourseResponse> {
-        val student = userRepository.findByStudentId(studentId)
-            ?: throw IllegalArgumentException("Student not found")
-
+    fun getCoursesByStudentId(id: Long): List<CourseResponse> {
+        val student = userRepository.findById(id).orElseThrow { IllegalArgumentException("Student not found") }
         val courses = courseRepository.findByStudentsContaining(student)
 
         return courses.map { course ->
