@@ -12,15 +12,19 @@ type Course = {
 export default function StaffCourseList() {
   const [courses, setCourses] = useState<Course[]>([]);
 
-  useEffect(() => {
-    fetch('http://localhost:8080/api/courses')
-      .then((res) => res.json())
-      .then((data) => setCourses(data))
-      .catch((err) => {
-        console.error('Failed to fetch courses:', err);
-        setCourses([]);
-      });
-  }, []);
+useEffect(() => {
+  fetch('http://localhost:8080/api/courses/staff', {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
+    }
+  })
+    .then((res) => res.json())
+    .then((data) => setCourses(data))
+    .catch((err) => {
+      console.error('Failed to fetch courses:', err);
+      setCourses([]);
+    });
+}, []);
 
   return (
     <section className="mt-10">
@@ -46,6 +50,9 @@ export default function StaffCourseList() {
                     <td className="px-6 py-4">{course.courseCode}</td>
                     <td className="px-6 py-4">{course.courseName}</td>
                     <td className="px-6 py-4">{course.dayOfTheWeek}</td>
+                    <td className="px-6 py-4">{course.courseCode}</td>
+                    <td className="px-6 py-4">{course.courseName}</td>
+                    <td className="px-6 py-4">{course.faculty}</td>
                   </tr>
                 ))
               ) : (

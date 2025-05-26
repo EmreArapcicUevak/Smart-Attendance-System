@@ -20,18 +20,10 @@ export default function CourseManagement() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/courses')
+    fetch('http://localhost:8080/api/courses/staff')
       .then((res) => res.json())
       .then((data) => {
-        const mappedCourses = data.map((course: any) => ({
-          id: course.id,
-          code: course.courseCode,
-          name: course.courseName,
-          faculty: '', // fallback since backend doesn't return this
-          students: [], // fallback if needed in ClassSettings
-        }));
-        setCourses(mappedCourses);
-      })
+        setCourses(Array.isArray(data) ? data : data.courses || []);      })
       .catch((error) => {
         console.error('Failed to fetch courses:', error);
       });

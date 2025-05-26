@@ -8,23 +8,22 @@ export default function ClassManagementPage() {
 
   const [classes, setClasses] = useState<{ code: string; name: string }[]>([]);
 
-  useEffect(() => {
-    fetch('http://localhost:8080/api/courses')
-      .then((res) => res.json())
-      .then((data) => {
-        const mapped = data.map((course: any) => ({
-          code: course.courseCode,
-          name: course.courseName,
-        }));
-        setClasses(mapped);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch classes:', error);
-      });
-  }, []);
+useEffect(() => {
+  fetch('http://localhost:8080/api/courses/staff', {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
+    }
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setClasses(data);
+    })
+    .catch((error) => {
+      console.error('Failed to fetch classes:', error);
+    });
+}, []);
 
-  const slugify = (name: string) => name.toUpperCase().replace(/\s+/g, '-');
-
+const slugify = (name: string) => (name ? name.toUpperCase().replace(/\s+/g, '-') : '');
   return (
     <div className="min-h-screen flex bg-white text-black font-sans">
       {/* Sidebar */}
@@ -67,12 +66,13 @@ export default function ClassManagementPage() {
               <tbody>
                 {classes.map((course, idx) => (
                   <tr key={idx} className="hover:bg-[#EFF1FA] border-t border-gray-200">
-                    <td className="px-6 py-4">{course.code}</td>
-                    <td className="px-6 py-4">{course.name}</td>
+                    <td className="px-6 py-4">{course.courseCode}</td>
+                    <td className="px-6 py-4">{course.courseName}</td>
+                    <td className="px-6 py-4">{course.faculty}</td>
                     <td className="px-6 py-4">
                       <button
                         className="bg-[#3553B5] text-white px-4 py-1 rounded hover:bg-blue-700 text-sm"
-                        onClick={() => router.push(`/staff/class-management/class-details/${slugify(course.code)}`)}
+                        onClick={() => router.push(`/staff/class-management/class-details/${slugify(course.courseCode)}`)}
                       >
                         Attendance Details
                       </button>

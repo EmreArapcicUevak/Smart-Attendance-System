@@ -28,20 +28,33 @@ export default function HomePage() {
 
       const data = await res.json();
 
-      // ✅ Store credentials
+      // Store token and user ID
       localStorage.setItem('authToken', data.token);
-      localStorage.setItem('userRole', data.role);
-      if (data.id) localStorage.setItem('userId', data.id);
+      localStorage.setItem('userId', data.id);
 
-      // ✅ Role-based redirection
-      if (data.role === 'student') {
-        router.push('/student/dashboard');
-      } else if (data.role === 'staff') {
-        router.push('/staff/dashboard');
-      } else if (data.role === 'admin') {
-        router.push('/admin/dashboard');
+      // Fetch role from backend
+      const roleResponse = await fetch('http://localhost:8080/auth/role', {
+        headers: {
+          'Authorization': `Bearer ${data.token}`,
+        },
+      });
+
+      if (roleResponse.ok) {
+        const role = await roleResponse.text();
+        localStorage.setItem('userRole', role);
+
+        // Role-based redirection
+        if (role === 'STUDENT') {
+          router.push('/student/dashboard');
+        } else if (role === 'STAFF') {
+          router.push('/staff/dashboard');
+        } else if (role === 'ADMIN') {
+          router.push('/admin/dashboard');
+        } else {
+          alert('❌ Unknown user role. Please contact support.');
+        }
       } else {
-        alert('❌ Unknown user role. Please contact support.');
+        console.error('Failed to fetch role:', await roleResponse.text());
       }
     } catch (err: any) {
       alert('❌ Error: ' + err.message);
@@ -95,13 +108,6 @@ export default function HomePage() {
           </button>
 
           {/* Register Button */}
-          <button
-            type="button"
-            className="w-full border border-[#3553B5] text-[#3553B5] py-3 rounded-lg font-semibold hover:bg-[#EFF1FA] transition"
-            onClick={() => router.push('/register')}
-          >
-            Create Organization
-          </button>
         </form>
       </div>
     </div>

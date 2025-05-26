@@ -26,8 +26,14 @@ export default function CreateCoursePage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
         },
         body: JSON.stringify({
+          courseName: courseName,
+          courseCode: courseCode,
+          faculty: faculty,
+          hasLab: hasLab,
+          hasTutorial: hasTutorial,
           courseName,
           courseCode,
           hasLab,
