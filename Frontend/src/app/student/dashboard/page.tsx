@@ -16,21 +16,9 @@ export default function StudentDashboard() {
         <nav className="flex flex-col gap-4 text-lg">
           <button
             className="text-left hover:text-gray-200"
-            onClick={() => router.push('/student/timetable')}
-          >
-            Timetable
-          </button>
-          <button
-            className="text-left hover:text-gray-200"
             onClick={() => router.push('/student/classes-page')}
           >
-            My Classes
-          </button>
-          <button
-            className="text-left hover:text-gray-200"
-            onClick={() => router.push('/student/settings-page')}
-          >
-            Settings
+            Enrolled Courses
           </button>
         </nav>
         <div className="mt-auto">
@@ -52,7 +40,7 @@ export default function StudentDashboard() {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 bg-[#EFF1FA] p-6 rounded-lg shadow-sm">
           <div>
             <h1 className="text-3xl font-bold text-[#3553B5]">Welcome back, {userName} 👋</h1>
-            <p className="text-sm text-gray-600 mt-1">Here’s your student dashboard overview.</p>
+            <p className="text-sm text-gray-600 mt-1">Here's your student dashboard overview.</p>
           </div>
           <div className="mt-4 md:mt-0">
             <span className="bg-[#3553B5] text-white text-sm px-4 py-2 rounded-lg shadow">

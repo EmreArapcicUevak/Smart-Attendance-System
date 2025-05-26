@@ -67,7 +67,7 @@ export default function HomePage() {
           Login
         </h1>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleLogin}>
           {/* Email Input */}
           <div>
             <label
@@ -80,6 +80,8 @@ export default function HomePage() {
               id="email"
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
@@ -97,6 +99,8 @@ export default function HomePage() {
               id="password"
               type="password"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
