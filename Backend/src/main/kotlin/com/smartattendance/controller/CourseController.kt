@@ -59,4 +59,10 @@ class CourseController(
         val courses = courseService.getCoursesByStaffId()
         return ResponseEntity.ok(courses)
     }
+
+    @GetMapping("/{studentId}")
+    fun getCoursesByStudentId(@PathVariable studentId: Long): ResponseEntity<List<CourseResponse>> {
+        val courses = courseService.getCoursesByStudentId(studentId)
+        return ResponseEntity.ok(courses)
+    }
 }
