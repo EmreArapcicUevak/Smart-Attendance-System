@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 
 type Course = {
   id: number;
-  code: string;
-  name: string;
-  faculty: string;
+  courseCode: string;
+  courseName: string;
+  dayOfTheWeek: string;
 };
 
 export default function StaffCourseList() {
@@ -33,7 +33,7 @@ export default function StaffCourseList() {
               <tr>
                 <th className="px-6 py-3">Course Code</th>
                 <th className="px-6 py-3">Course Name</th>
-                <th className="px-6 py-3">Faculty</th>
+                <th className="px-6 py-3">Day</th>
               </tr>
             </thead>
             <tbody>
@@ -43,9 +43,9 @@ export default function StaffCourseList() {
                     key={course.id}
                     className="hover:bg-[#EFF1FA] border-t border-gray-200"
                   >
-                    <td className="px-6 py-4">{course.code}</td>
-                    <td className="px-6 py-4">{course.name}</td>
-                    <td className="px-6 py-4">{course.faculty}</td>
+                    <td className="px-6 py-4">{course.courseCode}</td>
+                    <td className="px-6 py-4">{course.courseName}</td>
+                    <td className="px-6 py-4">{course.dayOfTheWeek}</td>
                   </tr>
                 ))
               ) : (

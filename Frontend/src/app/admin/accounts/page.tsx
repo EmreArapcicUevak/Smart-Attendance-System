@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Account {
-  name: string;
+  fullName: string;
   email: string;
-  type: 'student' | 'staff';
+  role: 'student' | 'staff';
   studentId?: string;
 }
 
@@ -33,9 +33,9 @@ export default function AdminAccountsPage() {
 
   const filteredAccounts = accounts
     .filter(account =>
-      account.name.toLowerCase().includes(search.toLowerCase())
+      account.fullName.toLowerCase().includes(search.toLowerCase())
     )
-    .filter(account => !filter || account.type === filter);
+    .filter(account => !filter || account.role === filter);
 
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
@@ -63,7 +63,7 @@ export default function AdminAccountsPage() {
           onChange={(e) => setFilter(e.target.value)}
           className="w-full md:w-60 border px-4 py-2 rounded shadow-sm bg-white"
         >
-          <option value="">All Types</option>
+          <option value="">All Roles</option>
           <option value="student">Student</option>
           <option value="staff">Staff</option>
         </select>
@@ -76,9 +76,9 @@ export default function AdminAccountsPage() {
             key={idx}
             className="bg-white rounded-xl shadow-md border p-5 transition hover:shadow-lg"
           >
-            <h3 className="text-xl font-bold text-[#3553B5]">{account.name}</h3>
-            <p className="text-sm text-gray-600 capitalize">Type: {account.type}</p>
-            {account.type === 'student' && (
+            <h3 className="text-xl font-bold text-[#3553B5]">{account.fullName}</h3>
+            <p className="text-sm text-gray-600 capitalize">Role: {account.role}</p>
+            {account.role === 'student' && (
               <p className="text-sm text-gray-600">Student ID: {account.studentId}</p>
             )}
             <p className="text-sm text-gray-600">Email: {account.email}</p>

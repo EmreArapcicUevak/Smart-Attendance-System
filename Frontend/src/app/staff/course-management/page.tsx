@@ -7,7 +7,6 @@ interface CourseComponent {
   id: number;
   code: string;
   name: string;
-  faculty: string;
   students?: string[];
 }
 
@@ -24,7 +23,14 @@ export default function CourseManagement() {
     fetch('http://localhost:8080/api/courses')
       .then((res) => res.json())
       .then((data) => {
-        setCourses(data);
+        const mappedCourses = data.map((course: any) => ({
+          id: course.id,
+          code: course.courseCode,
+          name: course.courseName,
+          faculty: '', // fallback since backend doesn't return this
+          students: [], // fallback if needed in ClassSettings
+        }));
+        setCourses(mappedCourses);
       })
       .catch((error) => {
         console.error('Failed to fetch courses:', error);
@@ -65,7 +71,6 @@ export default function CourseManagement() {
             <tr>
               <th className="px-4 py-2 border-b">Code</th>
               <th className="px-4 py-2 border-b">Name</th>
-              <th className="px-4 py-2 border-b">Faculty</th>
               <th className="px-4 py-2 border-b">Actions</th>
             </tr>
           </thead>
@@ -74,7 +79,6 @@ export default function CourseManagement() {
               <tr key={course.id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 border-b">{course.code}</td>
                 <td className="px-4 py-3 border-b">{course.name}</td>
-                <td className="px-4 py-3 border-b">{course.faculty}</td>
                 <td className="px-4 py-3 border-b">
                   <div className="flex gap-4">
                     <button

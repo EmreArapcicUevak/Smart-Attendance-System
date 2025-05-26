@@ -6,13 +6,17 @@ import React, { useState, useEffect } from 'react';
 export default function ClassManagementPage() {
   const router = useRouter();
 
-  const [classes, setClasses] = useState<{ code: string; name: string; faculty: string }[]>([]);
+  const [classes, setClasses] = useState<{ code: string; name: string }[]>([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/api/courses')
       .then((res) => res.json())
       .then((data) => {
-        setClasses(data);
+        const mapped = data.map((course: any) => ({
+          code: course.courseCode,
+          name: course.courseName,
+        }));
+        setClasses(mapped);
       })
       .catch((error) => {
         console.error('Failed to fetch classes:', error);
@@ -57,7 +61,6 @@ export default function ClassManagementPage() {
                 <tr>
                   <th className="px-6 py-3 text-left">Course Code</th>
                   <th className="px-6 py-3 text-left">Course Name</th>
-                  <th className="px-6 py-3 text-left">Faculty</th>
                   <th className="px-6 py-3 text-left">Actions</th>
                 </tr>
               </thead>
@@ -66,7 +69,6 @@ export default function ClassManagementPage() {
                   <tr key={idx} className="hover:bg-[#EFF1FA] border-t border-gray-200">
                     <td className="px-6 py-4">{course.code}</td>
                     <td className="px-6 py-4">{course.name}</td>
-                    <td className="px-6 py-4">{course.faculty}</td>
                     <td className="px-6 py-4">
                       <button
                         className="bg-[#3553B5] text-white px-4 py-1 rounded hover:bg-blue-700 text-sm"

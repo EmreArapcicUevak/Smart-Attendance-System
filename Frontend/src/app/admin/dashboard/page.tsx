@@ -4,43 +4,24 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Account {
-  name: string;
+  fullName: string;
   email: string;
-  type: 'student' | 'staff';
+  role: 'student' | 'staff';
   studentId?: string;
   organizationId: string;
-}
-
-interface Course {
-  code: string;
-  name: string;
-  faculty: string;
 }
 
 export default function AdminDashboard() {
   const router = useRouter();
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [courses, setCourses] = useState<Course[]>([]);
   const [accountType, setAccountType] = useState<'student' | 'staff'>('student');
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     password: '',
     studentId: '',
     organizationId: '',
   });
-
-  useEffect(() => {
-    fetch('http://localhost:8080/api/users')
-      .then(res => res.json())
-      .then(setAccounts)
-      .catch(() => setAccounts([]));
-
-    fetch('http://localhost:8080/api/courses')
-      .then(res => res.json())
-      .then(setCourses)
-      .catch(() => setCourses([]));
-  }, []);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -49,30 +30,32 @@ export default function AdminDashboard() {
 
   const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = { ...formData, type: accountType };
+    const payload = {
+      ...formData,
+      role: accountType,
+      studentId: accountType === 'student' ? formData.studentId : undefined,
+    };
 
-    try {
-      const response = await fetch('http://localhost:8080/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+    const response = await fetch('http://localhost:8080/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
 
+    if (response.ok) {
       const result = await response.json();
-      if (response.ok) {
-        setAccounts([...accounts, result]);
-        setFormData({
-          name: '',
-          email: '',
-          password: '',
-          studentId: '',
-          organizationId: '',
-        });
-      } else {
-        alert('❌ Failed to create account: ' + (result.message || 'Unknown error'));
-      }
-    } catch (err: any) {
-      alert('❌ Error creating account: ' + err.message);
+      setAccounts([...accounts, result]);
+      setFormData({
+        fullName: '',
+        email: '',
+        password: '',
+        studentId: '',
+        organizationId: '',
+      });
+      alert('✅ Account created successfully.');
+    } else {
+      const error = await response.text();
+      alert(`❌ Failed to create account: ${error}`);
     }
   };
 
@@ -82,15 +65,9 @@ export default function AdminDashboard() {
       <aside className="w-64 bg-[#3553B5] text-white p-6 flex flex-col gap-6">
         <h2 className="text-2xl font-bold">Admin Panel</h2>
         <nav className="flex flex-col gap-4 text-lg">
-          <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/courses')}>
-            Courses
-          </button>
-          <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/accounts')}>
-            Accounts
-          </button>
-          <button className="text-left hover:text-gray-200" onClick={() => router.push('/admin/organizationSettings')}>
-            Organization Settings
-          </button>
+          <button onClick={() => router.push('/admin/courses')} className="text-left hover:text-gray-200">Courses</button>
+          <button onClick={() => router.push('/admin/accounts')} className="text-left hover:text-gray-200">Accounts</button>
+          <button onClick={() => router.push('/admin/organizationSettings')} className="text-left hover:text-gray-200">Organization Settings</button>
         </nav>
         <div className="mt-auto">
           <button
@@ -131,15 +108,17 @@ export default function AdminDashboard() {
               <option value="student">Student</option>
               <option value="staff">Staff</option>
             </select>
+
             <input
               type="text"
-              name="name"
+              name="fullName"
               placeholder="Name"
-              value={formData.name}
+              value={formData.fullName}
               onChange={handleFormChange}
               className="w-full border px-4 py-2 rounded"
               required
             />
+
             <input
               type="email"
               name="email"
@@ -149,6 +128,7 @@ export default function AdminDashboard() {
               className="w-full border px-4 py-2 rounded"
               required
             />
+
             <input
               type="password"
               name="password"
@@ -158,6 +138,7 @@ export default function AdminDashboard() {
               className="w-full border px-4 py-2 rounded"
               required
             />
+
             <input
               type="text"
               name="organizationId"
@@ -167,6 +148,7 @@ export default function AdminDashboard() {
               className="w-full border px-4 py-2 rounded"
               required
             />
+
             {accountType === 'student' && (
               <input
                 type="text"
@@ -175,9 +157,9 @@ export default function AdminDashboard() {
                 value={formData.studentId}
                 onChange={handleFormChange}
                 className="w-full border px-4 py-2 rounded"
-                required
               />
             )}
+
             <button type="submit" className="bg-[#3553B5] text-white px-6 py-2 rounded">
               Create Account
             </button>

@@ -8,18 +8,16 @@ export default function CreateCoursePage() {
 
   const [courseName, setCourseName] = useState('');
   const [courseCode, setCourseCode] = useState('');
-  const [faculty, setFaculty] = useState('');
   const [hasLab, setHasLab] = useState(false);
   const [hasTutorial, setHasTutorial] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; code?: string; faculty?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; code?: string }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors: { name?: string; code?: string; faculty?: string } = {};
+    const newErrors: { name?: string; code?: string } = {};
 
     if (!courseName.trim()) newErrors.name = 'Course name is required.';
     if (!courseCode.trim()) newErrors.code = 'Course code is required.';
-    if (!faculty.trim()) newErrors.faculty = 'Faculty is required.';
 
     setErrors(newErrors);
 
@@ -30,11 +28,10 @@ export default function CreateCoursePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: courseName,
-          code: courseCode,
-          faculty: faculty,
-          hasLab: hasLab,
-          hasTutorial: hasTutorial,
+          courseName,
+          courseCode,
+          hasLab,
+          hasTutorial,
         }),
       })
         .then((res) => {
@@ -42,7 +39,6 @@ export default function CreateCoursePage() {
             alert('✅ Course created successfully!');
             setCourseName('');
             setCourseCode('');
-            setFaculty('');
             setHasLab(false);
             setHasTutorial(false);
           } else {
@@ -95,19 +91,6 @@ export default function CreateCoursePage() {
               placeholder="e.g., CS101"
             />
             {errors.code && <p className="text-red-500 text-sm mt-1">{errors.code}</p>}
-          </div>
-
-          {/* Faculty */}
-          <div>
-            <label className="block text-lg font-medium mb-1">Faculty</label>
-            <input
-              type="text"
-              value={faculty}
-              onChange={(e) => setFaculty(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md"
-              placeholder="e.g., Faculty of Engineering and Natural Science"
-            />
-            {errors.faculty && <p className="text-red-500 text-sm mt-1">{errors.faculty}</p>}
           </div>
 
           {/* Lab & Tutorial Checkboxes */}

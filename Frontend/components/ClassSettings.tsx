@@ -5,7 +5,6 @@ interface CourseComponent {
   id: number;
   code: string;
   name: string;
-  faculty: string;
   students?: string[];
 }
 
@@ -19,7 +18,6 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
   const [currentView, setCurrentView] = useState<'details' | 'edit' | 'students'>('details');
   const [code, setCode] = useState(course.code);
   const [name, setName] = useState(course.name);
-  const [faculty, setFaculty] = useState(course.faculty);
   const [newStudentId, setNewStudentId] = useState('');
   const [students, setStudents] = useState<string[]>(course.students || []);
 
@@ -28,7 +26,6 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
       ...course,
       code,
       name,
-      faculty,
       students,
     };
 
@@ -39,9 +36,8 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
-          code,
-          faculty,
+          courseName: name,
+          courseCode: code,
         }),
       });
 
@@ -132,7 +128,6 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
         <div>
           <p><strong>Course Code:</strong> {course.code}</p>
           <p><strong>Name:</strong> {course.name}</p>
-          <p><strong>Faculty:</strong> {course.faculty}</p>
           <button
             onClick={handleDeleteCourse}
             className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -155,12 +150,6 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Course Name"
-          />
-          <input
-            className="w-full p-2 border rounded my-2"
-            value={faculty}
-            onChange={(e) => setFaculty(e.target.value)}
-            placeholder="Faculty"
           />
           <button
             onClick={handleSaveChanges}
