@@ -35,6 +35,10 @@ class UserService(
         return userRepository.findAll().filter { it.role == Role.STUDENT }
     }
 
+    fun findAllStaff(): List<User> {
+        return userRepository.findAll().filter { it.role == Role.STAFF }
+    }
+
     fun deleteById(id: Long) {
         userRepository.deleteById(id)
     }
