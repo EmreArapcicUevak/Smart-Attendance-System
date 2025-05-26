@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 
 interface Account {
   fullName: string;
-  email: string;
   role: 'student' | 'staff';
   studentId?: string;
 }
@@ -16,26 +15,28 @@ export default function AdminAccountsPage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
 
+  const fetchAccounts = async (roleFilter: string) => {
+    try {
+      let url = 'http://localhost:8080/api/users';
+      if (roleFilter === 'student') url += '/students';
+      else if (roleFilter === 'staff') url += '/staff';
+
+      const response = await fetch(url);
+      const data = await response.json();
+      setAccounts(data);
+    } catch (error) {
+      console.error('Failed to fetch accounts:', error);
+      setAccounts([]);
+    }
+  };
+
   useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/users');
-        const data = await response.json();
-        setAccounts(data);
-      } catch (error) {
-        console.error('Failed to fetch accounts:', error);
-        setAccounts([]);
-      }
-    };
+    fetchAccounts(filter);
+  }, [filter]);
 
-    fetchAccounts();
-  }, []);
-
-  const filteredAccounts = accounts
-    .filter(account =>
-      account.fullName.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter(account => !filter || account.role === filter);
+  const filteredAccounts = accounts.filter(account =>
+    account.fullName.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
@@ -78,10 +79,9 @@ export default function AdminAccountsPage() {
           >
             <h3 className="text-xl font-bold text-[#3553B5]">{account.fullName}</h3>
             <p className="text-sm text-gray-600 capitalize">Role: {account.role}</p>
-            {account.role === 'student' && (
+            {account.role === 'student' && account.studentId && (
               <p className="text-sm text-gray-600">Student ID: {account.studentId}</p>
             )}
-            <p className="text-sm text-gray-600">Email: {account.email}</p>
           </div>
         ))}
 
