@@ -10,3 +10,7 @@ package com.smartattendance.dto
         val id: Long,
         val name: String,
     )
+
+    data class OrganizationUpdateRequest(
+        val name: String,
+    )

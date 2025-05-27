@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Organization {
   id: number;
@@ -11,17 +11,17 @@ interface Organization {
 export default function OrganizationSettings() {
   const router = useRouter();
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editData, setEditData] = useState<{ name: string }>({ name: '' });
+  const [editData, setEditData] = useState<{ name: string }>({ name: "" });
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/organizations')
+    fetch("http://localhost:8080/api/organizations")
       .then((res) => res.json())
-      .then(setOrganizations)
+      .then((data) => setOrganizations(Array.isArray(data) ? data : []))
       .catch(() => {
         setOrganizations([
-          { id: 0, name: 'International University of Sarajevo' },
+          { id: 0, name: "International University of Sarajevo" },
         ]);
       });
   }, []);
@@ -35,16 +35,37 @@ export default function OrganizationSettings() {
     setEditData({ name: organizations[index].name });
   };
 
-  const saveEdit = () => {
+  const saveEdit = async () => {
     if (editingIndex === null) return;
-    const updated = [...organizations];
-    updated[editingIndex] = {
-      ...updated[editingIndex],
+
+    const updatedOrganization = {
+      id: organizations[editingIndex].id,
       name: editData.name,
     };
-    setOrganizations(updated);
-    setEditingIndex(null);
-    // Optional: Add PUT to backend later using updated[editingIndex].id
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/organizations/${updatedOrganization.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: updatedOrganization.name }),
+        }
+      );
+
+      if (response.ok) {
+        const updated = [...organizations];
+        updated[editingIndex] = updatedOrganization;
+        setOrganizations(updated);
+        setEditingIndex(null);
+      } else {
+        console.error("Failed to update organization");
+      }
+    } catch (error) {
+      console.error("Error updating organization:", error);
+    }
   };
 
   return (
@@ -52,7 +73,7 @@ export default function OrganizationSettings() {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-end mb-6">
           <button
-            onClick={() => router.push('/admin/dashboard')}
+            onClick={() => router.push("/admin/dashboard")}
             className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
           >
             ← Back to Dashboard
@@ -60,7 +81,9 @@ export default function OrganizationSettings() {
         </div>
 
         <div className="flex flex-col items-center text-center mb-8">
-          <h1 className="text-4xl font-bold text-[#3553B5] mb-2">Organization Settings</h1>
+          <h1 className="text-4xl font-bold text-[#3553B5] mb-2">
+            Organization Settings
+          </h1>
           <p className="text-sm text-gray-600 mb-4">
             View and manage all organizations in the system.
           </p>
@@ -99,7 +122,9 @@ export default function OrganizationSettings() {
               ) : (
                 <>
                   <div className="mb-2">
-                    <p className="text-md text-gray-800 font-medium">{org.name}</p>
+                    <p className="text-md text-gray-800 font-medium">
+                      {org.name}
+                    </p>
                   </div>
                   <button
                     className="text-sm text-blue-600 hover:text-blue-800 underline"

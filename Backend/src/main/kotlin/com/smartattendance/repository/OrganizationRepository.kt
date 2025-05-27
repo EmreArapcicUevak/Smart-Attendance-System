@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrganizationRepository : JpaRepository<Organization, Long> {
     fun existsByName(name: String): Boolean
+    fun existsByNameAndIdNot(name: String, id: Long): Boolean
 }
