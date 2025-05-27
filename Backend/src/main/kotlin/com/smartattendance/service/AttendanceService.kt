@@ -17,8 +17,8 @@ class AttendanceService(
     private val userRepository: UserRepository,
     private val courseService: CourseService,
 ) {
-    fun getAttendanceStatuses(studentId: Long, courseId: Long): List<String> {
-        return attendanceRepository.findByStudentIdAndCourseId(studentId, courseId)
+    fun getAttendanceStatuses(id: Long, courseId: Long): List<String> {
+        return attendanceRepository.findAllByStudentIdAndCourseId(id, courseId)
             .sortedBy { it.weekNumber }
             .map { it.status.name }
     }
@@ -76,11 +76,22 @@ class AttendanceService(
         attendanceRepository.saveAll(attendanceRecords)
     }
 
-    fun getAttendanceStatusesByComponentType(studentId: Long, courseId: Long): Map<String, List<String>> {
-        val records = attendanceRepository.findByStudentIdAndCourseId(studentId, courseId)
+    fun getAttendanceStatusesByComponentType(id: Long, courseId: Long): List<AttendanceResponse> {
+
+        val student = userRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("Student not found") }
+        val course = courseRepository.findById(courseId)
+            .orElseThrow { IllegalArgumentException("Course not found") }
+
+        if (!course.students.contains(student)) {
+            throw IllegalArgumentException("Student is not enrolled in the course")
+        }
+
+        val studentId = student.studentId
+
+        val records = attendanceRepository.findAllByStudentIdAndCourseId(studentId, courseId)
             .sortedBy { it.weekNumber }
 
-        return records.groupBy { it.componentType.name }
-            .mapValues { (_, attendanceList) -> attendanceList.map { it.status.name } }
+        return records.map { AttendanceResponse.fromEntity(it) }
     }
 }

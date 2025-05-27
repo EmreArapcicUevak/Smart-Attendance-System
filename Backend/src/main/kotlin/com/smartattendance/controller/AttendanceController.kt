@@ -1,24 +1,26 @@
 package com.smartattendance.controller
 
+import org.springframework.security.core.context.SecurityContextHolder
 import com.smartattendance.dto.AttendanceResponse
 import com.smartattendance.dto.AttendanceRequest
-import com.smartattendance.entity.ComponentType
 import com.smartattendance.service.AttendanceService
+import com.smartattendance.repository.UserRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/students")
 class AttendanceController(
-    private val attendanceService: AttendanceService
+    private val attendanceService: AttendanceService,
+    private val userRepository: UserRepository
 ) {
-    @GetMapping("/{studentId}/courses/{courseId}/attendance")
+    @GetMapping("/{id}/courses/{courseId}/attendance")
     fun getAttendanceStatusesByComponentType(
-        @PathVariable studentId: Long,
+        @PathVariable id: Long,
         @PathVariable courseId: Long
-    ): ResponseEntity<Map<String, List<String>>> {
-        val statusesByComponent = attendanceService.getAttendanceStatusesByComponentType(studentId, courseId)
-        return ResponseEntity.ok(statusesByComponent)
+    ): ResponseEntity<List<AttendanceResponse>> {
+        val attendanceResponses = attendanceService.getAttendanceStatusesByComponentType(id, courseId)
+        return ResponseEntity.ok(attendanceResponses)
     }
 
     @PostMapping("/courses/{courseId}/attendance")
