@@ -3,17 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface Account {
-  fullName: string;
-  email: string;
-  role: "STUDENT" | "STAFF";
-  studentId?: string;
-  organizationId: string;
-}
-
 export default function AdminDashboard() {
   const router = useRouter();
-  const [accounts, setAccounts] = useState<Account[]>([]);
   const [accountType, setAccountType] = useState<"STUDENT" | "STAFF">(
     "STUDENT"
   );
