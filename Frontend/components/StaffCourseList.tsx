@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 type Course = {
   id: number;
@@ -11,19 +11,20 @@ type Course = {
 export default function StaffCourseList() {
   const [courses, setCourses] = useState<Course[]>([]);
 
-useEffect(() => {
-  fetch('http://localhost:8080/api/courses/staff', {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
-    }
-  })
-    .then((res) => res.json())
-    .then((data) => setCourses(data))
-    .catch((err) => {
-      console.error('Failed to fetch courses:', err);
-      setCourses([]);
-    });
-}, []);
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    fetch(`http://localhost:8080/api/courses/staff/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken") || ""}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setCourses(data))
+      .catch((err) => {
+        console.error("Failed to fetch courses:", err);
+        setCourses([]);
+      });
+  }, []);
 
   return (
     <section className="mt-10">
