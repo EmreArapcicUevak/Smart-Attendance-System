@@ -60,9 +60,9 @@ class CourseController(
         return ResponseEntity.ok(students)
     }
 
-    @GetMapping("/staff")
-    fun getCoursesByStaff(): ResponseEntity<List<CourseResponse>> {
-        val courses = courseService.getCoursesByStaffId()
+    @GetMapping("/staff/{staffId}")
+    fun getCoursesByStaff(@PathVariable staffId: Long): ResponseEntity<List<CourseResponse>> {
+        val courses = courseService.getCoursesByStaffId(staffId)
         return ResponseEntity.ok(courses)
     }
 
@@ -71,4 +71,9 @@ class CourseController(
         val courses = courseService.getCoursesByStudentId(studentId)
         return ResponseEntity.ok(courses)
     }
+
+    @DeleteMapping("/{id}")
+    fun deleteCourseById(@PathVariable id: Long): ResponseEntity<Void> =
+        courseService.deleteCourseById(id)
+
 }

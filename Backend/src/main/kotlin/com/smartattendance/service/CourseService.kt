@@ -112,18 +112,9 @@ class CourseService(
         }
     }
 
-    fun getCoursesByStaffId(): List<CourseResponse> {
+    fun getCoursesByStaffId(staffId: Long): List<CourseResponse> {
 
-        val authentication = SecurityContextHolder.getContext().authentication
-        val token = authentication.credentials as? String
-            ?: throw IllegalArgumentException("User not authenticated")
-
-        val staffId = try {
-            TokenService.extractId(token)
-        } catch (e: Exception) {
-            throw IllegalArgumentException("Unable to extract staffId from token")
-        }
-
+        val staff = userRepository.findById(staffId).orElseThrow { IllegalArgumentException("Staff not found") }
         val courses = courseRepository.findByStaffId(staffId)
 
         return courses.map { course ->
@@ -146,5 +137,13 @@ class CourseService(
                 courseCode = course.courseCode,
             )
         }
+    }
+
+    fun deleteCourseById(id: Long): ResponseEntity<Void> {
+        if (!courseRepository.existsById(id)) {
+            return ResponseEntity.notFound().build()
+        }
+        courseRepository.deleteById(id)
+        return ResponseEntity.noContent().build()
     }
 }

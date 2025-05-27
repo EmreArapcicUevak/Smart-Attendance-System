@@ -1,10 +1,10 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
 
 interface CourseComponent {
   id: number;
-  code: string;
-  name: string;
+  courseCode: string;
+  courseName: string;
   students?: string[];
 }
 
@@ -14,11 +14,17 @@ interface ClassSettingsProps {
   onSave: (updatedCourse: CourseComponent) => void;
 }
 
-const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave }) => {
-  const [currentView, setCurrentView] = useState<'details' | 'edit' | 'students'>('details');
+const ClassSettings: React.FC<ClassSettingsProps> = ({
+  course,
+  onDelete,
+  onSave,
+}) => {
+  const [currentView, setCurrentView] = useState<
+    "details" | "edit" | "students"
+  >("details");
   const [code, setCode] = useState(course.code);
   const [name, setName] = useState(course.name);
-  const [newStudentId, setNewStudentId] = useState('');
+  const [newStudentId, setNewStudentId] = useState("");
   const [students, setStudents] = useState<string[]>(course.students || []);
 
   const handleSaveChanges = async () => {
@@ -30,39 +36,45 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
     };
 
     try {
-      const res = await fetch(`http://localhost:8080/api/courses/${course.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          courseName: name,
-          courseCode: code,
-        }),
-      });
+      const res = await fetch(
+        `http://localhost:8080/api/courses/${course.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            courseName: name,
+            courseCode: code,
+          }),
+        }
+      );
 
       if (res.ok) {
         onSave(updatedCourse);
-        setCurrentView('details');
-        alert('✅ Course updated successfully.');
+        setCurrentView("details");
+        alert("✅ Course updated successfully.");
       } else {
         const error = await res.text();
         alert(`❌ Failed to update: ${error}`);
       }
     } catch (err) {
       console.error(err);
-      alert('❌ Error updating course.');
+      alert("❌ Error updating course.");
     }
   };
 
   const handleDeleteCourse = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/courses/${course.id}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(
+        `http://localhost:8080/api/courses/${course.id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (res.ok) {
-        alert('✅ Course deleted.');
+        alert("✅ Course deleted.");
         onDelete();
       } else {
         const error = await res.text();
@@ -70,7 +82,7 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
       }
     } catch (err) {
       console.error(err);
-      alert('❌ Error deleting course.');
+      alert("❌ Error deleting course.");
     }
   };
 
@@ -82,22 +94,22 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
       const res = await fetch(
         `http://localhost:8080/api/courses/${course.id}/enroll?studentId=${trimmed}`,
         {
-          method: 'POST',
+          method: "POST",
         }
       );
 
       if (res.ok) {
         const updatedStudents = [...students, trimmed];
         setStudents(updatedStudents);
-        setNewStudentId('');
-        alert('✅ Student enrolled.');
+        setNewStudentId("");
+        alert("✅ Student enrolled.");
       } else {
         const error = await res.text();
         alert(`❌ Failed to enroll: ${error}`);
       }
     } catch (err) {
       console.error(err);
-      alert('❌ Error enrolling student.');
+      alert("❌ Error enrolling student.");
     }
   };
 
@@ -105,29 +117,41 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
     <div>
       <div className="flex gap-4 mb-6">
         <button
-          onClick={() => setCurrentView('details')}
-          className={`px-4 py-2 rounded ${currentView === 'details' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setCurrentView("details")}
+          className={`px-4 py-2 rounded ${
+            currentView === "details" ? "bg-blue-600 text-white" : "bg-gray-200"
+          }`}
         >
           Details
         </button>
         <button
-          onClick={() => setCurrentView('edit')}
-          className={`px-4 py-2 rounded ${currentView === 'edit' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setCurrentView("edit")}
+          className={`px-4 py-2 rounded ${
+            currentView === "edit" ? "bg-blue-600 text-white" : "bg-gray-200"
+          }`}
         >
           Edit
         </button>
         <button
-          onClick={() => setCurrentView('students')}
-          className={`px-4 py-2 rounded ${currentView === 'students' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setCurrentView("students")}
+          className={`px-4 py-2 rounded ${
+            currentView === "students"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200"
+          }`}
         >
           Students
         </button>
       </div>
 
-      {currentView === 'details' && (
+      {currentView === "details" && (
         <div>
-          <p><strong>Course Code:</strong> {course.code}</p>
-          <p><strong>Name:</strong> {course.name}</p>
+          <p>
+            <strong>Course Code:</strong> {course.courseCode}
+          </p>
+          <p>
+            <strong>Name:</strong> {course.courseName}
+          </p>
           <button
             onClick={handleDeleteCourse}
             className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -137,7 +161,7 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
         </div>
       )}
 
-      {currentView === 'edit' && (
+      {currentView === "edit" && (
         <div>
           <input
             className="w-full p-2 border rounded my-2"
@@ -160,7 +184,7 @@ const ClassSettings: React.FC<ClassSettingsProps> = ({ course, onDelete, onSave 
         </div>
       )}
 
-      {currentView === 'students' && (
+      {currentView === "students" && (
         <div>
           <input
             className="w-full p-2 border rounded my-2"
