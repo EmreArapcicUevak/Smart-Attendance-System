@@ -40,6 +40,12 @@ class CourseController(
             ResponseEntity.badRequest().body(null)
         }
 
+    @GetMapping
+    fun getAllCourses(): ResponseEntity<List<CourseResponse>> {
+        val courses = courseService.getAllCourses()
+        return ResponseEntity.ok(courses)
+    }
+
     @GetMapping("/{id}")
     fun getCourseById(@PathVariable id: Long): ResponseEntity<CourseResponse> =
         try {

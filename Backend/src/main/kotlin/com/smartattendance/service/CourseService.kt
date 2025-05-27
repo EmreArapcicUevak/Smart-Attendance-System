@@ -80,6 +80,16 @@ class CourseService(
         courseRepository.save(course)
     }
 
+    fun getAllCourses(): List<CourseResponse> {
+        return courseRepository.findAll().map { course ->
+            CourseResponse(
+                id = course.id,
+                courseName = course.courseName,
+                courseCode = course.courseCode,
+            )
+        }
+    }
+
     fun getCourseById(id: Long): CourseResponse {
         val course = courseRepository.findById(id)
             .orElseThrow { IllegalArgumentException("Course not found") }
