@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Account {
   fullName: string;
   email: string;
-  role: 'student' | 'staff';
+  role: "STUDENT" | "STAFF";
   studentId?: string;
   organizationId: string;
 }
@@ -14,16 +14,20 @@ interface Account {
 export default function AdminDashboard() {
   const router = useRouter();
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [accountType, setAccountType] = useState<'student' | 'staff'>('student');
+  const [accountType, setAccountType] = useState<"STUDENT" | "STAFF">(
+    "STUDENT"
+  );
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    studentId: '',
-    organizationId: '',
+    organizationId: "",
+    fullName: "",
+    email: "",
+    password: "",
+    studentId: "",
   });
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -33,47 +37,60 @@ export default function AdminDashboard() {
     const payload = {
       ...formData,
       role: accountType,
-      studentId: accountType === 'student' ? formData.studentId : undefined,
+      studentId: accountType === "STUDENT" ? formData.studentId : undefined,
     };
 
-    const response = await fetch('http://localhost:8080/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("http://localhost:8080/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
     if (response.ok) {
-      const result = await response.json();
-      setAccounts([...accounts, result]);
+      const successMessage = await response.text(); // Get the success message from the API
+      alert(`✅ ${successMessage}`); // Display the success message
       setFormData({
-        fullName: '',
-        email: '',
-        password: '',
-        studentId: '',
-        organizationId: '',
+        organizationId: "",
+        fullName: "",
+        email: "",
+        password: "",
+        studentId: "",
       });
-      alert('✅ Account created successfully.');
     } else {
       const error = await response.text();
       alert(`❌ Failed to create account: ${error}`);
     }
   };
-
   return (
     <div className="min-h-screen flex bg-white text-black font-sans">
       {/* Sidebar */}
       <aside className="w-64 bg-[#3553B5] text-white p-6 flex flex-col gap-6">
         <h2 className="text-2xl font-bold">Admin Panel</h2>
         <nav className="flex flex-col gap-4 text-lg">
-          <button onClick={() => router.push('/admin/courses')} className="text-left hover:text-gray-200">Courses</button>
-          <button onClick={() => router.push('/admin/accounts')} className="text-left hover:text-gray-200">Accounts</button>
-          <button onClick={() => router.push('/admin/organizationSettings')} className="text-left hover:text-gray-200">Organization Settings</button>
+          <button
+            onClick={() => router.push("/admin/courses")}
+            className="text-left hover:text-gray-200"
+          >
+            Courses
+          </button>
+          <button
+            onClick={() => router.push("/admin/accounts")}
+            className="text-left hover:text-gray-200"
+          >
+            Accounts
+          </button>
+          <button
+            onClick={() => router.push("/admin/organizationSettings")}
+            className="text-left hover:text-gray-200"
+          >
+            Organization Settings
+          </button>
         </nav>
         <div className="mt-auto">
           <button
             onClick={() => {
-              localStorage.removeItem('authToken');
-              router.push('/login');
+              localStorage.removeItem("authToken");
+              router.push("/login");
             }}
             className="text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
           >
@@ -86,8 +103,12 @@ export default function AdminDashboard() {
       <main className="flex-1 p-10 bg-[#EFF1FA]">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 bg-white p-6 rounded-lg shadow-sm">
           <div>
-            <h1 className="text-3xl font-bold text-[#3553B5]">Welcome Admin 👋</h1>
-            <p className="text-sm text-gray-600 mt-1">Manage organization accounts and courses.</p>
+            <h1 className="text-3xl font-bold text-[#3553B5]">
+              Welcome Admin 👋
+            </h1>
+            <p className="text-sm text-gray-600 mt-1">
+              Manage organization accounts and courses.
+            </p>
           </div>
           <div className="mt-4 md:mt-0">
             <span className="bg-[#3553B5] text-white text-sm px-4 py-2 rounded-lg shadow">
@@ -102,11 +123,13 @@ export default function AdminDashboard() {
           <form onSubmit={handleCreateAccount} className="space-y-4">
             <select
               value={accountType}
-              onChange={(e) => setAccountType(e.target.value as 'student' | 'staff')}
+              onChange={(e) =>
+                setAccountType(e.target.value as "STUDENT" | "STAFF")
+              }
               className="w-full border px-4 py-2 rounded"
             >
-              <option value="student">Student</option>
-              <option value="staff">Staff</option>
+              <option value="STUDENT">Student</option>
+              <option value="STAFF">Staff</option>
             </select>
 
             <input
@@ -149,7 +172,7 @@ export default function AdminDashboard() {
               required
             />
 
-            {accountType === 'student' && (
+            {accountType === "STUDENT" && (
               <input
                 type="text"
                 name="studentId"
@@ -160,7 +183,10 @@ export default function AdminDashboard() {
               />
             )}
 
-            <button type="submit" className="bg-[#3553B5] text-white px-6 py-2 rounded">
+            <button
+              type="submit"
+              className="bg-[#3553B5] text-white px-6 py-2 rounded"
+            >
               Create Account
             </button>
           </form>
