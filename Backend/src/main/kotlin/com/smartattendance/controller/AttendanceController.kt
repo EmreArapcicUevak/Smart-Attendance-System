@@ -3,6 +3,7 @@ package com.smartattendance.controller
 import org.springframework.security.core.context.SecurityContextHolder
 import com.smartattendance.dto.AttendanceResponse
 import com.smartattendance.dto.AttendanceRequest
+import com.smartattendance.dto.AttendanceStatusResponse
 import com.smartattendance.service.AttendanceService
 import com.smartattendance.repository.UserRepository
 import org.springframework.http.ResponseEntity
@@ -30,5 +31,14 @@ class AttendanceController(
     ): ResponseEntity<Void> {
         attendanceService.markAttendance(courseId, attendanceRequest)
         return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/{courseId}/attendance")
+    fun getAttendanceByCourseId(
+        @PathVariable courseId: Long
+    ): ResponseEntity<List<AttendanceStatusResponse>> {
+
+        val attendanceResponses = attendanceService.getAttendanceByCourseId(courseId)
+        return ResponseEntity.ok(attendanceResponses)
     }
 }

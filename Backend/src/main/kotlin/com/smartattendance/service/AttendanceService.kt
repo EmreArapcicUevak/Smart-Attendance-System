@@ -2,6 +2,7 @@ package com.smartattendance.service
 
 import com.smartattendance.dto.AttendanceRequest
 import com.smartattendance.dto.AttendanceResponse
+import com.smartattendance.dto.AttendanceStatusResponse
 import com.smartattendance.entity.Attendance
 import com.smartattendance.entity.ComponentType
 import com.smartattendance.repository.AttendanceRepository
@@ -34,14 +35,17 @@ class AttendanceService(
                     throw IllegalArgumentException("The course does not have labs")
                 }
             }
+
             ComponentType.TUTORIAL -> {
                 if (!course.hasTutorials) {
                     throw IllegalArgumentException("The course does not have tutorials")
                 }
             }
+
             ComponentType.LECTURE -> {
                 // Assuming all courses have lectures by default
             }
+
             else -> throw IllegalArgumentException("Invalid component type")
         }
 
@@ -93,5 +97,10 @@ class AttendanceService(
             .sortedBy { it.weekNumber }
 
         return records.map { AttendanceResponse.fromEntity(it) }
+    }
+
+    fun getAttendanceByCourseId(courseId: Long): List<AttendanceStatusResponse> {
+        val attendances = attendanceRepository.findAllByCourseId(courseId)
+        return attendances.map { AttendanceStatusResponse.fromEntity(it) }
     }
 }

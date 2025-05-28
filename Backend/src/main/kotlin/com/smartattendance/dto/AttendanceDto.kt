@@ -26,3 +26,18 @@ data class AttendanceResponse(
         )
     }
 }
+
+data class AttendanceStatusResponse(
+    val studentId: Long,
+    val componentType: String,
+    val weekNumber: Int,
+    val status: String
+) {
+    companion object {
+        fun fromEntity(attendance: Attendance) = AttendanceStatusResponse(
+            studentId = attendance.studentId,
+            componentType = attendance.componentType.name,
+            weekNumber = attendance.weekNumber,
+            status = attendance.status.name
+        )
+    }}

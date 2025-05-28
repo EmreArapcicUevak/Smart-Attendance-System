@@ -15,4 +15,5 @@ interface AttendanceRepository : JpaRepository<Attendance, Long> {
         componentType: ComponentType,
         weekNumber: Int
     ): Attendance?
+    fun findAllByCourseId(courseId : Long): List<Attendance>
 }
