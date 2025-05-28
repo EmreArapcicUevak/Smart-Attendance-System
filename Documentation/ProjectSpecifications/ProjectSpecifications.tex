@@ -1,0 +1,417 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[margin = 1in]{geometry} % for spacing around
+\usepackage{graphicx} % for including images in your pdfs
+\usepackage{xcolor} % for including colors in your pdf
+\usepackage{soul} % for text decoration
+\usepackage[utf8]{inputenc} % for encoded text
+\usepackage[T1]{fontenc}
+\usepackage{setspace} % for setting different line spacings between paragrafs.
+\usepackage{enumerate} % for letting us get more detailed enumerate lists
+\usepackage{multirow} % to let us combine more rows together
+\usepackage{colortbl} % for decorating tables
+\usepackage{amsmath} % used for representing more complicated math displays
+\usepackage{supertabular}
+\usepackage{longtable} % both of these packages are used to making really big tables
+\usepackage{wrapfig} % allows us to wrap text around figures
+\usepackage{fancyhdr} % for making fancy headers
+%\usepackage{bibtex} % for making better bibliographies
+\usepackage[pdftex]{hyperref} % for letting us make links
+\usepackage{lscape} % Allows us to flip from portrait to landspace
+\usepackage{tikz} % for high detailed drawing
+\usepackage{multicol} % To put things side by side
+\usepackage{rotating} % For rotating objects
+% \usepackage{draftwatermark} % For adding watermarks
+\usepackage{MnSymbol} % for using multiple symbols
+\usepackage{mathtools} % Used for more math symbols
+\usepackage{xfrac} % For more complciated fractions and to add derivitives
+\usepackage{hyperref} % for hyper links
+\usepackage{enumitem} % for better enum lists
+\usepackage{tcolorbox} % for adding colored text boxes
+\usepackage{bm} % Adding bold text to math inputs
+\usepackage{pgfplots} % Used for plotting functions
+\usepackage{booktabs} % For better table rules
+\usepackage{tabularx} % For adjustable-width tables
+\usepackage{eso-pic} % For adding background images
+\usepackage{transparent} % For transparency
+\usepackage{fontawesome5}
+\usepackage{svg}
+
+% Setting up the default image path
+\graphicspath{{./Images/}}
+
+% Implementing authro details
+\title{}
+\author{}
+\date{}
+
+% Setting up the fancy page style
+\fancypagestyle{customStyle}{
+	\lhead{} \chead{} \rhead{}
+	\lfoot{
+    \href{https://github.com/EmreArapcicUevak/Smart-Attendance-System}{\faGithub \ GitHub} \hspace{0.5cm}
+  } \cfoot{\thepage} \rfoot{
+    \href{https://trello.com/invite/b/67d55d04d8b354319f1b1db9/ATTI06ed93867f846f425d572d2018e2bb8804A6E2FF/smart-attendance-ius}{Trello \includegraphics[height=10pt]{../GlobalImages/trello-logo.pdf}}
+  }
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{1pt}
+}
+\pagestyle{customStyle}
+
+% Setting up hyperref options
+\hypersetup {
+	colorlinks = false,
+	citecolor = black,
+	filecolor = blue,
+	linkcolor = blue,
+	urlcolor = blue,
+	pdftex
+}
+
+\tcbset{
+	colback=yellow!10, % Background color
+	colframe=red!75!black, % Border color
+	width=\textwidth, % Full-width box
+	boxrule=0.5mm, % Border thickness
+	arc=2mm, % Rounded corners
+	fonttitle=\bfseries,
+	coltitle=black % Title color
+}
+
+% Page layout settings
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+
+% Custom commands
+
+
+\begin{document}
+  
+  \begin{titlepage}
+    \begin{center}
+        % University Logo (Optional)
+        \includegraphics[width=0.45\textwidth]{../GlobalImages/Logo.png} % Change filename if needed
+        \vspace{1.5cm}
+
+        {\Huge \textbf{Smart Attendance System}}\\
+        \vspace{0.5cm}
+        {\Large \textbf{Project Specifications}}\\
+        
+        \vspace{2cm}
+        
+        {\large \textbf{Subject:} Software Engineering}\\
+        
+        \vspace{2cm}
+        
+        \begin{minipage}[t]{0.48\textwidth}
+          \textbf{Students:}\\
+          {\large Emre Arapčić-Uevak}\\
+          {\large Vedad Siljić}\\
+          {\large Ismail Dedić}\\
+          {\large Amer Jusić}\\
+          {\large Faris Hasanbasić}\\
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.48\textwidth}
+          \raggedleft
+          \textbf{Professor:} \\
+          {\large Mirza Selimović}\\
+          
+          \vspace{1cm}
+
+          \textbf{Instructor:} \\
+          {\large Adin Jahić}\\
+        \end{minipage}
+
+
+        
+        \vfill  % Pushes everything to the top, so date stays at bottom
+        
+        \textbf{\today}  % Automatically adds the current date
+        
+    \end{center}
+  \end{titlepage}
+
+  \pagebreak
+  \tableofcontents
+
+  \listoffigures
+  \pagebreak
+
+  \section{Introduction}
+    This section covers the overview and both the Use Case Diagram and EERD to expalin the project
+
+    \subsection{Project Overview}
+      The Smart Attendance System is a modern, data-driven solution designed to streamline attendance tracking and class management in educational institutions. The project consists of three main components:
+      \begin{enumerate}
+        \item A Web Application - Provides access to attendance data, dashboards, and administrative controls.
+        \item A Backend Server - Handles data storage, API communication, and system logic.
+        \item Native Mobile Applications (iOS \& Android) - Enables attendance tracking and real-time access to schedules.
+      \end{enumerate}
+    
+      \noindent At the core of the system is a centralized database (more about that in Section~\ref{sec: EER}) that maintains records of the organization's structure, including staff, students, class schedules, tutorials, and labs.
+      The backend APIs serve as the communication bridge between the database and the web and mobile applications, ensuring secure and efficient data exchange. \\
+
+      \subsubsection{Key Functionalities}
+      The system is designed with two main user roles: students and staff, each with distinct access levels and interfaces.
+      \begin{itemize}
+        \item \textbf{Student Dashboard (Web \& Mobile)} \\
+        Students have a calendar-based view of their classes, allowing them to track their schedule and attendance. If they miss too many sessions, they receive alerts and can view their attendance history through a GitHub-style activity tracker that provides a visual representation of their participation.
+        \item \textbf{Staff Dashboard (Web \& Mobile)} \\
+        Staff members can view and manage the classes they are responsible for. Attendance tracking is done exclusively on mobile devices, where students present their ID cards to be scanned via the professor's (or any other staff member responsible for the class and or session) phone camera. The system reads the barcode on the student’s ID card, ensuring quick and accurate attendance recording.
+        \item \textbf{Administrative Controls (Web Only)} \\
+        Unlike the mobile applications, the web platform includes an admin panel that allows the organization's management to create and manage user accounts, oversee class structures, and make necessary modifications to the system.
+      \end{itemize}
+
+    \newpage
+  \section{Detailed Explanation}
+
+    \subsection{Extended Entity Relation Diagram} \label{sec: EER}
+      An Entity Relation (\emph{ER}) a graphical representation of entities and their relationships to each other within a database. \newline
+
+      An Extended Entity Relation Diagram (\emph{EER}) is an advanced version of the \emph{ER} diagram that includes additional 
+      concepts such as subclasses, specialization, generalization, and categories. It provides a more detailed and comprehensive 
+      representation of the data model, capturing more complex relationships and constraints within the system. \newline
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=.85\linewidth]{EER_Diagram.png}
+        \caption{EER Diagram}
+
+        \label{fig:eer-diagram}
+      \end{figure}
+
+      \newpage
+
+      \noindent In the figure~\ref{fig:eer-diagram} we can see the EER diagram for our database that we will use as a guide to help us make it.
+
+      \subsubsection{Entities}
+        \noindent This section will talk about the entities that can be found in the EER diagram and what they represent
+        \vspace{1mm}
+        \begin{description}
+          \item[Organization] This entity represents the organization, in this case the university, itself which will host all of the users
+          \item[User] The User is a \emph{weak entity} of the Organization meaning that's linked to that organization and if that organization ever decides to dissapear all of it's users will not be saved 
+          \item[Staff] Staff is a subtype of User which is generally just divided into two more subtypes
+          \item[Student] The student in the organization
+          \item[Assistant] Staff working in the organization whos job is to hold tutorials
+          \item[Teaching Staff] Staff working in the organization whos job is to hold (teach) Course Lectures
+          \item[Instructor / Professor] Specializations of the \emph{Teaching Staff} entity
+          \item[Course] This entity is the course itself, it is a weak entity of the Teaching Staff entity that created it.
+          \item[Course Component] This is a \emph{weak entity} that is used to divide the course into sections for lectures and also \emph{Labs} and \emph{Tutorials}
+          \item[Time Frame] This entity tells us more about the course component such as where is it held and during what time.
+          \item[Section] This entity represents a section of the course lecture and can be held by other teaching staff
+          \item[Session] This is just another subdivison of the course components, it allows for the existence of the \emph{Tutorial} and \emph{Lab} entities that the Assistant needs to teach
+          \item [Tutorial / Lab] Specifications of the \emph{Session} entity
+        \end{description}
+      
+      \newpage
+      \subsubsection{Relations}
+        \noindent This section will talk about the relations that can be found in the EER diagram and what they represent
+        \vspace{1mm}
+
+        \begin{description}
+          \item[User $\rightarrow$ Organization] belongs to\\
+            This is a weak entity saying that an User belongs to only one organization and that an organization can have 0 to many users
+          \item[Student $\rightarrow$ Course Component] takes\\
+            This relation tells us that a student is partaking in a course component, more generally that a student is currently in "this and that" section of the course
+            lecture, tutorial, or lab
+          \item[Student $\rightarrow$ Course Component] attends\\
+            This relaiton is used to take attendance, and it has its attribute that tells us when the student attended a certain course component
+          \item[Asistant $\rightarrow$ Session] holds\\
+            This relation tells us which Session (Lab or Tutorial) is held by which Assistant
+          \item[Teaching Staff $\rightarrow$ Section] teaches\\
+            This relation tells us which Instructor or Professor teaches what section of the course (lecture)
+          \item[Course $\rightarrow$ Teaching Staff] created by\\
+            This realtion tells us which Instructor or Professor created the course
+        \end{description}
+
+        \begin{tcolorbox}[title=Note]
+          Please note that we did not include relations for disjoint connections in this list because it does not belong in the scope for the EER.
+        \end{tcolorbox}
+
+        \newpage
+
+    \subsection{Use Case Diagram}
+      A \emph{Use Case Diagram} is a type of behavioral diagram in the Unified Modeling Language (UML) that 
+      represents the functional requirements of a system from the user's perspective. 
+      It illustrates the interactions between external actors (users or other systems) and the system itself, 
+      capturing the system's intended functions and the goals users want to achieve.\\
+
+      \noindent Use Case Diagrams provide a high-level overview of the system's behavior and scope, of which the main components include:
+      
+      \begin{itemize}
+        \item \textbf{Actors} - external entities that interact with the system (e.g., students, staff, admins).
+        \item \textbf{Use Cases} - specific actions or services the system performs in response to an actor's input (e.g., “Mark Attendance”, Check Weekly Schedule”).
+        \item \textbf{System Boundary} - defines the scope of the system being modeled.
+        \item \textbf{Relationships} - such as associations between actors and use cases, or dependencies like \emph{include} and \emph{extend} relationships between use cases.
+      \end{itemize}
+      
+      In the context of the Smart Attendance System, the Use Case Diagram (Figure~\ref{fig: use_case_diagram}) visualizes how different types of users interact with the core features of the system, ensuring that both user needs and system functions are clearly defined.
+      \newpage
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth, trim={0 80 0 120}, clip]{use_case_diagram.pdf}
+
+        \caption{Use Case Diagram}
+        \label{fig: use_case_diagram}
+      \end{figure}
+
+      \newpage
+
+  \subsection{Technology Stack}
+      \noindent This section will cover the \emph{Technology Stack} that will be used in this project
+      \vspace{2mm}
+
+      \begin{description}
+        \item[Frontend] Next.js
+        \item[Backend] Kotlin + Spring boot
+        \item[iOS] Swift + SwiftUI
+        \item[Android] Kotlin + Android SDK
+        \item[Database] PostgreSQL
+      \end{description}
+
+      \noindent With all of this said we can now construct a simple \emph{System Architecture}. \\ 
+      The \emph{System Architecture Diagram} is used for visualizing the overall structure and interactions 
+      within the system. It provides a high-level view of the system's components and their relationships, 
+      helping to understand how data flows and how different parts of the system interact with each other.
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=\textwidth]{SystemArchitecture.png}
+        \caption{System Architecture Diagram}
+        \label{fig:system-architecture-diagram}
+      \end{figure}
+
+      \newpage
+
+    \subsection{Development Methodology}
+
+      The development of the Smart Attendance System is organized and managed using the \textbf{Scrum} framework, a widely adopted Agile methodology that emphasizes iterative progress, team collaboration, and continuous feedback. \\
+
+      Scrum helps the team break the project down into smaller, manageable tasks and deliver incremental improvements in short development cycles called \emph{sprints}. Each sprint is typically one to two weeks long and consists of: 
+
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=.7\textwidth]{Scrum_Workflow.png}
+        \caption{Scrum Workflow}
+        \label{fig: scrum_workflow}
+      \end{figure}
+
+      \begin{itemize}
+        \item \textbf{Sprint Planning} - Selecting and prioritizing tasks from the product backlog.
+        \item \textbf{Daily Standups} - Short daily meetings to sync progress and address blockers.
+        \item \textbf{Sprint Review} - Demonstrating completed work at the end of the sprint.
+        \item \textbf{Sprint Retrospective} - Reflecting on what went well and what could be improved.
+      \end{itemize}
+
+      All Scrum-related activities, including task tracking and backlog management, are maintained in the Trello board, which serves as a visual representation of the team's workflow and current progress. \\
+
+      After every increment the project manager, product owner, will go around asking the stakeholders, or testers for our case, about their opinion
+      and what changes they would like to see and change the project backlog accordingly.
+    \newpage
+
+    \subsection{More Details}
+      \noindent For people that want more technical detail please feel free to scan the following QR codes to take a look at the
+      \textbf{Trello Board} and or the \textbf{GitHub Repository}.
+      If you are viewing this document on paper; If you are viewing this document via mobile or computer 
+      please use the links placed on the bottom of the page (bottom far left and bottom far right)
+
+      \begin{figure}[h]
+        \centering
+        \begin{minipage}[t]{0.45\textwidth}
+          \centering
+          \href{https://github.com/EmreArapcicUevak/Smart-Attendance-System}{\includegraphics[width=0.8\linewidth]{../../GlobalImages/github-QR-code.png}}
+          \caption{GitHub Repository}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.45\textwidth}
+          \centering
+          \href{https://trello.com/invite/b/67d55d04d8b354319f1b1db9/ATTI06ed93867f846f425d572d2018e2bb8804A6E2FF/smart-attendance-ius}{\includegraphics[width=0.8\linewidth]{../../GlobalImages/trello-QR-code.png}}
+          \caption{Trello Board}
+        \end{minipage}
+      \end{figure}
+
+        \begin{minipage}[t]{0.45\textwidth}
+        \subsubsection{GitHub Repository}
+
+          The GitHub repository serves as the central location for all source code related to the Smart Attendance System. 
+          It includes the complete implementation of all major components of the project:
+
+          \begin{itemize}
+            \item \textbf{iOS Application} - Built natively using Swift and SwiftUI
+            \item \textbf{Android Application} - Developed using the Android SDK with Kotlin
+            \item \textbf{Frontend Web Application} - Built using Next.js
+            \item \textbf{Backend Server} - Contains the APIs, database models, and core logic powering the system
+          \end{itemize}
+
+          The repository is structured to ensure modularity, collaboration, and version control, allowing team members to work concurrently on different aspects of the system.
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.45\textwidth}
+        \subsubsection{Trello Board}
+
+          The Trello board is used to manage the Scrum workflow and track the progress of the project. It includes all relevant artifacts and activities related to agile development:
+
+          \begin{itemize}
+            \item \textbf{Product Backlog} - A prioritized list of all features, tasks, and bugs.
+            \item \textbf{Sprint Backlogs} - Tasks selected for current sprints, broken down into manageable cards.
+            \item \textbf{Kanban Board} - Columns for \emph{To Do}, \emph{In Progress}, \emph{Review}, and \emph{Done} help visualize progress.
+            \item \textbf{Scrum Artifacts} - Contains notes from sprint planning, daily standups, sprint reviews, and retrospectives.
+          \end{itemize}
+
+          This board enables effective team coordination, transparency, and iterative delivery throughout the development lifecycle.
+        \end{minipage}
+        \newpage
+  
+  \section{Information For Testers}
+    To test the Smart Attendance System, testers will primarily use their mobile phones. Native applications are provided for both iOS and Android platforms. However, some core functionality—such as attendance tracking, calendar view, and user dashboards—is also accessible through the web-based platform. \\
+
+    Before testing begins, each tester is required to fill out a short onboarding form which collects their name, email address, and preferred platform (iOS or Android). This information is used to distribute app access instructions and collect feedback.
+
+  \subsection{Testing on iOS (Apple Devices)}
+
+    iOS testers will use \textbf{TestFlight}, Apple's official platform for beta testing apps. The process is as follows:
+
+    \begin{enumerate}
+      \item Download the \textbf{TestFlight} app from the App Store.
+      \item You will receive an email invitation containing either a unique code or a direct link to install the Smart Attendance app.
+      \item Open the link in TestFlight and proceed with the installation.
+      \item Once installed, the app can be used like a regular application.
+    \end{enumerate}
+
+    TestFlight supports in-app feedback, which testers are encouraged to use to report issues or suggestions during testing.
+
+  \subsection{Testing on Android Devices}
+
+    Android testers have two options for accessing the app:
+
+    \begin{enumerate}
+      \item \textbf{GitHub Releases} - The Android \texttt{.apk} file will be uploaded to the \emph{Releases} section of the project's GitHub repository. Each version will include a detailed changelog written in Markdown, describing new features, fixes, and known issues.
+      \item \textbf{Google Play Console (Internal Testing Track)} - Alternatively, the app may be distributed through the Google Play Console's internal testing feature. Selected testers will receive an email invite allowing them to install the app directly from the Play Store.
+    \end{enumerate}
+
+    For manual APK installation, testers must enable the \textit{Install Unknown Apps} option in their phone's settings.
+
+    \newpage
+    \subsection{Testing Iterations and Feedback Loop}
+
+    At the end of each development iteration (sprint), testers will receive an email containing:
+
+    \begin{itemize}
+      \item A link to the latest \textbf{GitHub Release}, including the new APK for Android users.
+      \item A Markdown-based \textbf{changelog} describing what has changed in the new version.
+      \item A \textbf{feedback form} to gather impressions, bug reports, suggestions, and general usability notes.
+    \end{itemize}
+
+    Providing timely and detailed feedback helps guide future development and ensures the system evolves based on real user experience. All testers are encouraged to participate actively in this feedback loop.
+
+  \subsection*{Tester Sign-In Form}
+
+    Before joining the testing program, all participants must complete a sign-in form. This form collects basic information such as name, contact email, device type, and preferred platform.
+
+    \begin{figure}[h]
+      \centering
+      \href{https://forms.gle/9WeMwiAdU6G2rrWs5}{\includegraphics[width=0.35\linewidth]{tester_application_form.png}}
+      \caption{QR code for the tester application form}
+    \end{figure}
+\end{document}

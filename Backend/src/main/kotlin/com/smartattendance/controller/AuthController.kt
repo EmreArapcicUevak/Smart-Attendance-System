@@ -1,14 +1,16 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.entity.User
-import main.kotlin.com.smartattendance.repository.UserRepository
-import main.kotlin.com.smartattendance.dto.UserRequest
-import main.kotlin.com.smartattendance.service.TokenService
+import com.smartattendance.entity.User
+import com.smartattendance.repository.UserRepository
+import com.smartattendance.dto.UserRequest
+import com.smartattendance.service.TokenService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/auth")
 class AuthController(
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
 ) {
 
     @PostMapping("/register")
@@ -29,7 +31,8 @@ class AuthController(
             fullName = request.fullName,
             organizationId = request.organizationId,
             password = passwordEncoder.encode(request.password),
-            role = request.role
+            role = request.role,
+            studentId = request.studentId ?: 0L,
         )
         userRepository.save(user)
         return ResponseEntity.ok("User registered successfully")
@@ -44,7 +47,7 @@ class AuthController(
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password")
         }
 
-        val token = TokenService.generateToken(user.email, user.fullName)
+        val token = TokenService.generateToken(user.email, user.id, user.fullName, user.role)
         return ResponseEntity.ok(mapOf("token" to token))
     }
 
@@ -57,6 +60,12 @@ class AuthController(
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token is expired or invalid")
         }
+    }
+
+    @GetMapping("/role")
+    fun getRoleFromToken(@RequestHeader("Authorization") authorizationHeader: String): String {
+        val token = authorizationHeader.removePrefix("Bearer ")
+        return TokenService.extractRole(token) // Use your existing method to extract the role
     }
 }
 

@@ -1,11 +1,12 @@
-package main.kotlin.com.smartattendance.service
+package com.smartattendance.service
 
-import main.kotlin.com.smartattendance.dto.OrganizationRequest
-import main.kotlin.com.smartattendance.dto.OrganizationResponse
-import main.kotlin.com.smartattendance.entity.Organization
-import main.kotlin.com.smartattendance.repository.OrganizationRepository
-import main.kotlin.com.smartattendance.repository.UserRepository
-import main.kotlin.com.smartattendance.entity.Role
+import com.smartattendance.dto.OrganizationRequest
+import com.smartattendance.dto.OrganizationResponse
+import com.smartattendance.dto.OrganizationUpdateRequest
+import com.smartattendance.entity.Organization
+import com.smartattendance.repository.OrganizationRepository
+import com.smartattendance.repository.UserRepository
+import com.smartattendance.entity.Role
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -33,5 +34,26 @@ open class OrganizationService(
         )
         val saved = organizationRepository.save(org)
         return OrganizationResponse(saved.id, saved.name)
+    }
+
+    open fun getAllOrganizations(): List<OrganizationResponse> {
+        return organizationRepository.findAll().map { org ->
+            OrganizationResponse(org.id, org.name)
+        }
+    }
+
+    open fun updateOrganization(id: Long, request: OrganizationUpdateRequest): OrganizationResponse {
+        val organization = organizationRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("Organization not found") }
+
+        if (request.name.isBlank()) throw IllegalArgumentException("Organization name is required")
+        if (organizationRepository.existsByNameAndIdNot(request.name, id)) {
+            throw IllegalArgumentException("Organization name already exists")
+        }
+
+        organization.name = request.name
+
+        val updated = organizationRepository.save(organization)
+        return OrganizationResponse(updated.id, updated.name)
     }
 }

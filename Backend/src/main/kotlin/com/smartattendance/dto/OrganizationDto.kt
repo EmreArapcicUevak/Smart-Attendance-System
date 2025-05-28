@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance.dto
+package com.smartattendance.dto
 
     data class OrganizationRequest(
         val name: String,
@@ -8,5 +8,9 @@ package main.kotlin.com.smartattendance.dto
 
     data class OrganizationResponse(
         val id: Long,
+        val name: String,
+    )
+
+    data class OrganizationUpdateRequest(
         val name: String,
     )

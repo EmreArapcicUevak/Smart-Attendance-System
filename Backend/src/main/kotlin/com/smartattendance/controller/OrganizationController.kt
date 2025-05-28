@@ -1,10 +1,10 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.dto.OrganizationRequest
-import main.kotlin.com.smartattendance.dto.OrganizationResponse
-import main.kotlin.com.smartattendance.service.OrganizationService
+import com.smartattendance.dto.OrganizationRequest
+import com.smartattendance.dto.OrganizationResponse
+import com.smartattendance.dto.OrganizationUpdateRequest
+import com.smartattendance.service.OrganizationService
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,6 +16,23 @@ class OrganizationController(
     fun createOrganization(@RequestBody request: OrganizationRequest): ResponseEntity<OrganizationResponse> =
         try {
             ResponseEntity.ok(organizationService.createOrganization(request))
+        } catch (e: IllegalArgumentException) {
+            ResponseEntity.badRequest().body(null)
+        }
+
+    @GetMapping
+    fun getAllOrganizations(): ResponseEntity<List<OrganizationResponse>> {
+        val organizations = organizationService.getAllOrganizations()
+        return ResponseEntity.ok(organizations)
+    }
+
+    @PutMapping("/{id}")
+    fun updateOrganization(
+        @PathVariable id: Long,
+        @RequestBody request: OrganizationUpdateRequest
+    ): ResponseEntity<OrganizationResponse> =
+        try {
+            ResponseEntity.ok(organizationService.updateOrganization(id, request))
         } catch (e: IllegalArgumentException) {
             ResponseEntity.badRequest().body(null)
         }

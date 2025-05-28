@@ -1,25 +1,88 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 export default function HomePage() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        alert("❌ Login failed: " + errorText);
+        return;
+      }
+
+      const data = await res.json();
+
+      // Store token and user ID
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("userId", JSON.parse(atob(data.token.split(".")[1])).id);
+
+      // Fetch role from backend
+      const roleResponse = await fetch("http://localhost:8080/auth/role", {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      });
+
+      if (roleResponse.ok) {
+        const role = await roleResponse.text();
+        localStorage.setItem("userRole", role);
+
+        // Role-based redirection
+        if (role === "STUDENT") {
+          router.push("/student/dashboard");
+        } else if (role === "STAFF") {
+          router.push("/staff/dashboard");
+        } else if (role === "ADMIN") {
+          router.push("/admin/dashboard");
+        } else {
+          alert("❌ Unknown user role. Please contact support.");
+        }
+      } else {
+        console.error("Failed to fetch role:", await roleResponse.text());
+      }
+    } catch (err: any) {
+      alert("❌ Error: " + err.message);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="bg-white shadow-md rounded-2xl w-full max-w-md p-8">
-        <h1 className="text-3xl font-bold text-center text-black mb-8">Login</h1>
+        <h1 className="text-3xl font-bold text-center text-black mb-8">
+          Login
+        </h1>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleLogin}>
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-[#AAA6A6] mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-[#AAA6A6] mb-1"
+            >
               Email
             </label>
             <input
               id="email"
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
@@ -27,13 +90,18 @@ export default function HomePage() {
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-[#AAA6A6] mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-[#AAA6A6] mb-1"
+            >
               Password
             </label>
             <input
               id="password"
               type="password"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               className="w-full px-4 py-3 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#3553B5]"
             />
@@ -47,13 +115,20 @@ export default function HomePage() {
             Login
           </button>
 
-        
-
           {/* Register Button */}
           <button
             type="button"
             className="w-full border border-[#3553B5] text-[#3553B5] py-3 rounded-lg font-semibold hover:bg-[#EFF1FA] transition"
-            onClick={() => router.push('/register')}
+            onClick={() => router.push("/register")}
+          >
+            Register
+          </button>
+
+          {/* Create Organization Button */}
+          <button
+            type="button"
+            className="w-full border border-[#AAA6A6] text-[#AAA6A6] py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
+            onClick={() => router.push("/create-organization")}
           >
             Create Organization
           </button>

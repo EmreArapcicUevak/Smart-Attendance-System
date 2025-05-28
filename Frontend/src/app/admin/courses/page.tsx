@@ -1,75 +1,79 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 interface Course {
-  code: string;
-  name: string;
-  faculty: string;
+  id: number;
+  courseName: string;
+  courseCode: string;
 }
 
 export default function ViewCoursesPage() {
-   const router = useRouter();
+  const router = useRouter();
   const [courses, setCourses] = useState<Course[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm] = useState("");
 
   useEffect(() => {
-    fetch('/api/courses')
-      .then(res => res.json())
-      .then(setCourses)
-      .catch(() => {
-        setCourses([
-        ]);
+    fetch("http://localhost:8080/api/courses")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("API Response:", data); // Debug API response
+        interface ApiCourse {
+          id: number;
+          courseCode: string;
+          courseName: string;
+        }
+
+        const mappedCourses = data.map((c: ApiCourse) => ({
+          id: c.id,
+          courseCode: c.courseCode,
+          courseName: c.courseName, // Ensure correct field names
+        }));
+        console.log("Mapped Courses:", mappedCourses); // Debug mapped courses
+        setCourses(mappedCourses);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch courses:", error);
+        setCourses([]);
       });
   }, []);
 
-  const filteredCourses = courses.filter(course =>
-    course.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCourses = courses.filter((course) =>
+    course.courseName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  console.log("Filtered Courses:", filteredCourses); // Debug filtered courses
 
   return (
     <div className="min-h-screen bg-[#EFF1FA] p-10 text-black font-sans">
-      
       <h1 className="text-4xl font-bold text-[#3553B5] mb-6">📘 Course List</h1>
-    <div className="flex justify-end mb-6">
-      <button
-          onClick={() => router.push('/admin/dashboard')}
-          className="mb-6 px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
+
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold text-[#3553B5]">Courses</h1>
+        <button
+          onClick={() => router.push("/admin/dashboard")}
+          className="px-4 py-2 bg-[#3553B5] text-white rounded hover:bg-blue-700"
         >
-          ← Back to Dashboard
+          Back to Dashboard
         </button>
       </div>
-      {/* Search Filter */}
-      <div className="mb-6">
-        <label htmlFor="search" className="block mb-2 font-medium text-gray-700">
-          Search by Course Name
-        </label>
-        <input
-          id="search"
-          type="text"
-          placeholder="e.g., Marketing"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white"
-        />
-      </div>
 
-      {/* Course Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCourses.map((course, idx) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredCourses.map((course) => (
           <div
-            key={idx}
-            className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-200"
+            key={course.id} // Use `id` from the API response as the unique key
+            className="bg-white rounded-xl shadow-md border p-5 transition hover:shadow-lg"
           >
-            <h3 className="text-2xl font-semibold text-[#3553B5] mb-1">{course.code}</h3>
-            <p className="text-md font-medium text-gray-800">{course.name}</p>
-            <p className="text-sm text-gray-600 mb-4">Faculty: {course.faculty}</p>
+            <h3 className="text-xl font-bold text-[#3553B5]">
+              {course.courseName}
+            </h3>
+            <p className="text-sm text-gray-600">Code: {course.courseCode}</p>
           </div>
         ))}
 
         {filteredCourses.length === 0 && (
           <div className="text-gray-500 text-sm col-span-full">
-            No courses match your search.
+            No courses match your search criteria.
           </div>
         )}
       </div>

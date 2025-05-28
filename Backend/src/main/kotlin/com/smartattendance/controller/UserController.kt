@@ -1,10 +1,11 @@
-package main.kotlin.com.smartattendance.controller
+package com.smartattendance.controller
 
-import main.kotlin.com.smartattendance.service.UserService
-import main.kotlin.com.smartattendance.dto.UserRequest
-import main.kotlin.com.smartattendance.dto.UserResponse
-import main.kotlin.com.smartattendance.entity.User
-import main.kotlin.com.smartattendance.entity.Role
+import com.smartattendance.service.UserService
+import com.smartattendance.dto.UserRequest
+import com.smartattendance.dto.UserResponse
+import com.smartattendance.dto.ToStudentResponse
+import com.smartattendance.entity.User
+import com.smartattendance.entity.Role
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -30,8 +31,13 @@ class UserController(
         userService.findById(id)?.toResponse()
 
     @GetMapping("/students")
-    fun getAllStudents(): List<UserResponse> =
+    fun getAllStudents(): List<ToStudentResponse> =
         userService.findAllStudents()
+            .map { it.toStudentResponse() }
+
+    @GetMapping("/staff")
+    fun getAllStaff(): List<UserResponse> =
+        userService.findAllStaff()
             .map { it.toResponse() }
 
     @DeleteMapping("/{id}")
@@ -55,6 +61,15 @@ class UserController(
             id = this.id,
             email = this.email,
             fullName = this.fullName,
+            role = this.role,
+        )
+    }
+
+    private fun User.toStudentResponse(): ToStudentResponse {
+        return ToStudentResponse(
+            fullName = this.fullName,
+            role = this.role,
+            studentId = this.studentId
         )
     }
 }

@@ -6,32 +6,32 @@ import { useRouter } from 'next/navigation';
 export default function RegisterPage() {
   const router = useRouter();
 
-  const [organizationName, setOrganizationName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [adminEmail, setAdminEmail] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!organizationName || !email || !password) {
+    if (!name || !adminEmail || !adminPassword) {
       setMessage('All fields are required.');
       return;
     }
 
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch('http://localhost:8080/api/organizations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ organizationName, email, password }),
+        body: JSON.stringify({ name, adminEmail, adminPassword }),
       });
 
       if (!response.ok) throw new Error('Registration failed');
 
       setMessage('Organization registered successfully!');
-      setOrganizationName('');
-      setEmail('');
-      setPassword('');
+      setName('');
+      setAdminEmail('');
+      setAdminPassword('');
 
       setTimeout(() => router.push('/login'), 1500);
     } catch (error) {
@@ -45,8 +45,6 @@ export default function RegisterPage() {
         <h2 className="text-2xl font-bold text-center text-[#3553B5] mb-2">
           Create Your Organization
         </h2>
-        
-
         {message && (
           <div className="mb-4 p-2 text-sm text-white bg-red-500 rounded">
             {message}
@@ -58,8 +56,8 @@ export default function RegisterPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Organization Name</label>
             <input
               type="text"
-              value={organizationName}
-              onChange={(e) => setOrganizationName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Your organization"
               className="w-full px-4 py-2 border rounded-md text-sm text-gray-700 mb-1"
               required
@@ -67,11 +65,11 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Admin Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={adminEmail}
+              onChange={(e) => setAdminEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full px-4 py-2 border rounded-md text-sm text-gray-700 mb-1"
               required
@@ -79,11 +77,11 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Admin Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
               placeholder="••••••••"
               className="w-full px-4 py-2 border rounded-md text-sm text-gray-700 mb-1"
               required

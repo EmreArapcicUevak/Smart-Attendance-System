@@ -1,4 +1,4 @@
-package main.kotlin.com.smartattendance.entity
+package com.smartattendance.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
@@ -22,9 +22,9 @@ data class User(
     @Column(nullable = false)
     val role: Role = Role.STUDENT,
     @Column(nullable = true)
-    val studentId: String = "",
+    val studentId: Long = 0,
 )
 
 enum class Role {
-    STUDENT, ASSISTANT, TEACHER, ADMIN
+    STUDENT, STAFF, ADMIN
 }
